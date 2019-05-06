@@ -10,10 +10,12 @@ set(CMAKE_CXX_FLAGS_DEBUG " -Wall -pg")
 
 LIST(APPEND PSIACT_SRCS 
 	Command.cpp
+	Option.cpp
 ) 
 
 LIST(APPEND PSIACT_HEADERS
 	Command.h
+	Option.h
 )
 
 LIST(APPEND FILES 
