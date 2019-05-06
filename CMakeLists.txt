@@ -2,6 +2,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3)
 
 project(PSIACT CXX C)
 
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+
 # INCLUDE( configuration.cmake.in )
 
 # ############################################################################
@@ -46,6 +49,8 @@ MESSAGE( STATUS "Searching for additional packages ------------------------" )
 
 FIND_PACKAGE(Doxygen)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(Doxygen DEFAULT_MSG DOXYGEN_EXECUTABLE)
+FIND_PACKAGE(PythonInterp)
+
 
 include_directories("/opt/local/include")
 link_directories("/opt/local/lib")
@@ -95,7 +100,7 @@ FUNCTION(add_lint_target TARGET_NAME SOURCES_LIST)
             "${CMAKE_SOURCE_DIR}/vendor/cpplint.py"
             "--filter=${STYLE_FILTER}"
             "--counting=detailed"
-            "--extensions=cc,hpp,h"
+            "--extensions=cc,cpp,hpp,h"
             "--linelength=80"
             ${SOURCES_LIST}
     DEPENDS ${SOURCES_LIST}
