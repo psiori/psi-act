@@ -11,11 +11,22 @@ set(CMAKE_CXX_FLAGS_DEBUG " -Wall -pg")
 LIST(APPEND PSIACT_SRCS 
 	Command.cpp
 	Option.cpp
+	CycleManager.cpp
+	Option.cpp
+	PriorityArbitration.cpp
+	SequentialPlan.cpp
+	Arbitrator.cpp
 ) 
 
 LIST(APPEND PSIACT_HEADERS
 	Command.h
 	Option.h
+	CycleManager.h
+	Option.h
+	PriorityArbitration.h
+	SequentialPlan.h
+	Arbitrator.h
+	Time.h
 )
 
 LIST(APPEND FILES 
