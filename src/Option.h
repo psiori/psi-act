@@ -24,10 +24,10 @@ namespace psi_act {
 
     virtual double getSuccessProbability(const TimePoint&) const throw();
 
-    virtual Command calcuateCommand(const TimePoint&) throw(PsiActException)=0;
+    virtual Command calcuateCommand(const TimePoint&)=0;
 
-    virtual void gainControl(const TimePoint&) throw(PsiActException) {}
-    virtual void loseControl(const TimePoint&) throw(PsiActException) {}
+    virtual void gainControl(const TimePoint&) {}
+    virtual void loseControl(const TimePoint&) {}
 
     virtual std::string toString() const { return name; };
 

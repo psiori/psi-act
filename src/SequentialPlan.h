@@ -26,14 +26,14 @@ namespace psi_act {
     virtual bool checkCommitmentCondition(const TimePoint& time) throw();
     
     virtual void cycleStarted(const TimePoint&) throw();
-    virtual void loseControl(const TimePoint&) throw(PsiActException);
+    virtual void loseControl(const TimePoint&);
 
     
     /** append an option to the end of the list of stages. */
     void appendStage (Option* option, 
 											bool skippable, 
 											bool interruptable, 
-											bool takeoverOwnership) throw (std::bad_alloc);
+											bool takeoverOwnership);
     
   private:
     struct Stage {

@@ -3,6 +3,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3)
 project(PSIACT CXX C)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_CXX_STANDARD 17)
 
 
 # INCLUDE( configuration.cmake.in )
@@ -122,7 +123,7 @@ SET(CMAKE_INSTALL_PREFIX
 )
 ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
-OPTION( TESTING "Set to OFF to prevent compilation of unit tests." ON )
+OPTION( TESTING "Set to OFF to prevent compilation of unit tests." OFF )
 
 MESSAGE( STATUS )
 MESSAGE( STATUS "-- PSI-ACT Build Options ---------------------------------" )
