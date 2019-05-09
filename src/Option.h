@@ -24,7 +24,7 @@ namespace psi_act {
 
     virtual double getSuccessProbability(const TimePoint&) const throw();
 
-    virtual Command calculateCommand(const TimePoint&)=0;
+    virtual Command* calculateCommand(const TimePoint&)=0;
 
     virtual void gainControl(const TimePoint&) {}
     virtual void loseControl(const TimePoint&) {}

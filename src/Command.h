@@ -15,7 +15,7 @@
 namespace psi_act {
   
   class PsiActException : std::exception {};
-  struct Command {};
+  class Command {};
 }
 
 #endif /* Command_h */
