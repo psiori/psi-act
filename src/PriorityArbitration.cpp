@@ -10,7 +10,8 @@ psi_act::PriorityArbitration::PriorityArbitration(const std::string& name)
 {
 }
 
-Command* psi_act::PriorityArbitration::calculateCommand(const TimePoint& time)
+psi_act::Command* psi_act::PriorityArbitration::calculateCommand(
+    const TimePoint& time)
 {
   if (upcomingOption < 0)
   {
@@ -19,11 +20,11 @@ Command* psi_act::PriorityArbitration::calculateCommand(const TimePoint& time)
     determineUpcomingOption(time);
   }
 
-  // if (upcomingOption < 0)
-  // {
-  //   presentOption = -1;
-  //   return cmd;
-  // }
+  if (upcomingOption < 0)
+  {
+    presentOption = -1;
+    return getNeutralCommand(time);
+  }
 
   if (presentOption != upcomingOption)
   {

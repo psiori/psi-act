@@ -23,6 +23,7 @@ namespace psi_act {
     PriorityArbitration(const std::string& name="PriorityArbitration");
     virtual ~PriorityArbitration() throw() {};
 
+    virtual Command* getNeutralCommand(const TimePoint&) = 0;
     virtual Command* calculateCommand(const TimePoint&);
 
     /** true, if at least one of the available options is invocable */
