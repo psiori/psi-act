@@ -23,7 +23,7 @@ namespace psi_act {
     PriorityArbitration(const std::string& name="PriorityArbitration");
     virtual ~PriorityArbitration() throw() {};
 
-    virtual Command* calculateCommand(const TimePoint&)=0;
+    virtual Command* calculateCommand(const TimePoint&);
 
     /** true, if at least one of the available options is invocable */
     virtual bool checkInvocationCondition(const TimePoint& time) throw();
@@ -48,6 +48,8 @@ namespace psi_act {
                     bool takeoverOwnership=true) throw ();
 
   protected:
+    virtual void determineUpcomingOption(const TimePoint& time) throw();
+
     struct OptionWithFlags {
       Option* option;
       bool interrupatable;
@@ -55,6 +57,7 @@ namespace psi_act {
     };
     std::vector<OptionWithFlags> options; ///< in order of decreasing priority
 
+    int upcomingOption; ///<
     int presentOption;
   };
 
