@@ -120,15 +120,3 @@ void psi_act::PriorityArbitration::determineUpcomingOption(
 
   return;
 }
-
-
-// Option lifecycle
-// 0. Construction
-// 1. checkInvocationCondition -> true
-// 2. gainControl
-// 3. getCmd
-// 4. checkCommitmentCondition -> true
-// 5. getCmd
-// 6. checkCommitmentCondition -> false
-// 7. loseControl
-// 8. checkInvocationCondition -> false
