@@ -60,11 +60,16 @@ void psi_act::PriorityArbitration::addOption(Option* option, bool interruptable,
 void psi_act::PriorityArbitration::cycleStarted(const Cycle& cycle,
                                                 const TimePoint& time) throw()
 {
-  // Check whether neutral command here.
 }
 
 void psi_act::PriorityArbitration::cycleEnded(const Cycle& cycle,
                                               const TimePoint& time) throw()
+{
+}
+
+void psi_act::PriorityArbitration::gainControl(const TimePoint& time) throw() {}
+
+void psi_act::PriorityArbitration::loseControl(const TimePoint& time) throw()
 {
   options[presentOption].option->loseControl(time);
   presentOption = -1;  // set the "inactive" state

@@ -31,8 +31,11 @@ namespace psi_act {
       one different option is invocable */
     virtual bool checkCommitmentCondition(const TimePoint& time) throw();
 
-  	virtual void cycleStarted(const Cycle& cycle, const TimePoint& executionTime) throw();
-  	virtual void cycleEnded(const Cycle& cycle, const TimePoint& executionTime) throw();
+    virtual void cycleStarted(const Cycle& cycle, const TimePoint& executionTime) throw();
+    virtual void cycleEnded(const Cycle& cycle, const TimePoint& executionTime) throw();
+
+    virtual void gainControl(const TimePoint&) throw();
+    virtual void loseControl(const TimePoint&) throw();
 
     /** Set and get the neutral command used as a fallback command. */
     virtual void setNeutralCommand(Command* cmd);
