@@ -15,7 +15,10 @@
 namespace psi_act {
   
   class PsiActException : std::exception {};
-  class Command {};
+  class Command {
+  public:
+    virtual ~Command() {};
+  };
 }
 
 #endif /* Command_h */
