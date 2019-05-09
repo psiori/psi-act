@@ -17,14 +17,14 @@ namespace psi_act {
   class Option {
   public:
     Option(const std::string& name="GenericOption");
-    ~Option() throw () {};
+    virtual ~Option() throw () {};
 
     virtual bool checkCommitmentCondition(const TimePoint&) throw();
     virtual bool checkInvocationCondition(const TimePoint&) throw();
 
     virtual double getSuccessProbability(const TimePoint&) const throw();
 
-    virtual Command calcuateCommand(const TimePoint&)=0;
+    virtual Command calculateCommand(const TimePoint&)=0;
 
     virtual void gainControl(const TimePoint&) {}
     virtual void loseControl(const TimePoint&) {}
