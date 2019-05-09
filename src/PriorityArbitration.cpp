@@ -50,6 +50,13 @@ void psi_act::PriorityArbitration::setNeutralCommand(Command* cmd)
   neutralCommand = cmd;
 }
 
+void psi_act::PriorityArbitration::addOption(Option* option, bool interruptable,
+                                             bool takeoverOwnership) throw()
+{
+  OptionWithFlags optionWithFlags = {option, interruptable, takeoverOwnership};
+  options.push_back(optionWithFlags);
+}
+
 void psi_act::PriorityArbitration::cycleStarted(const Cycle& cycle,
                                                 const TimePoint& time) throw()
 {
