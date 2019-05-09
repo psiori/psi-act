@@ -23,7 +23,7 @@ namespace psi_act {
     PriorityArbitration(const std::string& name="PriorityArbitration");
     virtual ~PriorityArbitration() throw() {};
 
-    virtual Command calculateAction(const TimePoint&)=0;
+    virtual Command* calculateCommand(const TimePoint&) throw(PsiActException);
 
     /** true, if at least one of the available options is invocable */
     virtual bool checkInvocationCondition(const TimePoint& time) throw();
@@ -31,8 +31,14 @@ namespace psi_act {
       one different option is invocable */
     virtual bool checkCommitmentCondition(const TimePoint& time) throw();
 
-  	virtual void cycleStarted(const Cycle& cycle, const TimePoint& executionTime) throw();
-  	virtual void cycleEnded(const Cycle& cycle, const TimePoint& executionTime) throw();
+    virtual void cycleStarted(const Cycle& cycle, const TimePoint& executionTime) throw();
+    virtual void cycleEnded(const Cycle& cycle, const TimePoint& executionTime) throw();
+
+    virtual void gainControl(const TimePoint&) throw();
+    virtual void loseControl(const TimePoint&) throw();
+
+    /** Set and get the neutral command used as a fallback command. */
+    virtual void setNeutralCommand(Command* cmd);
 
     /** Adds the given argument to the end of the list of available options,
       with lowest priority.
@@ -47,7 +53,11 @@ namespace psi_act {
                     bool interruptable=true,
                     bool takeoverOwnership=true) throw ();
 
+    virtual std::string listOptions(bool listNested=true);
+
   protected:
+    virtual void determineUpcomingOption(const TimePoint& time) throw();
+
     struct OptionWithFlags {
       Option* option;
       bool interrupatable;
@@ -55,7 +65,9 @@ namespace psi_act {
     };
     std::vector<OptionWithFlags> options; ///< in order of decreasing priority
 
+    int upcomingOption; ///<
     int presentOption;
+    Command* neutralCommand;
   };
 
 
