@@ -11,7 +11,7 @@ psi_act::PriorityArbitration::PriorityArbitration(const std::string& name)
 }
 
 psi_act::Command* psi_act::PriorityArbitration::calculateCommand(
-    const TimePoint& time)
+    const TimePoint& time) throw(PsiActException)
 {
   // Make sure right away that a neutral command is set.
   if (!neutralCommand)

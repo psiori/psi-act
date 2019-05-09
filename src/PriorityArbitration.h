@@ -23,7 +23,7 @@ namespace psi_act {
     PriorityArbitration(const std::string& name="PriorityArbitration");
     virtual ~PriorityArbitration() throw() {};
 
-    virtual Command* calculateCommand(const TimePoint&);
+    virtual Command* calculateCommand(const TimePoint&) throw(PsiActException);
 
     /** true, if at least one of the available options is invocable */
     virtual bool checkInvocationCondition(const TimePoint& time) throw();
