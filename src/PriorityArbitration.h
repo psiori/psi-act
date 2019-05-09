@@ -53,6 +53,8 @@ namespace psi_act {
                     bool interruptable=true,
                     bool takeoverOwnership=true) throw ();
 
+    virtual std::string listOptions(bool listNested=true);
+
   protected:
     virtual void determineUpcomingOption(const TimePoint& time) throw();
 

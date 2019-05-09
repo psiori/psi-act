@@ -5,6 +5,10 @@
 
 #include "PriorityArbitration.h"
 
+#include <iostream>
+#include <sstream>
+
+
 psi_act::PriorityArbitration::PriorityArbitration(const std::string& name)
     : Arbitrator(name), presentOption(-1)
 {
@@ -55,6 +59,16 @@ void psi_act::PriorityArbitration::addOption(Option* option, bool interruptable,
 {
   OptionWithFlags optionWithFlags = {option, interruptable, takeoverOwnership};
   options.push_back(optionWithFlags);
+}
+
+std::string psi_act::PriorityArbitration::listOptions(bool listNested)
+{
+  std::stringstream ss;
+  for (unsigned int i = 0; i < options.size(); i++)
+  {
+    ss << options[presentOption].option->toString() << std::endl;
+  }
+  return ss.str();
 }
 
 void psi_act::PriorityArbitration::cycleStarted(const Cycle& cycle,
