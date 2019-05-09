@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 
 
 psi_act::PriorityArbitration::PriorityArbitration(const std::string& name)
@@ -20,7 +21,7 @@ psi_act::Command* psi_act::PriorityArbitration::calculateCommand(
   // Make sure right away that a neutral command is set.
   if (!neutralCommand)
   {
-    throw PsiActException();  // TODO: Error message.
+    throw std::runtime_error("Neutral command for arbitration not set");
   }
 
   // If no upcoming option is determined, do so now.
@@ -39,7 +40,10 @@ psi_act::Command* psi_act::PriorityArbitration::calculateCommand(
   // Manage present and upcoming option lifecycle.
   if (presentOption != upcomingOption)
   {
-    options[presentOption].option->loseControl(time);
+    if (presentOption > 0)
+    {
+      options[presentOption].option->loseControl(time);
+    }
     options[upcomingOption].option->gainControl(time);
   }
 

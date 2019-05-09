@@ -26,6 +26,9 @@ namespace psi_act {
 
     virtual Command* calculateCommand(const TimePoint&)=0;
 
+    /** Set and get the neutral command used as a fallback command. */
+    virtual void setNeutralCommand(Command* cmd) {};
+
     virtual void gainControl(const TimePoint&) {}
     virtual void loseControl(const TimePoint&) {}
 
