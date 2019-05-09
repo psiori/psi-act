@@ -23,7 +23,6 @@ namespace psi_act {
     PriorityArbitration(const std::string& name="PriorityArbitration");
     virtual ~PriorityArbitration() throw() {};
 
-    virtual Command* getNeutralCommand(const TimePoint&) = 0;
     virtual Command* calculateCommand(const TimePoint&);
 
     /** true, if at least one of the available options is invocable */
@@ -34,6 +33,9 @@ namespace psi_act {
 
   	virtual void cycleStarted(const Cycle& cycle, const TimePoint& executionTime) throw();
   	virtual void cycleEnded(const Cycle& cycle, const TimePoint& executionTime) throw();
+
+    /** Set and get the neutral command used as a fallback command. */
+    virtual void setNeutralCommand(Command* cmd);
 
     /** Adds the given argument to the end of the list of available options,
       with lowest priority.
@@ -60,6 +62,7 @@ namespace psi_act {
 
     int upcomingOption; ///<
     int presentOption;
+    Command* neutralCommand;
   };
 
 

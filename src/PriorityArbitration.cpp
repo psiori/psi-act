@@ -13,19 +13,26 @@ psi_act::PriorityArbitration::PriorityArbitration(const std::string& name)
 psi_act::Command* psi_act::PriorityArbitration::calculateCommand(
     const TimePoint& time)
 {
+  // Make sure right away that a neutral command is set.
+  if (!neutralCommand)
+  {
+    throw PsiActException();  // TODO: Error message.
+  }
+
+  // If no upcoming option is determined, do so now.
   if (upcomingOption < 0)
   {
-    // Try again to determine an upcoming option also this should already have
-    // been done within the normal lifecycle -- better safe than sorry.
     determineUpcomingOption(time);
   }
 
+  // If no upcoming option is determined, return the neutralCommand.
   if (upcomingOption < 0)
   {
     presentOption = -1;
-    return getNeutralCommand(time);
+    return neutralCommand;
   }
 
+  // Manage present and upcoming option lifecycle.
   if (presentOption != upcomingOption)
   {
     options[presentOption].option->loseControl(time);
@@ -38,10 +45,15 @@ psi_act::Command* psi_act::PriorityArbitration::calculateCommand(
   return options[presentOption].option->calculateCommand(time);
 }
 
+void psi_act::PriorityArbitration::setNeutralCommand(Command* cmd)
+{
+  neutralCommand = cmd;
+}
 
 void psi_act::PriorityArbitration::cycleStarted(const Cycle& cycle,
                                                 const TimePoint& time) throw()
 {
+  // Check whether neutral command here.
 }
 
 void psi_act::PriorityArbitration::cycleEnded(const Cycle& cycle,
