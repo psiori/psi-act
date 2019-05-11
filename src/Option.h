@@ -29,8 +29,8 @@ namespace psi_act {
 
     virtual Command* calculateCommand(const TimePoint&)=0;
     
-    void cycleStarted(const Cycle& cycle, const TimePoint& time) throw();
-    void cycleEnded(const Cycle& cycle, const TimePoint& time) throw();
+    virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) throw();
+    virtual void cycleEnded(const Cycle& cycle, const TimePoint& time) throw();
       
     /** Set and get the neutral command used as a fallback command. */
     virtual void setNeutralCommand(Command* cmd) {};

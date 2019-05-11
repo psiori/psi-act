@@ -25,9 +25,6 @@ namespace psi_act {
     virtual bool checkInvocationCondition(const TimePoint& time) throw();
     virtual bool checkCommitmentCondition(const TimePoint& time) throw();
     
-    virtual void cycleStarted(const TimePoint&) throw();
-    virtual void loseControl(const TimePoint&);
-
     
     /** append an option to the end of the list of stages. */
     void appendStage (Option* option, 
