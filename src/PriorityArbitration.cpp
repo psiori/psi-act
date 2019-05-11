@@ -75,16 +75,6 @@ std::string psi_act::PriorityArbitration::listOptions(bool listNested)
   return ss.str();
 }
 
-void psi_act::PriorityArbitration::cycleStarted(const Cycle& cycle,
-                                                const TimePoint& time) throw()
-{
-}
-
-void psi_act::PriorityArbitration::cycleEnded(const Cycle& cycle,
-                                              const TimePoint& time) throw()
-{
-}
-
 void psi_act::PriorityArbitration::gainControl(const TimePoint& time) throw() {}
 
 void psi_act::PriorityArbitration::loseControl(const TimePoint& time) throw()

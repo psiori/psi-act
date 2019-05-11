@@ -18,7 +18,7 @@
 
 namespace psi_act {
 
-  class PriorityArbitration : public Arbitrator, CycleNotifiable {
+  class PriorityArbitration : public Arbitrator {
   public:
     PriorityArbitration(const std::string& name="PriorityArbitration");
     virtual ~PriorityArbitration() throw() {};
@@ -30,9 +30,6 @@ namespace psi_act {
     /** true, if the presently executed option can continue, or at least
       one different option is invocable */
     virtual bool checkCommitmentCondition(const TimePoint& time) throw();
-
-    virtual void cycleStarted(const Cycle& cycle, const TimePoint& executionTime) throw();
-    virtual void cycleEnded(const Cycle& cycle, const TimePoint& executionTime) throw();
 
     virtual void gainControl(const TimePoint&) throw();
     virtual void loseControl(const TimePoint&) throw();

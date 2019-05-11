@@ -8,6 +8,8 @@
 #ifndef CycleManager_h
 #define CycleManager_h
 
+#include <set>
+
 #include "Time.h"
 
 namespace psi_act {
@@ -27,12 +29,22 @@ namespace psi_act {
     virtual void cycleEnded(const Cycle& cycle, const TimePoint& executionTime) throw()=0;
   };
 
-  class CylceManager {
+  class CycleManager {
   public:
+    static CycleManager& getTheCycleManager();
+    
+    void registerNotifiable(CycleNotifiable* notifyable);
+    void unregisterNotifiable(CycleNotifiable* notifyable);
+    void unregisterAllNotifables();
+    
   protected:
     Cycle* presentCycle;
     Cycle* previousCycle;
+    
+    std::set<CycleNotifiable*> notifiables;
   };
+    
+  #define CM (CycleManager::getTheCycleManager())
 
 }
 
