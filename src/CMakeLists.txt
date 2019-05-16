@@ -8,7 +8,7 @@ ENDIF(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 set(CMAKE_CXX_FLAGS_RELEASE " -Wall -O2 -mavx")
 set(CMAKE_CXX_FLAGS_DEBUG " -Wall -pg")
 
-LIST(APPEND PSIACT_SRCS 
+LIST(APPEND ${CMAKE_PROJECT_NAME}_SRCS
 	Command.cpp
 	Option.cpp
 	CycleManager.cpp
@@ -16,9 +16,9 @@ LIST(APPEND PSIACT_SRCS
 	PriorityArbitration.cpp
 	SequentialPlan.cpp
 	Arbitrator.cpp
-) 
+)
 
-LIST(APPEND PSIACT_HEADERS
+LIST(APPEND ${CMAKE_PROJECT_NAME}_HEADERS
 	Command.h
 	Option.h
 	CycleManager.h
@@ -26,23 +26,23 @@ LIST(APPEND PSIACT_HEADERS
 	PriorityArbitration.h
 	SequentialPlan.h
 	Arbitrator.h
-	Time.h
+	psiact_time.h
 )
 
-LIST(APPEND FILES 
-  ${PSIACT_SRCS} 
-  ${PSIACT_HEADERS})
+LIST(APPEND ${CMAKE_PROJECT_NAME}_FILES
+    ${${CMAKE_PROJECT_NAME}_SRCS}
+    ${${CMAKE_PROJECT_NAME}_HEADERS})
 
 # define subgroups for XCode and other IDEs
-source_group( Core FILES ${PSIACT_HEADERS} ${PSIACT_SRCS} )
+source_group( Core FILES ${${CMAKE_PROJECT_NAME}_HEADERS} ${${CMAKE_PROJECT_NAME}_SRCS} )
 
 
-ADD_LIBRARY(psiact STATIC ${PSIACT_SRCS}) 
+message(STATUS "PSI_ACT_SRCS: ${${CMAKE_PROJECT_NAME}_SRCS}")
+ADD_LIBRARY(psiact STATIC ${${CMAKE_PROJECT_NAME}_SRCS})
 
 set_target_properties(psiact PROPERTIES COMPILE_FLAGS "-std=c++11")
 
-
-INSTALL(FILES ${PSIACT_HEADERS} DESTINATION include)
+INSTALL(FILES ${${CMAKE_PROJECT_NAME}_HEADERS} DESTINATION include/psi-act)
 
 INSTALL(TARGETS psiact
   RUNTIME DESTINATION bin
