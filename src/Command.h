@@ -10,7 +10,7 @@
 
 #include <stdexcept>
 
-#include "psiact_time.h"
+#include "Time.h"
 
 namespace psi_act
 {
