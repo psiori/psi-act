@@ -10,7 +10,7 @@
 
 #include <set>
 
-#include "Time.h"
+#include "psiact_time.h"
 
 namespace psi_act {
 
@@ -32,18 +32,18 @@ namespace psi_act {
   class CycleManager {
   public:
     static CycleManager& getTheCycleManager();
-    
+
     void registerNotifiable(CycleNotifiable* notifyable);
     void unregisterNotifiable(CycleNotifiable* notifyable);
     void unregisterAllNotifables();
-    
+
   protected:
     Cycle* presentCycle;
     Cycle* previousCycle;
-    
+
     std::set<CycleNotifiable*> notifiables;
   };
-    
+
   #define CM (CycleManager::getTheCycleManager())
 
 }
