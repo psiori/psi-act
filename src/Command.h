@@ -45,6 +45,4 @@ protected:
 }  // namespace psi_act
 
 
-
-
 #endif /* _PSIACT_COMMAND_H_ */
