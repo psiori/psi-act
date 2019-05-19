@@ -35,7 +35,7 @@ LIST(APPEND FILES
   ${PSIACT_HEADERS})
 
 # define subgroups for XCode and other IDEs
-source_group( Core FILES ${PSIACT_HEADERS} ${PSIACT_SRCS} )
+source_group( src FILES ${PSIACT_HEADERS} ${PSIACT_SRCS} )
 
 
 ADD_LIBRARY(psiact STATIC ${FILES})

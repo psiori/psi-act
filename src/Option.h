@@ -31,9 +31,6 @@ namespace psi_act {
     
     virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) throw();
     virtual void cycleEnded(const Cycle& cycle, const TimePoint& time) throw();
-      
-    /** Set and get the neutral command used as a fallback command. */
-    virtual void setNeutralCommand(Command* cmd) {}; ///< TODO(sascha@psiori.com): this is the wrong place. Must be a virtual method of Command and command must do the "bookkeeping" of the neutral-command.
 
     virtual void gainControl(const TimePoint&) {}
     virtual void loseControl(const TimePoint&) {}
