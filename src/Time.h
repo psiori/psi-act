@@ -11,9 +11,20 @@
 #include <chrono>
 
 namespace psi_act {
-  typedef std::chrono::high_resolution_clock Clock;
-  typedef std::chrono::high_resolution_clock::time_point TimePoint;
+
+ using Duration = std::chrono::system_clock::duration;
+ using SystemTimePoint = std::chrono::system_clock::time_point;
+
+ /**
+  * @class TimePoint
+  * @brief Subtype of system clock time point which we can add functionality to
+  */
+ class TimePoint : public std::chrono::system_clock::time_point {
+  public:
+   TimePoint() : SystemTimePoint(Duration(0)) {};
+   TimePoint(Duration d) : SystemTimePoint(d) {};
+   static TimePoint now();
+  };
 }
 
 #endif /* Command_h */
-

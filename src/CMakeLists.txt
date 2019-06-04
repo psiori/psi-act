@@ -8,7 +8,7 @@ ENDIF(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 set(CMAKE_CXX_FLAGS_RELEASE " -Wall -O2 -mavx")
 set(CMAKE_CXX_FLAGS_DEBUG " -Wall -pg")
 
-LIST(APPEND PSIACT_SRCS 
+LIST(APPEND PSIACT_SRCS
 	Command.cpp
 	Option.cpp
 	CycleManager.cpp
@@ -16,8 +16,8 @@ LIST(APPEND PSIACT_SRCS
 	PriorityArbitration.cpp
 	SequentialPlan.cpp
 	Arbitrator.cpp
+    Time.cpp
 )
-
 
 LIST(APPEND PSIACT_HEADERS
 	Command.h
@@ -31,14 +31,14 @@ LIST(APPEND PSIACT_HEADERS
 )
 
 LIST(APPEND FILES
-  ${PSIACT_SRCS} 
+  ${PSIACT_SRCS}
   ${PSIACT_HEADERS})
 
 # define subgroups for XCode and other IDEs
 source_group( src FILES ${PSIACT_HEADERS} ${PSIACT_SRCS} )
 
 
-ADD_LIBRARY(psiact STATIC ${FILES})
+ADD_LIBRARY(psiact STATIC ${PSIACT_SRCS})
 
 set_target_properties(psiact PROPERTIES COMPILE_FLAGS "-std=c++11")
 
