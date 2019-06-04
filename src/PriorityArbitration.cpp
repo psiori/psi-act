@@ -140,3 +140,12 @@ void psi_act::PriorityArbitration::determineUpcomingOption(
 
   return;
 }
+psi_act::PriorityArbitration::~PriorityArbitration() noexcept {
+    for (const auto& option : options) {
+        if (option.owned) {
+            delete option.option;
+        }
+    }
+
+    delete neutralCommand;
+}

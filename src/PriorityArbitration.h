@@ -21,7 +21,7 @@ namespace psi_act {
   class PriorityArbitration : public Arbitrator {
   public:
     PriorityArbitration(const std::string& name="PriorityArbitration");
-    virtual ~PriorityArbitration() throw() {};
+    virtual ~PriorityArbitration() throw();
 
     virtual Command* calculateCommand(const TimePoint&) throw(PsiActException);
 
