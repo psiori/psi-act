@@ -18,6 +18,14 @@
 
 namespace psi_act {
 
+  /**
+   * \attention: the implemenation assumes that within the same
+   *             cycle of the control loop, checkCommitmentCondition,
+   *             checkInvocationCondition, and getCommand all are called
+   *             with only the same single timestamp; if you need handling
+   *             of queries with differnt timestamps within the same
+   *             cycle, you might have to overwrite these three methods.
+   */
   class PriorityArbitration : public Arbitrator {
   public:
     PriorityArbitration(const std::string& name="PriorityArbitration");
@@ -64,7 +72,6 @@ namespace psi_act {
 
     int upcomingOption; ///<
     int presentOption;
-    Command* neutralCommand;
   };
 
 

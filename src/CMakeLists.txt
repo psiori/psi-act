@@ -16,7 +16,8 @@ LIST(APPEND PSIACT_SRCS
 	PriorityArbitration.cpp
 	SequentialPlan.cpp
 	Arbitrator.cpp
-) 
+)
+
 
 LIST(APPEND PSIACT_HEADERS
 	Command.h
@@ -29,15 +30,15 @@ LIST(APPEND PSIACT_HEADERS
 	Time.h
 )
 
-LIST(APPEND FILES 
+LIST(APPEND FILES
   ${PSIACT_SRCS} 
   ${PSIACT_HEADERS})
 
 # define subgroups for XCode and other IDEs
-source_group( Core FILES ${PSIACT_HEADERS} ${PSIACT_SRCS} )
+source_group( src FILES ${PSIACT_HEADERS} ${PSIACT_SRCS} )
 
 
-ADD_LIBRARY(psiact STATIC ${PSIACT_SRCS}) 
+ADD_LIBRARY(psiact STATIC ${FILES})
 
 set_target_properties(psiact PROPERTIES COMPILE_FLAGS "-std=c++11")
 
