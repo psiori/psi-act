@@ -42,9 +42,6 @@ namespace psi_act {
     virtual void gainControl(const TimePoint&) throw();
     virtual void loseControl(const TimePoint&) throw();
 
-    /** Set and get the neutral command used as a fallback command. */
-    virtual void setNeutralCommand(Command* cmd);
-
     /** Adds the given argument to the end of the list of available options,
       with lowest priority.
 
