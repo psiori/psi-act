@@ -10,7 +10,7 @@
 psi_act::Command* psi_act::Command::the_neutral_command = 0;
 bool psi_act::Command::neutral_command_owned = false;
 
-inline void psi_act::Command::setNeutralCommand(psi_act::Command* command,
+void psi_act::Command::setNeutralCommand(psi_act::Command* command,
                                                 bool own)
 {
   if (Command::the_neutral_command && Command::neutral_command_owned) {
@@ -20,7 +20,7 @@ inline void psi_act::Command::setNeutralCommand(psi_act::Command* command,
   Command::neutral_command_owned = own;
 }
 
-inline psi_act::Command* psi_act::Command::getNeutralCommand()
+psi_act::Command* psi_act::Command::getNeutralCommand()
 {
   if (!Command::the_neutral_command) {
     // TODO(sascha@psiori.com): throw exception ?
