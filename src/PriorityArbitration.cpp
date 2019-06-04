@@ -70,7 +70,7 @@ std::string psi_act::PriorityArbitration::listOptions(bool listNested)
   std::stringstream ss;
   for (unsigned int i = 0; i < options.size(); i++)
   {
-    ss << options[presentOption].option->toString() << std::endl;
+    ss << options[i].option->toString() << std::endl;
   }
   return ss.str();
 }
@@ -139,4 +139,13 @@ void psi_act::PriorityArbitration::determineUpcomingOption(
   }
 
   return;
+}
+psi_act::PriorityArbitration::~PriorityArbitration() noexcept {
+    for (const auto& option : options) {
+        if (option.owned) {
+            delete option.option;
+        }
+    }
+
+    delete neutralCommand;
 }
