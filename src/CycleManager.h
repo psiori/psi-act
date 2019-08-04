@@ -9,6 +9,7 @@
 #define CycleManager_h
 
 #include <set>
+#include <boost/circular_buffer.hpp>
 
 #include "Time.h"
 
@@ -33,18 +34,27 @@ namespace psi_act {
   public:
     static CycleManager& getTheCycleManager();
     
+    CycleManager();
+    
     void registerNotifiable(CycleNotifiable* notifyable);
     void unregisterNotifiable(CycleNotifiable* notifyable);
     void unregisterAllNotifables();
     
+    void start();
+    void advance();
+    
+    const Cycle& presentCycle();
+    
   protected:
-    Cycle* presentCycle;
-    Cycle* previousCycle;
+    boost::circular_buffer<Cycle> cycles;
     
     std::set<CycleNotifiable*> notifiables;
+    
+    void endCylce();
+    void startCycle();
   };
     
-  #define CM (CycleManager::getTheCycleManager())
+  #define CM (psi_act::CycleManager::getTheCycleManager())
 
 }
 
