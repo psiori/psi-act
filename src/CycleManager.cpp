@@ -13,9 +13,10 @@ psi_act::CycleManager& psi_act::CycleManager::getTheCycleManager() {
   return the_cycle_manager;
 }
 
-psi_act::CycleManager::CycleManager() : cycles(30) {
+psi_act::CycleManager::CycleManager(long cycle_time_us,
+                                    long execution_delay_us)
+  : duration_us(cycle_time_us), delay_us(execution_delay_us), cycles(30) {
 }
-
 
 void psi_act::CycleManager::registerNotifiable(CycleNotifiable* notifiable)
 {
@@ -35,7 +36,43 @@ void psi_act::CycleManager::unregisterAllNotifables()
 void psi_act::CycleManager::start()
 {
   cycles.clear();
-  cycles.push_back(Cycle());
+  startCycle();
+}
+
+void psi_act::CycleManager::endCycle()
+{
+  if (cycles.size()) {
+    cycles.back().endedAt = psi_act::Clock::now();
+    cycles.back().ended = true;
+  }
+}
+
+void psi_act::CycleManager::startCycle()
+{
+  Cycle cycle;
+  int missed_cycles = 0;
+  
+  cycle.startedAt = psi_act::Clock::now();
+  
+  if (cycles.size()) {
+    cycle.counter = cycles.back().counter + 1;
+    cycle.desiredEndAt = cycles.back().desiredEndAt + duration_us;
+  }
+  else {
+    cycle.desiredEndAt = cycle.startedAt + duration_us;
+  }
+
+  while (cycle.desiredEndAt <= cycle.startedAt) {
+    cycle.desiredEndAt = cycle.desiredEndAt + duration_us;
+    ++missed_cycles;
+  }
+  
+  if (missed_cycles > 0) {
+    // TODO(sascha@psiori.com): handle, and output error.
+  }
+  
+  cycle.executionExpectedAt = cycle.desiredEndAt + delay_us; 
+  cycles.push_back(cycle);
 }
 
 void psi_act::CycleManager::advance()
@@ -43,13 +80,10 @@ void psi_act::CycleManager::advance()
   if (!cycles.size()) {
     this->start();
   }
-  
-  Cycle& last_cycle = cycles.back();
-
-  Cycle cycle;
-  cycle.counter = last_cycle.counter+1;
-  
-  cycles.push_back(cycle);  
+  else {
+    this->endCycle();
+    this->startCycle();
+  }
 }
 
 const psi_act::Cycle& psi_act::CycleManager::presentCycle() {
@@ -58,5 +92,26 @@ const psi_act::Cycle& psi_act::CycleManager::presentCycle() {
   }
   return this->cycles.back();
 }
+
+std::chrono::milliseconds psi_act::CycleManager::remainingInCycle() {
+  return std::chrono::duration_cast<std::chrono::milliseconds>(
+    presentCycle().desiredEndAt - psi_act::Clock::now());
+}
+
+
+
+double psi_act::CycleManager::averageDuration() const {
+  long duration = 0;
+  int count = 0;
+  for (auto it = cycles.begin(); it != cycles.end(); it++) {
+    if (it->ended) {
+      duration += std::chrono::duration_cast<std::chrono::milliseconds>(
+        it->endedAt - it->startedAt).count();
+      ++count;
+    }
+  }
+  return count > 0 ? duration / (double)count : duration_us.count()/1000.0;
+}
+
 
 

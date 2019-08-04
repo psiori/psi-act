@@ -18,10 +18,13 @@ namespace psi_act {
   struct Cycle {
   public:
     long counter;
+    bool ended;
     TimePoint startedAt;
     TimePoint desiredEndAt;
     TimePoint executionExpectedAt;
     TimePoint endedAt;
+    
+    Cycle() : counter(0), ended(false), startedAt(psi_act::Clock::now()) {};
   };
 
   class CycleNotifiable {
@@ -34,7 +37,8 @@ namespace psi_act {
   public:
     static CycleManager& getTheCycleManager();
     
-    CycleManager();
+    CycleManager(long cycle_time_us=33333,
+                 long execution_delay_us=50000);
     
     void registerNotifiable(CycleNotifiable* notifyable);
     void unregisterNotifiable(CycleNotifiable* notifyable);
@@ -44,17 +48,24 @@ namespace psi_act {
     void advance();
     
     const Cycle& presentCycle();
+    double averageDuration() const;
+    
+    std::chrono::milliseconds remainingInCycle();
     
   protected:
+    std::chrono::microseconds duration_us;
+    std::chrono::microseconds delay_us;
+    
     boost::circular_buffer<Cycle> cycles;
     
     std::set<CycleNotifiable*> notifiables;
     
-    void endCylce();
+    void endCycle();
     void startCycle();
   };
     
   #define CM (psi_act::CycleManager::getTheCycleManager())
+  #define CYCLE (psi_act::CycleManager::getTheCycleManager().presentCycle())
 
 }
 
