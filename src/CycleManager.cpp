@@ -42,8 +42,12 @@ void psi_act::CycleManager::start()
 void psi_act::CycleManager::endCycle()
 {
   if (cycles.size()) {
-    cycles.back().endedAt = psi_act::Clock::now();
-    cycles.back().ended = true;
+    Cycle& cycle = cycles.back();
+    cycle.endedAt = psi_act::Clock::now();
+    cycle.ended = true;
+    for (auto it = this->notifiables.begin(); it != this->notifiables.end(); it++) {
+      (*it)->cycleEnded(cycle, cycle.executionExpectedAt);
+    }
   }
 }
 
@@ -73,6 +77,11 @@ void psi_act::CycleManager::startCycle()
   
   cycle.executionExpectedAt = cycle.desiredEndAt + delay_us; 
   cycles.push_back(cycle);
+  
+  for (auto it = this->notifiables.begin(); it != this->notifiables.end(); it++) {
+    (*it)->cycleStarted(cycle, cycle.executionExpectedAt);
+  }
+  
 }
 
 void psi_act::CycleManager::advance()
