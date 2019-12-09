@@ -23,7 +23,7 @@ namespace psi_act {
    *             cycle of the control loop, checkCommitmentCondition,
    *             checkInvocationCondition, and getCommand all are called
    *             with only the same single timestamp; if you need handling
-   *             of queries with differnt timestamps within the same
+   *             of queries with different timestamps within the same
    *             cycle, you might have to overwrite these three methods.
    */
   class PriorityArbitration : public Arbitrator {
@@ -45,7 +45,7 @@ namespace psi_act {
     /** Adds the given argument to the end of the list of available options,
       with lowest priority.
 
-     \param interrupatable if true, this option may be interrupte by another
+     \param interrupatable if true, this option may be interrupted by another
                            option of higher priority.
 
      \param takeoverOwnership if true, the plan owns the given option and
