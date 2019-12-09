@@ -16,7 +16,7 @@
 namespace psi_act {
 
   /** 
-   * Cycle represents a cycle of the control loop and holds infomration about
+   * Cycle represents a cycle of the control loop and holds information about
    * the timing of its real start, desired end, real end, and expected 
    * execution time of the command that is computed and emitted during this
    * cycle. Expected execution time is the desired end time of the cycle 
@@ -28,7 +28,7 @@ namespace psi_act {
    * also features a counter for the number of cycles that have been executed
    * so far. 
    *
-   * @atttention: Counter may overflow, if the system is run for months without
+   * @attention: Counter may overflow, if the system is run for months without
    * restart.
    */
   struct Cycle {
@@ -48,7 +48,7 @@ namespace psi_act {
    * CycleNotifiable is an abstract interface that all classes need to 
    * implement that want to observe the start and / or the end of cycles.
    * These classes also need to register with the cycle manager to receive
-   * notificaitons.
+   * notifications.
    */
   class CycleNotifiable {
   public:
@@ -63,8 +63,8 @@ namespace psi_act {
    * control loop. It keeps log of the present and a few past cycles, does
    * the bookkeeping of cycle start and end times, setting up an instance
    * of Cycle appropriately at the start of each cycle and measuring its 
-   * end time. The cycle manaager also notifies all registered observers
-   * at the start of a new cycle and does the same for observeres of the
+   * end time. The cycle manager also notifies all registered observers
+   * at the start of a new cycle and does the same for observers of the
    * cycle end. The Cycle Manager needs to be incorporated in the central
    * control loop of the system, calling start() before the very first 
    * cycle and advance() at the very end of each cycle before the start
