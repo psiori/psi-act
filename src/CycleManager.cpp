@@ -25,7 +25,7 @@ void psi_act::CycleManager::registerNotifiable(CycleNotifiable* notifiable)
 
 void psi_act::CycleManager::unregisterNotifiable(CycleNotifiable* notifiable)
 {
-  this->notifiables.erase(notifiable);  
+  this->notifiables.erase(notifiable);
 }
 
 void psi_act::CycleManager::unregisterAllNotifables()
@@ -55,9 +55,9 @@ void psi_act::CycleManager::startCycle()
 {
   Cycle cycle;
   int missed_cycles = 0;
-  
+
   cycle.startedAt = psi_act::Clock::now();
-  
+
   if (cycles.size()) {
     cycle.counter = cycles.back().counter + 1;
     cycle.desiredEndAt = cycles.back().desiredEndAt + duration_us;
@@ -70,18 +70,18 @@ void psi_act::CycleManager::startCycle()
     cycle.desiredEndAt = cycle.desiredEndAt + duration_us;
     ++missed_cycles;
   }
-  
+
   if (missed_cycles > 0) {
     // TODO(sascha@psiori.com): handle, and output error.
   }
-  
-  cycle.executionExpectedAt = cycle.desiredEndAt + delay_us; 
+
+  cycle.executionExpectedAt = cycle.desiredEndAt + delay_us;
   cycles.push_back(cycle);
-  
+
   for (auto it = this->notifiables.begin(); it != this->notifiables.end(); it++) {
     (*it)->cycleStarted(cycle, cycle.executionExpectedAt);
   }
-  
+
 }
 
 void psi_act::CycleManager::advance()
@@ -109,18 +109,21 @@ std::chrono::milliseconds psi_act::CycleManager::remainingInCycle() {
 
 
 
-double psi_act::CycleManager::averageDuration() const {
+double psi_act::CycleManager::averageDuration(unsigned long history) const {
   long duration = 0;
-  int count = 0;
-  for (auto it = cycles.begin(); it != cycles.end(); it++) {
+  int count     = 0;
+  if (history == 0)
+  {
+      history = cycles.size();
+  }
+  for (auto it = cycles.begin() + cycles.size() - std::min(history, cycles.size());
+       it != cycles.end(); it++) {
     if (it->ended) {
       duration += std::chrono::duration_cast<std::chrono::milliseconds>(
-        it->endedAt - it->startedAt).count();
+                      it->endedAt - it->startedAt)
+                      .count();
       ++count;
     }
   }
-  return count > 0 ? duration / (double)count : duration_us.count()/1000.0;
+  return count > 0 ? duration / (double)count : duration_us.count() / 1000.0;
 }
-
-
-
