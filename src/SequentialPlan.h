@@ -18,34 +18,45 @@ namespace psi_act {
     be executed in sequence, one after the other. */
   class SequentialPlan : public Arbitrator {
   public:
-    SequentialPlan(std::string name="SequentialPlan");
+    SequentialPlan(const std::string& name="SequentialPlan");
 
     virtual ~SequentialPlan() throw();
     
     virtual bool checkInvocationCondition(const TimePoint& time) throw();
     virtual bool checkCommitmentCondition(const TimePoint& time) throw();
-    
+
+    virtual void gainControl(const TimePoint&) throw();
+    virtual void loseControl(const TimePoint&) throw();
+
+
+    virtual Command* calculateCommand(const TimePoint&) throw();
     
     /** append an option to the end of the list of stages. */
     void appendStage (Option* option, 
 											bool skippable, 
 											bool interruptable, 
-											bool takeoverOwnership);
-    
+                      bool seekInteruption,
+											bool takeoverOwnership) throw();
+
+
+    virtual std::string listOptions(bool listNested=true);
+
+
   private:
     struct Stage {
       Option* option;
       bool skipable;
       bool interruptable;
+      bool seekInteruption;
       bool owned;
     };
     
     std::vector<Stage> options;
-    
+    virtual void determineScheduledIntention(const TimePoint& time) throw();
     int presentIntention;  ///< index of present stage (or -1) if inactive
     int scheduledIntention;  ///< index of next stage that can be executed
 
-    bool completed;    
+    bool intentionCompleted;    
   };
   
 }
