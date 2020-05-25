@@ -68,22 +68,22 @@ void psi_act::SequentialPlan::determineScheduledIntention(
   //    --> interruptable stages are never invoked, if a later stage is
   //    invocable
   const int stageNum = options.size();
-  scheduledIntention = stageNum;  // in case no invocable stage is found
+  scheduledIntention = stageNum;  // in case no invocable stage is found, set to last Behavior
 
   bool interruptAllowed  = false;
-  bool continuationFound = false;
+  bool foundInvocable = false;
   intentionCompleted     = true;
   if (presentIntention >= 0 && presentIntention < stageNum) {
     interruptAllowed = options[presentIntention].interruptable;
     if (options[presentIntention].option->checkCommitmentCondition(time)) {
-      continuationFound =
+      foundInvocable =
           true;  // if this stage is commited, no need to search further
       intentionCompleted = false;
       scheduledIntention = presentIntention;
     }
   }
 
-  bool continueSearch = !continuationFound || interruptAllowed;
+  bool continueSearch = !foundInvocable || interruptAllowed;
   int nextStage       = presentIntention + 1;
   while (continueSearch && nextStage < stageNum) {
     bool mightInterrupt =
@@ -91,12 +91,12 @@ void psi_act::SequentialPlan::determineScheduledIntention(
         options[nextStage]
             .seekInteruption;  // boolean wether the investigated stage might
                                // interrupt the currently running stage
-    if ((!continuationFound || mightInterrupt) &&
+    if ((!foundInvocable || mightInterrupt) &&
         options[nextStage].option->checkInvocationCondition(time)) {
       scheduledIntention =
           nextStage;  // Remember stage, if running stage may be interrupted and
                       // this stage is invocable
-      continuationFound = true;
+      foundInvocable = true;
       if (!mightInterrupt) {
         return;
       }
