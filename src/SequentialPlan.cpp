@@ -65,8 +65,7 @@ void psi_act::SequentialPlan::determineScheduledIntention(
   //   nextStage is set to the highest invocable stage
   //   continueSearch determines wether the current stage allows interruption,
   //   and search should therefore be continued
-  //    --> interruptable stages are never invoked, if a later stage is
-  //    invocable
+  //    --> interruptable or skippable stages are never executed, if a later stage seeks execution
   const int stageNum = options.size();
   scheduledIntention = stageNum;  // in case no invocable stage is found, set to last Behavior
 

@@ -14,8 +14,9 @@
 #include "Arbitrator.h"
 
 namespace psi_act {
-
-/** Sequential plan is used to define a sequence of options, that should
+/**
+ * @class SequentialPlan
+ * @brief Sequential plan is used to define a sequence of options, that should
   be executed in sequence, one after the other. */
 class SequentialPlan : public Arbitrator {
 public:
@@ -32,12 +33,20 @@ public:
 
   virtual Command* calculateCommand(const TimePoint&) throw();
 
-  /** append an option to the end of the list of stages. */
-  void appendStage(Option* option,
-                   bool skippable,
-                   bool interruptable,
-                   bool seekInteruption,
-                   bool takeoverOwnership) throw();
+
+
+  /**
+   * @brief Add an behavior with different options as a stage. The stages will be executed FIFO
+   * @param option The Behavior that will be executed
+   * @param skippable wether this behavior may be skipped
+   * @param interruptable wether this behavior may be interrupted after starting
+   * @param seekInterruption  wether this behavior tries to interrupt previous behaviors
+   * @param takeOwnership make this Planner responsible to free the memory after usage */
+  void appendStage(Option* option, 
+                   bool skippable, 
+                   bool interruptable, 
+                   bool seekInteruption, 
+                   bool takeoverOwnership) throw(); 
 
 
   virtual std::string listOptions(bool listNested = true);
@@ -55,7 +64,7 @@ private:
   std::vector<Stage> options;
   virtual void determineScheduledIntention(const TimePoint& time) throw();
   int presentIntention;    ///< index of present stage (or -1) if inactive
-  int scheduledIntention;  ///< index of next stage that can be executed
+  int scheduledIntention;  ///< index of next stage that can be executed (in many cases same as presentIntention)
 
   bool intentionCompleted;
 };
