@@ -60,7 +60,7 @@ namespace psi_act {
 
   /**
    * CycleManager is a singleton that manages the cycles of the central.
-   * control loop. It keeps log of the present and a few past cycles, does
+   * control loop. It keeps log of the current and a few past cycles, does
    * the bookkeeping of cycle start and end times, setting up an instance
    * of Cycle appropriately at the start of each cycle and measuring its
    * end time. The cycle manager also notifies all registered observers
@@ -74,14 +74,14 @@ namespace psi_act {
   public:
     static CycleManager& getTheCycleManager();
 
-    void registerNotifiable(CycleNotifiable* notifyable);
-    void unregisterNotifiable(CycleNotifiable* notifyable);
+    void registerNotifiable(CycleNotifiable* notifiable);
+    void unregisterNotifiable(CycleNotifiable* notifiable);
     void unregisterAllNotifables();
 
     void start();
     void advance();
 
-    const Cycle& presentCycle();
+    const Cycle& currentCycle();
 
 
     /**
@@ -112,7 +112,7 @@ namespace psi_act {
 
   /// TODO(sascha@psiori.com): we should not have these macros here, but in an appropriate place in the autocrane-core. We should not spam the global scope with non-namespaced symbols nor names
   #define CM (psi_act::CycleManager::getTheCycleManager())
-  #define CYCLE (psi_act::CycleManager::getTheCycleManager().presentCycle())
+  #define CYCLE (psi_act::CycleManager::getTheCycleManager().currentCycle())
 
 }
 

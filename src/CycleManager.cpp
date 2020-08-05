@@ -95,7 +95,7 @@ void psi_act::CycleManager::advance()
   }
 }
 
-const psi_act::Cycle& psi_act::CycleManager::presentCycle() {
+const psi_act::Cycle& psi_act::CycleManager::currentCycle() {
   if (!cycles.size()) {
     this->start();
   }
@@ -104,7 +104,7 @@ const psi_act::Cycle& psi_act::CycleManager::presentCycle() {
 
 std::chrono::milliseconds psi_act::CycleManager::remainingInCycle() {
   return std::chrono::duration_cast<std::chrono::milliseconds>(
-    presentCycle().desiredEndAt - psi_act::Clock::now());
+    currentCycle().desiredEndAt - psi_act::Clock::now());
 }
 
 
