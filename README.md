@@ -52,7 +52,7 @@ research with some-- at that time-- newer ideas from the AI community playing ro
 soccer. 
 
 It mixes ideas from 
-- Roodney Brook's (former Head of MIT Media Lab and founder
+- Rodney Brook's (former Director of MIT Artificial Intelligence Laboratory and founder
   of iRobot) subsumption architecture, which is purely reactive, 
 - with ideas of traditional Belief Desire Intention (BDI) Architecture such as described in Rao
   and Georgeff, BDI Agents: From Theory to Practice and implemented in the OASIS airtraffic
