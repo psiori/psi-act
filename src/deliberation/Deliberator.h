@@ -1,8 +1,8 @@
 //
-//  Arbitrator.h
+//  Deliberator.h
 //  psi-act
 //
-//  Sascha Lange, 2003, 2004, 2019
+//  Sascha Lange, 2020
 //
 
 #ifndef __PSI_ACT__DELIBERATOR_H__

@@ -137,6 +137,8 @@ MESSAGE( STATUS "----------------------------------------------------------" )
 MESSAGE( STATUS )
 
 add_subdirectory(src)
+add_subdirectory(examples)
+
 
 # doc target
 IF(DOXYGEN_FOUND)

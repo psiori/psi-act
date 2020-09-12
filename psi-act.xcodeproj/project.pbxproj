@@ -31,12 +31,17 @@
 		9D785FE0250D1CD60098C66E /* SequentialPlan.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SequentialPlan.cpp; sourceTree = "<group>"; };
 		9D785FE1250D1CD60098C66E /* SequentialPlan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SequentialPlan.h; sourceTree = "<group>"; };
 		9D785FE2250D4E410098C66E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9D785FE5250D86100098C66E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		9D785FE6250D8B270098C66E /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		9D785FE7250D8B800098C66E /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		9D0B200C22466A7D00CD6D71 = {
 			isa = PBXGroup;
 			children = (
+				9D785FE6250D8B270098C66E /* CMakeLists.txt */,
+				9D785FE3250D86100098C66E /* examples */,
 				9D785FE2250D4E410098C66E /* README.md */,
 				9D0B201322466AA900CD6D71 /* src */,
 			);
@@ -86,6 +91,23 @@
 				9D785FE1250D1CD60098C66E /* SequentialPlan.h */,
 			);
 			path = arbitration;
+			sourceTree = "<group>";
+		};
+		9D785FE3250D86100098C66E /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				9D785FE7250D8B800098C66E /* CMakeLists.txt */,
+				9D785FE4250D86100098C66E /* fsm */,
+			);
+			path = examples;
+			sourceTree = "<group>";
+		};
+		9D785FE4250D86100098C66E /* fsm */ = {
+			isa = PBXGroup;
+			children = (
+				9D785FE5250D86100098C66E /* main.cpp */,
+			);
+			path = fsm;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

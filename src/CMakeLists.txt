@@ -16,6 +16,7 @@ LIST(APPEND PSIACT_SRCS
   ${CMAKE_CURRENT_SOURCE_DIR}/arbitration/SequentialPlan.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/arbitration/Arbitrator.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/Deliberator.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/FiniteStateMachine.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/TimePoint.cpp
 )
 
@@ -27,12 +28,14 @@ LIST(APPEND PSIACT_HEADERS
   ${CMAKE_CURRENT_SOURCE_DIR}/arbitration/SequentialPlan.h
   ${CMAKE_CURRENT_SOURCE_DIR}/arbitration/Arbitrator.h
   ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/Deliberator.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/FiniteStateMachine.h
   ${CMAKE_CURRENT_SOURCE_DIR}/TimePoint.h
 )
 
 LIST(APPEND FILES
   ${PSIACT_SRCS}
   ${PSIACT_HEADERS})
+
 
 # define subgroups for XCode and other IDEs
 source_group( src FILES ${PSIACT_HEADERS} ${PSIACT_SRCS} )
@@ -43,8 +46,8 @@ ADD_LIBRARY(psiact STATIC ${PSIACT_SRCS})
 
 target_include_directories(psiact PRIVATE ${PSIACT_INCLUDE_DIRS})
 
-
 set_target_properties(psiact PROPERTIES COMPILE_FLAGS "-std=c++11")
+
 
 
 INSTALL(FILES ${PSIACT_HEADERS} DESTINATION include)
