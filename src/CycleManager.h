@@ -11,7 +11,7 @@
 #include <set>
 #include <boost/circular_buffer.hpp>
 
-#include "Time.h"
+#include "TimePoint.h"
 
 namespace psi_act {
 

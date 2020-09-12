@@ -10,7 +10,7 @@
 
 #include <stdexcept>
 
-#include "Time.h"
+#include "TimePoint.h"
 
 namespace psi_act
 {
