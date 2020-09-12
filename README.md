@@ -58,9 +58,9 @@ It mixes ideas from
   and Georgeff, BDI Agents: From Theory to Practice and implemented in the OASIS airtraffic
   control system,
 - with the hierarchical structuring of complex "plans" first implemented in the Brainstormers
-  Tribots 2D software league team's  behaviour architecture
-- together with the idea of reasoning on "predicted beliefs" which was motivated by a paper
-  of Rojas group, Predicting away Robot Control Latency.
+  Tribots 2D software league team's behaviour architecture
+- together with the idea of reasoning on "predicted beliefs" which was inspired by a paper
+  of Roul Rojas group, Predicting away Robot Control Latency.
 
 The architecture's basis was designed by SL in 2003 / 2004, for the first time presented
 during his first working week in spring 2004 and subsequently implemented inside the
@@ -68,13 +68,14 @@ robot control software of the Brainstormers Tribots afterwards.
 
 Unfortunately, although quite successul in enabling the implementation of complex, 
 distributed real-time strategies in the team of 6 soccer robots, the architecture and 
-principles were never fully published. Some aspects were detailed in Lauer et al, 
-Cognitive Concepts in Autonomous Soccer playing robots and, Riedmiller et al,
+principles were never fully published. Only some aspects were detailed in Lauer et al, 
+Cognitive Concepts in Autonomous Soccer Playing Robots and, Riedmiller et al,
 Reinforcement Learning for Robot Soccer.
 
 This library is a complete rewrite of the architecture, learning from earlier mistakes and
 unnecessary complexity, specifically removing the confusing differentiation between
-Skills and Behaviors that was implemented in the Tribot's version.
+Skills and Behaviors that was implemented in the Tribot's version, and adding a module
+for explicit deliberation about goals and desires.
 
 All mentioned papers can be found in 
 
