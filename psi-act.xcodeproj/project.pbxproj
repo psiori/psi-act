@@ -30,12 +30,14 @@
 		9D785FDF250D1CD60098C66E /* PriorityArbitration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PriorityArbitration.cpp; sourceTree = "<group>"; };
 		9D785FE0250D1CD60098C66E /* SequentialPlan.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SequentialPlan.cpp; sourceTree = "<group>"; };
 		9D785FE1250D1CD60098C66E /* SequentialPlan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SequentialPlan.h; sourceTree = "<group>"; };
+		9D785FE2250D4E410098C66E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		9D0B200C22466A7D00CD6D71 = {
 			isa = PBXGroup;
 			children = (
+				9D785FE2250D4E410098C66E /* README.md */,
 				9D0B201322466AA900CD6D71 /* src */,
 			);
 			sourceTree = "<group>";

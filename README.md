@@ -1,4 +1,4 @@
-# PSIORI ACT
+# PSIORI ACT (P-ACT)
 
 A framework for pragmatic decision making in cognitive architectures.
 
@@ -44,6 +44,42 @@ this to edit and build psi-act. Just run cmake's generator:
     > cmake -G Xcode ..
 
 This will generate a new project psi-act.xcodeproj.
+
+# Origins and Further Reading
+
+P-ACT is a non-dogmatic blend of several "classical" ideas from cognitive architecture 
+research with some-- at that time-- newer ideas from the AI community playing robotic
+soccer. 
+
+It mixes ideas from 
+- Roodney Brook's (former Head of MIT Media Lab and founder
+  of iRobot) subsumption architecture, which is purely reactive, 
+- with ideas of traditional Belief Desire Intention (BDI) Architecture such as described in Rao
+  and Georgeff, BDI Agents: From Theory to Practice and implemented in the OASIS airtraffic
+  control system,
+- with the hierarchical structuring of complex "plans" first implemented in the Brainstormers
+  Tribots 2D software league team's  behaviour architecture
+- together with the idea of reasoning on "predicted beliefs" which was motivated by a paper
+  of Rojas group, Predicting away Robot Control Latency.
+
+The architecture's basis was designed by SL in 2003 / 2004, for the first time presented
+during his first working week in spring 2004 and subsequently implemented inside the
+robot control software of the Brainstormers Tribots afterwards.
+
+Unfortunately, although quite successul in enabling the implementation of complex, 
+distributed real-time strategies in the team of 6 soccer robots, the architecture and 
+principles were never fully published. Some aspects were detailed in Lauer et al, 
+Cognitive Concepts in Autonomous Soccer playing robots and, Riedmiller et al,
+Reinforcement Learning for Robot Soccer.
+
+This library is a complete rewrite of the architecture, learning from earlier mistakes and
+unnecessary complexity, specifically removing the confusing differentiation between
+Skills and Behaviors that was implemented in the Tribot's version.
+
+All mentioned papers can be found in 
+
+    /doc/literature
+
 
 # Authors
 

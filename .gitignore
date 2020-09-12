@@ -27,8 +27,8 @@
 *.lib
 
 # doc
-doc/*
-
+doc/html/*
+doc/latex/*
 # Executables
 *.exe
 *.out
