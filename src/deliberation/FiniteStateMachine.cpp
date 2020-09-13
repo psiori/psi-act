@@ -9,8 +9,16 @@
 
 #include <iostream>
 
+
+// ////////////////////////////////////////////////////////////////////////////
+//
+//    F I N I T E   S T A T E   M A C H I N E
+//
+// ////////////////////////////////////////////////////////////////////////////
+
 psi_act::FiniteStateMachine::FiniteStateMachine()
 {}
+
 
 psi_act::FiniteStateMachine::~FiniteStateMachine()
 {
@@ -20,10 +28,11 @@ psi_act::FiniteStateMachine::~FiniteStateMachine()
   }
 }
 
+
 psi_act::FiniteStateMachine*
 psi_act::FiniteStateMachine::createState(const std::string& name)
 {
-  std::map<std::string, State*>::iterator it = states.find(name);
+  auto it = states.find(name);
   if (it != states.end()) {
     throw std::invalid_argument("state already exists: " + name);
   }
@@ -31,9 +40,10 @@ psi_act::FiniteStateMachine::createState(const std::string& name)
   if (!presentState) {
     presentState = state;  // this seems to be the very first state.
   }
-  
+
   return this;
 }
+
 
 psi_act::FiniteStateMachine*
 psi_act::FiniteStateMachine::addTransition(
@@ -57,10 +67,45 @@ psi_act::FiniteStateMachine::addTransition(
   return this;
 }
 
+
 psi_act::FiniteStateMachine::State*
-psi_act::FiniteStateMachine::execute() {
+psi_act::FiniteStateMachine::execute()
+{
   return presentState = presentState->execute();
 }
+
+
+
+// ////////////////////////////////////////////////////////////////////////////
+//
+//    S T A T E
+//
+// ////////////////////////////////////////////////////////////////////////////
+
+psi_act::FiniteStateMachine::State::~State()
+{
+  std::cerr << "DEBUG: destructor of state called: " << name << std::endl;
+  for (auto it : transitions) {
+    delete it;
+  }
+}
+
+
+psi_act::FiniteStateMachine::State*
+psi_act::FiniteStateMachine::State::execute()
+{
+  for (auto transition : transitions) {
+    if (transition->condition()) {
+      return transition->to;
+    }
+  }
+  std::cerr << "ERROR: no transition condition was met. Stay in present state."
+            << std::endl;  // \todo : should we throw an exception?
+
+  return this;
+}
+
+
 
 // ////////////////////////////////////////////////////////////////////////////
 //
@@ -75,37 +120,9 @@ psi_act::FiniteStateMachine::Transition::Transition(
   : from(from), to(to), condition(condition)
 {}
 
+
 psi_act::FiniteStateMachine::Transition::~Transition()
 {
   std::cerr << "DEBUG: destructor of unnamed transition called." << std::endl;
 }
-
-
-// ////////////////////////////////////////////////////////////////////////////
-//
-//    S T A T E
-//
-// ////////////////////////////////////////////////////////////////////////////
-
-psi_act::FiniteStateMachine::State::~State() {
-  std::cerr << "DEBUG: destructor of state called: " << name << std::endl;
-  for (auto it : transitions) {
-    delete it;
-  }
-}
-
-psi_act::FiniteStateMachine::State*
-psi_act::FiniteStateMachine::State::execute() {
-  for (auto transition : transitions) {
-    if (transition->condition()) {
-      return transition->to;
-    }
-  }
-  std::cerr << "ERROR: no transition condition was met. Stay in present state."
-            << std::endl;
-  
-  return this;
-}
-
-
 
