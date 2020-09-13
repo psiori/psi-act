@@ -25,7 +25,8 @@ public:
   virtual DesireInformation getPresentDesireInformation() const;
   virtual DesireInformation getPreviousDesireInformation() const;
   
-  virtual std::string deliberate(const TimePoint& time);
+  virtual std::string deliberate(const TimePoint& time=
+                                    CYCLE.executionExpectedAt);
 
   virtual FiniteStateMachine* getFiniteStateMachine() { return fsm; };
   virtual const FiniteStateMachine* getFiniteStateMachine() const {

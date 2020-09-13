@@ -25,7 +25,8 @@ struct DesireInformation {
   unsigned long endedAtCycle;
 
   DesireInformation(const std::string& desire,
-                    const TimePoint& presentTime=CYCLE.startedAt,
+                    const TimePoint& presentTime=
+                        CYCLE.executionExpectedAt,
                     long presentCycle=CYCLE.counter);
   
   DesireInformation();
@@ -40,7 +41,8 @@ public:
   virtual DesireInformation getPresentDesireInformation() const=0;
   virtual DesireInformation getPreviousDesireInformation() const=0;
   
-  virtual std::string deliberate(const TimePoint& time)=0;
+  virtual std::string deliberate(const TimePoint& time=
+                                    CYCLE.executionExpectedAt)=0;
 
 protected:
   const std::string name;
