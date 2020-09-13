@@ -16,15 +16,16 @@
 namespace psi_act {
 
 class FiniteStateMachine {
-public:
+protected:
   class Transition;
   
+public:
   class State {
   public:
     const std::string name;
     
     State(const std::string& name) : name(name) {}
-    virtual ~State() {}
+    virtual ~State();
     
     State* execute();
     
@@ -36,19 +37,9 @@ public:
     std::vector<const Transition*> transitions;
   };
   
-  class Transition {
-  public:
-    State* from;
-    State* to;
-    
-    Transition(State* from, State* to, std::function<bool(void)> condition);
-    
-    std::function<bool(void)> condition;
-  };
-  
   FiniteStateMachine();
-  virtual ~FiniteStateMachine() {};
-  
+  virtual ~FiniteStateMachine();
+
   FiniteStateMachine* createState(const std::string& name);
   FiniteStateMachine* addTransition(
       const std::string& from,
@@ -61,6 +52,17 @@ public:
   State* execute();
 
 protected:
+  class Transition {
+  public:
+    State* from;
+    State* to;
+    
+    Transition(State* from, State* to, std::function<bool(void)> condition);
+    virtual ~Transition();
+    
+    std::function<bool(void)> condition;
+  };
+
   std::map<std::string, State*> states;
   State* presentState;
 };
