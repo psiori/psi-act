@@ -1,4 +1,4 @@
-project(PSIACT-DEMOS CXX)
+project(PSIACT-EXAMPLES CXX)
 
 # if no option is given, standard is release
 IF(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
