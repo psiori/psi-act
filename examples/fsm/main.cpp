@@ -46,7 +46,8 @@ int main(int argc, const char* argv[]) {
 
   automaton
     ->addTransition("not divisable by 4", "divisable by 4",
-                    []() -> bool { return CYCLE.counter % 4 == 0; })
+                    [](const TimePoint& time)
+                        -> bool { return CYCLE.counter % 4 == 0; })
     ->addTransition("not divisable by 4", "not divisable by 4")
     ->addTransition("divisable by 4", "not divisable by 4");
 

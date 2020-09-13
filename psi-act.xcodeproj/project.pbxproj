@@ -34,6 +34,7 @@
 		9D785FE5250D86100098C66E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		9D785FE6250D8B270098C66E /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		9D785FE7250D8B800098C66E /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		9D785FE9250EB78B0098C66E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -97,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				9D785FE7250D8B800098C66E /* CMakeLists.txt */,
+				9D785FE8250EB78B0098C66E /* state_deliberation */,
 				9D785FE4250D86100098C66E /* fsm */,
 			);
 			path = examples;
@@ -108,6 +110,14 @@
 				9D785FE5250D86100098C66E /* main.cpp */,
 			);
 			path = fsm;
+			sourceTree = "<group>";
+		};
+		9D785FE8250EB78B0098C66E /* state_deliberation */ = {
+			isa = PBXGroup;
+			children = (
+				9D785FE9250EB78B0098C66E /* main.cpp */,
+			);
+			path = state_deliberation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

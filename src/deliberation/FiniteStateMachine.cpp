@@ -52,7 +52,7 @@ psi_act::FiniteStateMachine*
 psi_act::FiniteStateMachine::addTransition(
     const std::string& from,
     const std::string& to,
-    std::function<bool(void)> condition)
+    std::function<bool(const TimePoint& time)> condition)
 {
   State* fromState = states[from];
   State* toState = states[to];
@@ -72,9 +72,9 @@ psi_act::FiniteStateMachine::addTransition(
 
 
 psi_act::FiniteStateMachine::State*
-psi_act::FiniteStateMachine::execute()
+psi_act::FiniteStateMachine::execute(const TimePoint& time)
 {
-  State* targetState = presentState->execute();
+  State* targetState = presentState->execute(time);
 
   presentState->onLeave();
   presentState = targetState;
@@ -109,10 +109,10 @@ psi_act::FiniteStateMachine::State::~State()
 
 
 psi_act::FiniteStateMachine::State*
-psi_act::FiniteStateMachine::State::execute()
+psi_act::FiniteStateMachine::State::execute(const TimePoint& time)
 {
   for (auto transition : transitions) {
-    if (transition->condition()) {
+    if (transition->condition(time)) {
       return transition->to;
     }
   }
@@ -133,7 +133,7 @@ psi_act::FiniteStateMachine::State::execute()
 psi_act::FiniteStateMachine::Transition::Transition(
     State* from,
     State* to,
-    std::function<bool(void)> condition)
+    std::function<bool(const TimePoint& time)> condition)
   : from(from), to(to), condition(condition)
 {}
 

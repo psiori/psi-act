@@ -27,6 +27,8 @@ struct DesireInformation {
   DesireInformation(const std::string& desire,
                     const TimePoint& presentTime=CYCLE.startedAt,
                     long presentCycle=CYCLE.counter);
+  
+  DesireInformation();
 };
 
 class Deliberator {
@@ -38,7 +40,7 @@ public:
   virtual DesireInformation getPresentDesireInformation() const=0;
   virtual DesireInformation getPreviousDesireInformation() const=0;
   
-  virtual void deliberate(const TimePoint& time) const=0;
+  virtual std::string deliberate(const TimePoint& time)=0;
 
 protected:
   const std::string name;

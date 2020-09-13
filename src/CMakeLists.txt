@@ -17,6 +17,7 @@ LIST(APPEND PSIACT_SRCS
   ${CMAKE_CURRENT_SOURCE_DIR}/arbitration/Arbitrator.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/Deliberator.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/FiniteStateMachine.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/FiniteStateDeliberation.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/TimePoint.cpp
 )
 
@@ -29,6 +30,7 @@ LIST(APPEND PSIACT_HEADERS
   ${CMAKE_CURRENT_SOURCE_DIR}/arbitration/Arbitrator.h
   ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/Deliberator.h
   ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/FiniteStateMachine.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/FiniteStateDeliberation.h
   ${CMAKE_CURRENT_SOURCE_DIR}/TimePoint.h
 )
 

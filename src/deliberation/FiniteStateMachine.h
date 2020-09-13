@@ -12,6 +12,9 @@
 #include <string>
 #include <vector>
 
+#include "TimePoint.h"
+#include "CycleManager.h"
+
 
 namespace psi_act {
 
@@ -29,7 +32,7 @@ public:
           std::function<void(void)> onLeave);
     virtual ~State();
     
-    State* execute();
+    State* execute(const TimePoint& time);
     
     void addTransition(const Transition* transition) {
       transitions.push_back(transition);
@@ -52,12 +55,13 @@ public:
   FiniteStateMachine* addTransition(
       const std::string& from,
       const std::string& to,
-      std::function<bool(void)> condition = []() -> bool { return true; });
+      std::function<bool(const TimePoint& time)> condition =
+          [](const TimePoint& time) -> bool { return true; });
 
   FiniteStateMachine* registerState(State* state);
   
   State* getPresentState() { return presentState; }
-  State* execute();
+  State* execute(const TimePoint& time = CYCLE.startedAt);
 
 protected:
   class Transition {
@@ -65,10 +69,11 @@ protected:
     State* from;
     State* to;
     
-    Transition(State* from, State* to, std::function<bool(void)> condition);
+    Transition(State* from, State* to,
+               std::function<bool(const TimePoint& time)> condition);
     virtual ~Transition();
     
-    std::function<bool(void)> condition;
+    std::function<bool(const TimePoint& time)> condition;
   };
 
   std::map<std::string, State*> states;
