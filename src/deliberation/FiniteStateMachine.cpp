@@ -2,7 +2,7 @@
 //  FiniteStateMachine.cpp
 //  psi-act
 //
-//  Sascha Lange, 2016, 2020.
+//  Sascha Lange, 2014, 2020
 //
 
 #include "FiniteStateMachine.h"
@@ -30,13 +30,16 @@ psi_act::FiniteStateMachine::~FiniteStateMachine()
 
 
 psi_act::FiniteStateMachine*
-psi_act::FiniteStateMachine::createState(const std::string& name)
+psi_act::FiniteStateMachine::createState(
+    const std::string& name,
+    std::function<void(void)> onEnter,
+    std::function<void(void)> onLeave)
 {
   auto it = states.find(name);
   if (it != states.end()) {
     throw std::invalid_argument("state already exists: " + name);
   }
-  State* state = states[name] = new State(name);
+  State* state = states[name] = new State(name, onEnter, onLeave);
   if (!presentState) {
     presentState = state;  // this seems to be the very first state.
   }
@@ -71,7 +74,13 @@ psi_act::FiniteStateMachine::addTransition(
 psi_act::FiniteStateMachine::State*
 psi_act::FiniteStateMachine::execute()
 {
-  return presentState = presentState->execute();
+  State* targetState = presentState->execute();
+
+  presentState->onLeave();
+  presentState = targetState;
+  presentState->onEnter();
+
+  return presentState;
 }
 
 
@@ -81,6 +90,14 @@ psi_act::FiniteStateMachine::execute()
 //    S T A T E
 //
 // ////////////////////////////////////////////////////////////////////////////
+
+
+psi_act::FiniteStateMachine::State::State(
+    const std::string& name,
+    std::function<void(void)> onEnter,
+    std::function<void(void)> onLeave)
+  : name(name), onEnter(onEnter), onLeave(onLeave)
+{}
 
 psi_act::FiniteStateMachine::State::~State()
 {

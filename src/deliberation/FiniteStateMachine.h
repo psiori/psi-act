@@ -2,7 +2,7 @@
 //  FiniteStateMachine.h
 //  psi-act
 //
-//  Sascha Lange, 2016, 2020
+//  Sascha Lange, 2014, 2020
 //
 
 #ifndef __PSI_ACT__FINITE_STATE_MACHINE_H__
@@ -24,7 +24,9 @@ public:
   public:
     const std::string name;
     
-    State(const std::string& name) : name(name) {}
+    State(const std::string& name,
+          std::function<void(void)> onEnter,
+          std::function<void(void)> onLeave);
     virtual ~State();
     
     State* execute();
@@ -32,7 +34,10 @@ public:
     void addTransition(const Transition* transition) {
       transitions.push_back(transition);
     };
-      
+
+    std::function<void(void)> onEnter;
+    std::function<void(void)> onLeave;
+
   protected:
     std::vector<const Transition*> transitions;
   };
@@ -40,7 +45,10 @@ public:
   FiniteStateMachine();
   virtual ~FiniteStateMachine();
 
-  FiniteStateMachine* createState(const std::string& name);
+  FiniteStateMachine* createState(const std::string& name,
+                                  std::function<void(void)> onEnter = []() {},
+                                  std::function<void(void)> onLeave = []() {});
+
   FiniteStateMachine* addTransition(
       const std::string& from,
       const std::string& to,

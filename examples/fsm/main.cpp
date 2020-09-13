@@ -17,11 +17,9 @@ using namespace psi_act;
 int main(int argc, const char* argv[]) {
 
   FiniteStateMachine* automaton = new FiniteStateMachine();
-  // \note: presently, the code below realises a finite state machine
-  //        (no side effects / output in the states). Later, I'll add
-  //        side effects "onEntering", "onLeaving" that will print
-  //        out the "calculation" directly, making it an automaton
-  //        (optional output in states).
+  // \note: the code below is an automaton, as it has a side effect at each
+  //        transition (onEnter). Most effects are void, but when entering
+  //        the divisable step, it outputs some text.
 
 
   // Create two states, one for counter values that can be divided by 4
@@ -29,7 +27,9 @@ int main(int argc, const char* argv[]) {
 
   automaton
     ->createState("not divisable by 4")
-    ->createState("divisable by 4");
+    ->createState("divisable by 4", []() {
+      std::cout << "(Whoop, whoop! I've just entered the divisable state :) ";
+    });
 
   // Now, we want to connect these states in such a way that the automaton
   // is always in the state that matches the present cycle's counter value.
