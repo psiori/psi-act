@@ -9,38 +9,47 @@ set(CMAKE_CXX_FLAGS_RELEASE " -Wall -O2 -mavx")
 set(CMAKE_CXX_FLAGS_DEBUG " -Wall -pg")
 
 LIST(APPEND PSIACT_SRCS
-	Command.cpp
-	Option.cpp
-	CycleManager.cpp
-	Option.cpp
-	PriorityArbitration.cpp
-	SequentialPlan.cpp
-	Arbitrator.cpp
-    Time.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/Command.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/CycleManager.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/arbitration/Option.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/arbitration/PriorityArbitration.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/arbitration/SequentialPlan.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/arbitration/Arbitrator.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/Deliberator.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/FiniteStateMachine.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/FiniteStateDeliberation.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/TimePoint.cpp
 )
 
 LIST(APPEND PSIACT_HEADERS
-	Command.h
-	Option.h
-	CycleManager.h
-	Option.h
-	PriorityArbitration.h
-	SequentialPlan.h
-	Arbitrator.h
-	Time.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/Command.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/CycleManager.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/arbitration/Option.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/arbitration/PriorityArbitration.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/arbitration/SequentialPlan.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/arbitration/Arbitrator.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/Deliberator.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/FiniteStateMachine.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/deliberation/FiniteStateDeliberation.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/TimePoint.h
 )
 
 LIST(APPEND FILES
   ${PSIACT_SRCS}
   ${PSIACT_HEADERS})
 
+
 # define subgroups for XCode and other IDEs
 source_group( src FILES ${PSIACT_HEADERS} ${PSIACT_SRCS} )
 
+set(PSIACT_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
 
 ADD_LIBRARY(psiact STATIC ${PSIACT_SRCS})
 
+target_include_directories(psiact PRIVATE ${PSIACT_INCLUDE_DIRS})
+
 set_target_properties(psiact PROPERTIES COMPILE_FLAGS "-std=c++11")
+
 
 
 INSTALL(FILES ${PSIACT_HEADERS} DESTINATION include)

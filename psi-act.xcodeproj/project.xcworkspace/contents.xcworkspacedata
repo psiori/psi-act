@@ -1,7 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <Group
+      location = "group:../src/arbitration"
+      name = "arbitration">
+      <FileRef
+         location = "group:PriorityArbitration.h">
+      </FileRef>
+      <FileRef
+         location = "group:Arbitrator.cpp">
+      </FileRef>
+      <FileRef
+         location = "group:Option.h">
+      </FileRef>
+      <FileRef
+         location = "group:Option.cpp">
+      </FileRef>
+      <FileRef
+         location = "group:Arbitrator.h">
+      </FileRef>
+      <FileRef
+         location = "group:PriorityArbitration.cpp">
+      </FileRef>
+      <FileRef
+         location = "group:SequentialPlan.cpp">
+      </FileRef>
+      <FileRef
+         location = "group:SequentialPlan.h">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:../src/deliberation"
+      name = "deliberation">
+      <FileRef
+         location = "group:FiniteStateDeliberation.h">
+      </FileRef>
+      <FileRef
+         location = "group:FiniteStateDeliberation.cpp">
+      </FileRef>
+      <FileRef
+         location = "group:Deliberator.cpp">
+      </FileRef>
+      <FileRef
+         location = "group:Deliberator.h">
+      </FileRef>
+      <FileRef
+         location = "group:FiniteStateMachine.cpp">
+      </FileRef>
+      <FileRef
+         location = "group:FiniteStateMachine.h">
+      </FileRef>
+   </Group>
    <FileRef
-      location = "self:psi-act.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>

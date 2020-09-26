@@ -27,7 +27,8 @@ bool psi_act::Option::checkInvocationCondition(const TimePoint&) throw()
   return true;
 }
 
-double psi_act::Option::getSuccessProbability(const TimePoint&) const throw() {
+double psi_act::Option::getSuccessProbability(const TimePoint&) const throw()
+{
   return 1.;
 };
 
