@@ -7,7 +7,7 @@ add_dependencies(test_psiact psiact)
 target_link_libraries(test_psiact 
   libgtest
   libgmock
-  psitest 
+  #psitest 
 )
 
 

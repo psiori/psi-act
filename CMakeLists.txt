@@ -148,6 +148,7 @@ IF(DOXYGEN_FOUND)
     ENDIF()
 ENDIF()
 
+
 # ############################################################################
 #
 #   TESTING
@@ -155,7 +156,7 @@ ENDIF()
 # ############################################################################
 
 if(TESTING)
-IF(NOT TARGET libgtest)
+IF(NOT TARGET psi-act-libgtest)
 # We need thread support
 find_package(Threads REQUIRED)
 
@@ -164,34 +165,34 @@ include(ExternalProject)
 
 # Download and install GoogleTest
 ExternalProject_Add(
-    gtest
+    psi-act-gtest
     URL https://github.com/google/googletest/archive/master.zip
-    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gtest
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/psi-act-gtest
     # Disable install step
     INSTALL_COMMAND ""
 )
 
 # Get GTest source and binary directories from CMake project
-ExternalProject_Get_Property(gtest source_dir binary_dir)
+ExternalProject_Get_Property(psi-act-gtest source_dir binary_dir)
 
 # Create a libgtest target to be used as a dependency by test programs
-add_library(libgtest IMPORTED STATIC GLOBAL)
-add_dependencies(libgtest gtest)
+add_library(psi-act-libgtest IMPORTED STATIC GLOBAL)
+add_dependencies(psi-act-libgtest psi-act-gtest)
 
 # Set libgtest properties
-set_target_properties(libgtest PROPERTIES
-    "IMPORTED_LOCATION" "${binary_dir}/googlemock/gtest/libgtest.a"
+set_target_properties(psi-act-libgtest PROPERTIES
+    "IMPORTED_LOCATION" "${binary_dir}/googlemock/gtest/psi-act-libgtest.a"
     "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
 )
 
 # Create a libgmock target to be used as a dependency by test programs
-add_library(libgmock IMPORTED STATIC GLOBAL)
-add_dependencies(libgmock gtest)
+add_library(psi-act-libgmock IMPORTED STATIC GLOBAL)
+add_dependencies(psi-act-libgmock psi-act-gtest)
 
 
 # Set libgmock properties
-set_target_properties(libgmock PROPERTIES
-    "IMPORTED_LOCATION" "${binary_dir}/googlemock/libgmock.a"
+set_target_properties(psi-act-libgmock PROPERTIES
+    "IMPORTED_LOCATION" "${binary_dir}/googlemock/psi-act-libgmock.a"
     "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
 )
 
@@ -214,8 +215,8 @@ ENDIF()
 
 get_property(LINT_TARGETS GLOBAL PROPERTY LINT_TARGETS)
 
-IF(NOT TARGET lint)
-add_custom_target(lint ALL
+IF(NOT TARGET psi-act-lint)
+add_custom_target(psi-act-lint ALL
   DEPENDS ${LINT_TARGETS}
   VERBATIM)
 ENDIF()

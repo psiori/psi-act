@@ -42,6 +42,10 @@ LIST(APPEND FILES
 # define subgroups for XCode and other IDEs
 source_group( src FILES ${PSIACT_HEADERS} ${PSIACT_SRCS} )
 
+set_source_files_properties(${PSIACT_SRCS} PROPERTIES COMPILE_OPTIONS -Wno-error)
+set_source_files_properties(${PSIACT_SRCS} PROPERTIES COMPILE_OPTIONS -Wno-error=old-style-cast)
+
+
 set(PSIACT_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
 
 ADD_LIBRARY(psiact STATIC ${PSIACT_SRCS})
@@ -49,7 +53,6 @@ ADD_LIBRARY(psiact STATIC ${PSIACT_SRCS})
 target_include_directories(psiact PRIVATE ${PSIACT_INCLUDE_DIRS})
 
 set_target_properties(psiact PROPERTIES COMPILE_FLAGS "-std=c++11")
-
 
 
 INSTALL(FILES ${PSIACT_HEADERS} DESTINATION include)

@@ -6,7 +6,7 @@ IF(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 ENDIF(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 
 set(CMAKE_CXX_FLAGS_RELEASE " -Wall -O2 -mavx")
-set(CMAKE_CXX_FLAGS_DEBUG " -Wall -pg")
+set(CMAKE_CXX_FLAGS_DEBUG " -Wall")
 
 LIST(APPEND FSM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/fsm/main.cpp)
@@ -35,6 +35,13 @@ INSTALL(TARGETS state_deliberation_demo
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
 )
+
+set_source_files_properties(${FSM_SOURCES} PROPERTIES COMPILE_OPTIONS -Wno-error)
+set_source_files_properties(${FSM_SOURCES} PROPERTIES COMPILE_OPTIONS -Wno-error=old-style-cast)
+
+set_source_files_properties(${FSD_SOURCES} PROPERTIES COMPILE_OPTIONS -Wno-error)
+set_source_files_properties(${FSD_SOURCES} PROPERTIES COMPILE_OPTIONS -Wno-error=old-style-cast)
+
 
 # add_lint_target(psiact-library-lint "${FILES}")
 # set_property(GLOBAL APPEND PROPERTY LINT_TARGETS psiact-library-lint)
