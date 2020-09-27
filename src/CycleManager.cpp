@@ -33,8 +33,11 @@ void psi_act::CycleManager::unregisterAllNotifables()
   this->notifiables.clear();
 }
 
-void psi_act::CycleManager::start()
+void psi_act::CycleManager::start(long cycle_time_us)
 {
+  if (cycle_time_us > 0) {
+    duration_us = static_cast<std::chrono::microseconds>(cycle_time_us);
+  }
   cycles.clear();
   startCycle();
 }
