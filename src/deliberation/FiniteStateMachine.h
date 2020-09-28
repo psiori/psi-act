@@ -8,12 +8,13 @@
 #ifndef __PSI_ACT__FINITE_STATE_MACHINE_H__
 #define __PSI_ACT__FINITE_STATE_MACHINE_H__
 
+#include <functional>
 #include <map>
 #include <string>
 #include <vector>
 
-#include "TimePoint.h"
 #include "CycleManager.h"
+#include "TimePoint.h"
 
 
 namespace psi_act {
