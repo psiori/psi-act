@@ -78,7 +78,7 @@ namespace psi_act {
     void unregisterNotifiable(CycleNotifiable* notifiable);
     void unregisterAllNotifables();
 
-    void start();
+    void start(long cycle_time_us=-1);
     void advance();
 
     const Cycle& currentCycle();
