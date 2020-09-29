@@ -1,13 +1,12 @@
+# caution: whenever adding files, need to reconfigure w/o cache, not just rebuild
 file(GLOB SRCS *.cpp)
 
 add_executable(test_psiact ${SRCS})
 
 add_dependencies(test_psiact psiact)
 
-target_link_libraries(test_psiact 
-  libgtest
-  libgmock
-  #psitest 
+target_link_libraries(test_psiact
+  gtest gmock
 )
 
 
