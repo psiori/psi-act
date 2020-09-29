@@ -93,7 +93,7 @@ namespace psi_act {
     std::chrono::milliseconds remainingInCycle();
 
   protected:
-    CycleManager(long cycle_time_us=33333 * 3 - 1000,   // ToDo: Undo to 33333
+    CycleManager(long cycle_time_us=33333,
                  long execution_delay_us=50000);
     CycleManager(const CycleManager&) {
       // probably should even throw exception
