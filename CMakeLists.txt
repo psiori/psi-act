@@ -3,7 +3,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3)
 project(PSIACT CXX C)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
 
 # INCLUDE( configuration.cmake.in )
@@ -50,15 +50,10 @@ MESSAGE( STATUS "Searching for additional packages ------------------------" )
 
 FIND_PACKAGE(Doxygen)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(Doxygen DEFAULT_MSG DOXYGEN_EXECUTABLE)
-FIND_PACKAGE(PythonInterp)
 
 
 include_directories("/opt/local/include")
 link_directories("/opt/local/lib")
-
-include_directories("/usr/local/include")
-link_directories("/usr/local/lib")
-
 
 # PRINT LIBRARY AND INCLUDE SEARCH ORDER ON CONSOLE
 
