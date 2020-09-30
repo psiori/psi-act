@@ -7,6 +7,7 @@
 
 #include "FiniteStateMachine.h"
 
+#include <functional>
 #include <iostream>
 
 
