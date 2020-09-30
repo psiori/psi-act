@@ -33,11 +33,19 @@ void psi_act::CycleManager::unregisterAllNotifables()
   this->notifiables.clear();
 }
 
-void psi_act::CycleManager::start(long cycle_time_us)
+void psi_act::CycleManager::resetWithFrequency(double frequency)
 {
-  if (cycle_time_us > 0) {
-    duration_us = static_cast<std::chrono::microseconds>(cycle_time_us);
+  if (frequency <= 0) {
+    throw std::invalid_argument("CycleManger::reset called with invalid "
+                                "frequency. Must be larger than zero.");
   }
+  duration_us = static_cast<std::chrono::microseconds>(
+    (long long)(1000/frequency*1000.0));
+}
+
+
+void psi_act::CycleManager::start()
+{
   cycles.clear();
   startCycle();
 }
