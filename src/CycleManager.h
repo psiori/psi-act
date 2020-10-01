@@ -78,7 +78,11 @@ namespace psi_act {
     void unregisterNotifiable(CycleNotifiable* notifiable);
     void unregisterAllNotifables();
 
-    void start(long cycle_time_us=-1);
+    /** reset the cycle manager to cycle zero using the provided 
+     * frequency in Hz (cycles per second). Cycle time is calculated
+     * by this method and set properly. */
+    void resetWithFrequency(double frequency=30.0); 
+    void start();
     void advance();
 
     const Cycle& currentCycle();
