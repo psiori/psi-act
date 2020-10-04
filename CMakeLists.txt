@@ -50,15 +50,10 @@ MESSAGE( STATUS "Searching for additional packages ------------------------" )
 
 FIND_PACKAGE(Doxygen)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(Doxygen DEFAULT_MSG DOXYGEN_EXECUTABLE)
-FIND_PACKAGE(PythonInterp)
 
 
 include_directories("/opt/local/include")
 link_directories("/opt/local/lib")
-
-include_directories("/usr/local/include")
-link_directories("/usr/local/lib")
-
 
 # PRINT LIBRARY AND INCLUDE SEARCH ORDER ON CONSOLE
 
@@ -143,8 +138,12 @@ add_subdirectory(examples)
 # doc target
 IF(DOXYGEN_FOUND)
     IF(NOT TARGET doc)
-    ADD_CUSTOM_TARGET(doc COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE}
-	                  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+        ADD_CUSTOM_TARGET(doc COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE}
+                          WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+    ELSE()
+        ADD_CUSTOM_TARGET(doc-psiact COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE}
+                          WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+        ADD_DEPENDENCIES(doc doc-psiact)
     ENDIF()
 ENDIF()
 
@@ -156,7 +155,7 @@ ENDIF()
 # ############################################################################
 
 if(TESTING)
-IF(NOT TARGET psi-act-libgtest)
+IF(NOT TARGET gtest)
 # We need thread support
 find_package(Threads REQUIRED)
 
@@ -173,37 +172,46 @@ ExternalProject_Add(
 )
 
 # Get GTest source and binary directories from CMake project
-ExternalProject_Get_Property(psi-act-gtest source_dir binary_dir)
+ExternalProject_Get_Property(psi-act-gtest SOURCE_DIR BINARY_DIR)
 
 # Create a libgtest target to be used as a dependency by test programs
-add_library(psi-act-libgtest IMPORTED STATIC GLOBAL)
-add_dependencies(psi-act-libgtest psi-act-gtest)
+add_library(gtest IMPORTED STATIC GLOBAL)
+add_dependencies(gtest psi-act-gtest)
 
 # Set libgtest properties
-set_target_properties(psi-act-libgtest PROPERTIES
-    "IMPORTED_LOCATION" "${binary_dir}/googlemock/gtest/psi-act-libgtest.a"
+set_target_properties(gtest PROPERTIES
+    "IMPORTED_LOCATION" "${BINARY_DIR}/lib/libgtest.a"
     "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
 )
 
 # Create a libgmock target to be used as a dependency by test programs
-add_library(psi-act-libgmock IMPORTED STATIC GLOBAL)
-add_dependencies(psi-act-libgmock psi-act-gtest)
+add_library(gmock IMPORTED STATIC GLOBAL)
+add_dependencies(gmock psi-act-gtest)
 
 
 # Set libgmock properties
-set_target_properties(psi-act-libgmock PROPERTIES
-    "IMPORTED_LOCATION" "${binary_dir}/googlemock/psi-act-libgmock.a"
+set_target_properties(gmock PROPERTIES
+    "IMPORTED_LOCATION" "${BINARY_DIR}/lib/libgmock.a"
     "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
 )
 
+set(_GTEST_INCLUDE_DIRS ${SOURCE_DIR}/googletest/include)
+set(_GMOCK_INCLUDE_DIRS ${SOURCE_DIR}/googlemock/include)
+set(GTEST_INCLUDE_DIRS ${_GTEST_INCLUDE_DIRS} ${_GMOCK_INCLUDE_DIRS})
+
+# directories must exist to use INTERFACE inlcude dirs, but they are only created at
+# build time. so we manually create at configure time to make cmake happy.
+file(MAKE_DIRECTORY ${_GTEST_INCLUDE_DIRS})
+file(MAKE_DIRECTORY ${_GMOCK_INCLUDE_DIRS})
+
 # I couldn't make it work with INTERFACE_INCLUDE_DIRECTORIES
-include_directories("${source_dir}/googletest/include"
-                    "${source_dir}/googlemock/include")
+target_include_directories(gtest INTERFACE ${GTEST_INCLUDE_DIRS})
+
+ENDIF()
 
 enable_testing()
 add_subdirectory(test)
 
-ENDIF()
 ENDIF()
 
 
