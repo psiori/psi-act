@@ -44,6 +44,13 @@ void psi_act::CycleManager::resetWithFrequency(double frequency)
 }
 
 
+double psi_act::CycleManager::getFrequency() const
+{ 
+  return 1000000.0 / duration_us.count();
+};
+
+
+
 void psi_act::CycleManager::start()
 {
   cycles.clear();

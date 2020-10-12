@@ -86,7 +86,8 @@ namespace psi_act {
     void advance();
 
     const Cycle& currentCycle();
-
+    
+    double getFrequency() const;
 
     /**
      * @param   history The number of recent cycles to consider. Pass 0 for global
