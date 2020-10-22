@@ -43,6 +43,8 @@ public:
   
   virtual std::string deliberate(const TimePoint& time=
                                     CYCLE.executionExpectedAt)=0;
+  
+  std::string getName() const { return name; }
 
 protected:
   const std::string name;

@@ -41,6 +41,8 @@ namespace psi_act {
 
     virtual void gainControl(const TimePoint&) throw();
     virtual void loseControl(const TimePoint&) throw();
+    
+    virtual std::string currentOptionName() const;
 
     /** Adds the given argument to the end of the list of available options,
       with lowest priority.

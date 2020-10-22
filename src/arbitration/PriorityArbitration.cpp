@@ -165,3 +165,12 @@ void psi_act::PriorityArbitration::determineUpcomingOption(
 
   return;
 }
+
+std::string psi_act::PriorityArbitration::currentOptionName() const {
+  std::string child = "none";
+  if (presentOption >= 0 && presentOption < options.size()) {
+    child = options[presentOption].option->currentOptionName();
+  }
+  return toString() + "/" + child;
+}
+

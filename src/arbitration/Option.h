@@ -36,6 +36,7 @@ namespace psi_act {
     virtual void loseControl(const TimePoint&) {}
 
     virtual std::string toString() const { return name; };
+    virtual std::string currentOptionName() const { return toString(); };
 
   protected:
     std::string name;
