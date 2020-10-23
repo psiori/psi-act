@@ -63,15 +63,17 @@ void psi_act::SequentialPlan::determineScheduledIntention(
   // Procedure
   //   scheduledIntention is set to the highest stage available
   //   nextStage is set to the highest invocable stage
-  //   continueSearch determines wether the current stage allows interruption,
+  //   continueSearch determines whether the current stage allows interruption,
   //   and search should therefore be continued
-  //    --> interruptable or skippable stages are never executed, if a later stage seeks execution
+  //    --> interruptable or skippable stages are never executed, if a later
+  //    stage seeks execution
   const int stageNum = options.size();
-  scheduledIntention = stageNum;  // in case no invocable stage is found, set to last Behavior
+  scheduledIntention =
+      stageNum;  // in case no invocable stage is found, set to last Behavior
 
-  bool interruptAllowed  = false;
-  bool foundInvocable = false;
-  intentionCompleted     = true;
+  bool interruptAllowed = false;
+  bool foundInvocable   = false;
+  intentionCompleted    = true;
   if (presentIntention >= 0 && presentIntention < stageNum) {
     interruptAllowed = options[presentIntention].interruptable;
     if (options[presentIntention].option->checkCommitmentCondition(time)) {
@@ -88,7 +90,7 @@ void psi_act::SequentialPlan::determineScheduledIntention(
     bool mightInterrupt =
         interruptAllowed &&
         options[nextStage]
-            .seekInteruption;  // boolean wether the investigated stage might
+            .seekInteruption;  // boolean whether the investigated stage might
                                // interrupt the currently running stage
     if ((!foundInvocable || mightInterrupt) &&
         options[nextStage].option->checkInvocationCondition(time)) {
