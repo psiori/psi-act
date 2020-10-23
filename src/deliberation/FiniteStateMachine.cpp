@@ -18,6 +18,7 @@
 // ////////////////////////////////////////////////////////////////////////////
 
 psi_act::FiniteStateMachine::FiniteStateMachine()
+  : states(), presentState(nullptr)
 {}
 
 

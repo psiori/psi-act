@@ -7,6 +7,7 @@
 
 #include "FiniteStateDeliberation.h"
 
+#include <iostream>
 
 psi_act::FiniteStateDeliberation::FiniteStateDeliberation(
     const std::string& name) : Deliberator(name)
