@@ -30,6 +30,7 @@ public:
   virtual void gainControl(const TimePoint&) throw();
   virtual void loseControl(const TimePoint&) throw();
 
+  virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) throw();
 
   virtual Command* calculateCommand(const TimePoint&) throw();
 
@@ -46,15 +47,15 @@ public:
    * @param takeOwnership make this Planner responsible to free the memory after
    * usage */
   void appendStage(Option* option,
-                   bool skippable,
-                   bool interruptable,
-                   bool seekInteruption,
-                   bool takeoverOwnership) throw();
+                   bool skippable=false,
+                   bool interruptable=false,
+                   bool seekInteruption=false,
+                   bool takeoverOwnership=true) throw();
 
 
   virtual std::string listOptions(bool listNested = true);
-
-
+  virtual std::string currentOptionName() const;
+  
 private:
   struct Stage {
     Option* option;

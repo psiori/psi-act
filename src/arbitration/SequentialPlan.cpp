@@ -42,6 +42,10 @@ void psi_act::SequentialPlan::loseControl(const TimePoint& time) throw() {
   scheduledIntention = -1;  // set the "inactive" state
 }
 
+void psi_act::SequentialPlan::cycleStarted(const Cycle&, const TimePoint&) throw() {
+  scheduledIntention = -1;  // reset the scheduled action for this cycle; needs to be reevaluated
+}
+
 bool psi_act::SequentialPlan::checkInvocationCondition(
     const TimePoint& time) throw() {
   return this->checkCommitmentCondition(time);  // This is correct because
@@ -61,12 +65,13 @@ bool psi_act::SequentialPlan::checkCommitmentCondition(
 void psi_act::SequentialPlan::determineScheduledIntention(
     const TimePoint& time) throw() {
   // Procedure
-  //   scheduledIntention is set to the highest stage available
+  //   scheduledIntention is set to the highest stage that can be executed 
   //   nextStage is set to the highest invocable stage
   //   continueSearch determines whether the current stage allows interruption,
   //   and search should therefore be continued
-  //    --> interruptable or skippable stages are never executed, if a later
-  //    stage seeks execution
+  //    --> interruptabl stages are never executed, if a later
+  //        stage seeks execution
+  //    --> ONLY skippable stages might be left out
   const int stageNum = options.size();
   scheduledIntention =
       stageNum;  // in case no invocable stage is found, set to last Behavior
@@ -117,17 +122,12 @@ psi_act::SequentialPlan::calculateCommand(const TimePoint& time) throw() {
   }
 
   // If no upcoming option is determined, do so now.
-  if (scheduledIntention < 0 || scheduledIntention >= options.size()) {
+  if (scheduledIntention < 0) {
     determineScheduledIntention(time);
   }
 
-  // correct out-of-bounds
-  if (scheduledIntention >= options.size()) {
-    scheduledIntention = -1;
-  }
-
   // Manage present and upcoming Intention lifecycle.
-  if (presentIntention != scheduledIntention) {
+  if (presentIntention != scheduledIntention || intentionCompleted) {
     if (presentIntention >= 0 && presentIntention < options.size()) {
       options[presentIntention].option->loseControl(time);
     }
@@ -139,9 +139,11 @@ psi_act::SequentialPlan::calculateCommand(const TimePoint& time) throw() {
   // Store present option although scheduled might be -1
   presentIntention = scheduledIntention;
 
-  if (presentIntention >= 0) {
+  if (presentIntention >= 0 && presentIntention < options.size()) {
+    scheduledIntention=-1;
     return options[presentIntention].option->calculateCommand(time);
   } else {
+    scheduledIntention=-1;
     return Command::getNeutralCommand();
   }
 }
@@ -154,4 +156,12 @@ std::string psi_act::SequentialPlan::listOptions(
     ss << options[i].option->toString() << std::endl;
   }
   return ss.str();
+}
+
+std::string psi_act::SequentialPlan::currentOptionName() const {
+  std::string child = "none";
+  if (presentIntention >= 0 && presentIntention < options.size()) {
+    child = options[presentIntention].option->currentOptionName();
+  }
+  return toString() + "/" + child;
 }
