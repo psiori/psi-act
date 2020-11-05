@@ -1,4 +1,3 @@
-//
 //  FiniteStateMachine.cpp
 //  psi-act
 //
@@ -24,7 +23,9 @@ psi_act::FiniteStateMachine::FiniteStateMachine()
 
 psi_act::FiniteStateMachine::~FiniteStateMachine()
 {
+#ifdef PSIACT_DEBUG
   std::cerr << "DEBUG: destructor of state machine called." << std::endl;
+#endif
   for (auto it : states) {
     delete it.second;
   }
@@ -103,7 +104,9 @@ psi_act::FiniteStateMachine::State::State(
 
 psi_act::FiniteStateMachine::State::~State()
 {
+#ifdef PSIACT_DEBUG
   std::cerr << "DEBUG: destructor of state called: " << name << std::endl;
+#endif
   for (auto it : transitions) {
     delete it;
   }
@@ -118,8 +121,10 @@ psi_act::FiniteStateMachine::State::execute(const TimePoint& time)
       return transition->to;
     }
   }
+#ifdef PSIACT_DEBUG
   std::cerr << "ERROR: no transition condition was met. Stay in present state."
             << std::endl;  // \todo : should we throw an exception?
+#endif
 
   return this;
 }
@@ -142,6 +147,7 @@ psi_act::FiniteStateMachine::Transition::Transition(
 
 psi_act::FiniteStateMachine::Transition::~Transition()
 {
+#ifdef PSIACT_DEBUG
   std::cerr << "DEBUG: destructor of unnamed transition called." << std::endl;
+#endif
 }
-
