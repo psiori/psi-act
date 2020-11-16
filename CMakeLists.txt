@@ -136,7 +136,7 @@ add_subdirectory(examples)
 
 
 # doc target
-option(BUILD_DOC "Build the doxygen doc" OFF)
+option(BUILD_DOC "Build the doxygen doc" ON)
 if(BUILD_DOC)
   IF(DOXYGEN_FOUND)
     IF(NOT TARGET doc)
