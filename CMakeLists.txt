@@ -136,15 +136,18 @@ add_subdirectory(examples)
 
 
 # doc target
-IF(DOXYGEN_FOUND)
+option(BUILD_DOC "Build the doxygen doc" OFF)
+if(BUILD_DOC)
+  IF(DOXYGEN_FOUND)
     IF(NOT TARGET doc)
-        ADD_CUSTOM_TARGET(doc COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE}
-                          WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+      ADD_CUSTOM_TARGET(doc COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE}
+                        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
     ELSE()
-        ADD_CUSTOM_TARGET(doc-psiact COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE}
-                          WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-        ADD_DEPENDENCIES(doc doc-psiact)
+      ADD_CUSTOM_TARGET(doc-psiact COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE}
+                        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+      ADD_DEPENDENCIES(doc doc-psiact)
     ENDIF()
+  ENDIF()
 ENDIF()
 
 
