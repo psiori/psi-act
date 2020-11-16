@@ -37,8 +37,8 @@ public:
 
 
   /**
-   * @brief Add an behavior with different options as a stage. The stages will
-   * be executed FIFO.
+   * @brief Add an \ref Option with different settings as a stage. The stages
+   * will be executed FIFO.
    * @param option            The \ref Option that will be executed.
    * @param skippable         Whether this behavior may be skipped.
    * @param interruptable     Whether this behavior may be interrupted after
