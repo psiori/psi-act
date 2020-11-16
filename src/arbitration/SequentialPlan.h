@@ -16,8 +16,9 @@
 namespace psi_act {
 /**
  * @class SequentialPlan
- * @brief Sequential plan is used to define a sequence of options, that should
-  be executed in sequence, one after the other. */
+ * @brief Sequential Plan used to define a sequence of Options, each being
+ *          executed one after the other.
+ */
 class SequentialPlan : public Arbitrator {
 public:
   SequentialPlan(const std::string& name = "SequentialPlan");
@@ -37,25 +38,25 @@ public:
 
   /**
    * @brief Add an behavior with different options as a stage. The stages will
-   * be executed FIFO
-   * @param option The Behavior that will be executed
-   * @param skippable whether this behavior may be skipped
-   * @param interruptable whether this behavior may be interrupted after
-   * starting
-   * @param seekInterruption  whether this behavior tries to interrupt previous
-   * behaviors
-   * @param takeOwnership make this Planner responsible to free the memory after
-   * usage */
+   * be executed FIFO.
+   * @param option            The \ref Option that will be executed.
+   * @param skippable         Whether this behavior may be skipped.
+   * @param interruptable     Whether this behavior may be interrupted after
+   *          having taken control.
+   * @param seekInterruption  Whether this behavior tries to interrupt previous
+   *          behaviors.
+   * @param takeOwnership     Make this \ref Arbitrator responsible to free this
+   *          \ref Option's memory after usage.
+   */
   void appendStage(Option* option,
-                   bool skippable=false,
-                   bool interruptable=false,
-                   bool seekInteruption=false,
-                   bool takeoverOwnership=true) throw();
-
+                   bool skippable         = false,
+                   bool interruptable     = false,
+                   bool seekInteruption   = false,
+                   bool takeoverOwnership = true) throw();
 
   virtual std::string listOptions(bool listNested = true);
   virtual std::string currentOptionName() const;
-  
+
 private:
   struct Stage {
     Option* option;
