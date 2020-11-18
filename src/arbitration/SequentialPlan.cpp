@@ -42,8 +42,10 @@ void psi_act::SequentialPlan::loseControl(const TimePoint& time) throw() {
   scheduledIntention = -1;  // set the "inactive" state
 }
 
-void psi_act::SequentialPlan::cycleStarted(const Cycle&, const TimePoint&) throw() {
-  scheduledIntention = -1;  // reset the scheduled action for this cycle; needs to be reevaluated
+void psi_act::SequentialPlan::cycleStarted(const Cycle&,
+                                           const TimePoint&) throw() {
+  // reset the scheduled action for this cycle; needs to be reevaluated
+  scheduledIntention = -1;
 }
 
 bool psi_act::SequentialPlan::checkInvocationCondition(
@@ -65,7 +67,7 @@ bool psi_act::SequentialPlan::checkCommitmentCondition(
 void psi_act::SequentialPlan::determineScheduledIntention(
     const TimePoint& time) throw() {
   // Procedure
-  //   scheduledIntention is set to the highest stage that can be executed 
+  //   scheduledIntention is set to the highest stage that can be executed
   //   nextStage is set to the highest invocable stage
   //   continueSearch determines whether the current stage allows interruption,
   //   and search should therefore be continued
@@ -115,7 +117,7 @@ void psi_act::SequentialPlan::determineScheduledIntention(
 }
 
 psi_act::Command*
-psi_act::SequentialPlan::calculateCommand(const TimePoint& time) throw() {
+psi_act::SequentialPlan::calculateCommand(const TimePoint& time) {
   // Make sure right away that a neutral command is set.
   if (!Command::getNeutralCommand()) {
     throw std::runtime_error("Neutral command for arbitration not set");
@@ -140,10 +142,10 @@ psi_act::SequentialPlan::calculateCommand(const TimePoint& time) throw() {
   presentIntention = scheduledIntention;
 
   if (presentIntention >= 0 && presentIntention < options.size()) {
-    scheduledIntention=-1;
+    scheduledIntention = -1;
     return options[presentIntention].option->calculateCommand(time);
   } else {
-    scheduledIntention=-1;
+    scheduledIntention = -1;
     return Command::getNeutralCommand();
   }
 }
