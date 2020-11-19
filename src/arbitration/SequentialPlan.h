@@ -33,7 +33,7 @@ public:
 
   virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) throw();
 
-  virtual Command* calculateCommand(const TimePoint&) throw();
+  virtual Command* calculateCommand(const TimePoint&);
 
 
   /**
