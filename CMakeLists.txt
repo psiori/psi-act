@@ -6,38 +6,6 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# INCLUDE( configuration.cmake.in )
-
-# ############################################################################
-#
-#   CHECK CUSTOM LIBRARY PATHS
-#
-# ############################################################################
-
-# NOTE: ADD CUSTOM PATHS FIRST! BECAUSE THEY SHOULD BE SEARCHED AND USED FIRST
-
-MESSAGE( STATUS )
-MESSAGE( STATUS "Checking custom paths specified on command line ---------" )
-
-FUNCTION( custom_path_prefix LIBRARY_NAME VARIABLE_NAME RELATIVE_PATH_TO_CHECK )
-  set(${VARIABLE_NAME} ""
-      CACHE FILEPATH "Custom PATH_PREFIX for ${LIBRARY_NAME}"
-      PARENT_SCOPE)
-
-  if(${VARIABLE_NAME})
-    if(EXISTS "${${VARIABLE_NAME}}/${RELATIVE_PATH_TO_CHECK}")
-      message ( STATUS "Found ${LIBRARY_NAME}: ${${VARIABLE_NAME}}")
-      include_directories("${${VARIABLE_NAME}}/include")
-      link_directories("${${VARIABLE_NAME}}/lib")
-    else()
-      message(SEND_ERROR "${LIBRARY_NAME} not found: can't find ${RELATIVE_PATH_TO_CHECK} in ${${VARIABLE_NAME}}")
-    endif()
-  endif()
-ENDFUNCTION()
-
-# you can use the following optional parameters to really have each
-# library installed in a completely different path.
-
 
 # ############################################################################
 #

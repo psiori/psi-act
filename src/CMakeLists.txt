@@ -47,7 +47,8 @@ target_compile_options(psiact PRIVATE -Wno-error -Wno-error=old-style-cast)
 
 message(STATUS "PSIACT_INCLUDE_DIRS: ${PSIACT_INCLUDE_DIRS}")
 # Include PUBLICly so including projects get these as well
-target_include_directories(psiact PUBLIC ${PSIACT_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+target_include_directories(psiact PUBLIC ${PSIACT_INCLUDE_DIRS})
+target_include_directories(psiact SYSTEM PUBLIC ${Boost_INCLUDE_DIRS})
 target_link_libraries(psiact PUBLIC ${Boost_LIBRARIES})
 
 INSTALL(FILES ${PSIACT_HEADERS} DESTINATION include)
