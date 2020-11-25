@@ -1,4 +1,5 @@
 project(PSIACT LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 14)
 
 # if no option is given, standard is release
 IF(NOT CMAKE_BUILD_TYPE)
