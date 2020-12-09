@@ -29,18 +29,18 @@ namespace psi_act {
   class PriorityArbitration : public Arbitrator {
   public:
     PriorityArbitration(const std::string& name="PriorityArbitration");
-    virtual ~PriorityArbitration() throw();
+    virtual ~PriorityArbitration() noexcept;
 
-    virtual Command* calculateCommand(const TimePoint&) throw(PsiActException);
+    virtual Command* calculateCommand(const TimePoint&) noexcept(false);
 
     /** true, if at least one of the available options is invocable */
-    virtual bool checkInvocationCondition(const TimePoint& time) throw();
+    virtual bool checkInvocationCondition(const TimePoint& time) noexcept;
     /** true, if the presently executed option can continue, or at least
       one different option is invocable */
-    virtual bool checkCommitmentCondition(const TimePoint& time) throw();
+    virtual bool checkCommitmentCondition(const TimePoint& time) noexcept;
 
-    virtual void gainControl(const TimePoint&) throw();
-    virtual void loseControl(const TimePoint&) throw();
+    virtual void gainControl(const TimePoint&) noexcept;
+    virtual void loseControl(const TimePoint&) noexcept;
     
     virtual std::string currentOptionName() const;
 
@@ -60,7 +60,7 @@ namespace psi_act {
     virtual std::string listOptions(bool listNested=true);
 
   protected:
-    virtual void determineUpcomingOption(const TimePoint& time) throw();
+    virtual void determineUpcomingOption(const TimePoint& time) noexcept;
 
     struct OptionWithFlags {
       Option* option;

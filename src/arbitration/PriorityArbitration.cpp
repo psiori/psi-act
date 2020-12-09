@@ -14,7 +14,7 @@ psi_act::PriorityArbitration::PriorityArbitration(const std::string& name)
     : Arbitrator(name), upcomingOption(-1), presentOption(-1)
 {}
 
-psi_act::PriorityArbitration::~PriorityArbitration() throw()
+psi_act::PriorityArbitration::~PriorityArbitration() noexcept
 {
   for (std::vector<OptionWithFlags>::iterator it = options.begin();
        it != options.end(); it++)
@@ -29,7 +29,7 @@ psi_act::PriorityArbitration::~PriorityArbitration() throw()
 }
 
 psi_act::Command* psi_act::PriorityArbitration::calculateCommand(
-    const TimePoint& time) throw(PsiActException)
+    const TimePoint& time) noexcept(false)
 {
   // Make sure right away that a neutral command is set.
   if (!Command::getNeutralCommand())
@@ -77,7 +77,7 @@ psi_act::Command* psi_act::PriorityArbitration::calculateCommand(
 
 void psi_act::PriorityArbitration::addOption(Option* option,
                                              bool interruptable,
-                                             bool takeoverOwnership) throw()
+                                             bool takeoverOwnership) noexcept
 {
   OptionWithFlags optionWithFlags = {option, interruptable, takeoverOwnership};
   options.push_back(optionWithFlags);
@@ -93,10 +93,10 @@ std::string psi_act::PriorityArbitration::listOptions(bool listNested)
   return ss.str();
 }
 
-void psi_act::PriorityArbitration::gainControl(const TimePoint& time) throw()
+void psi_act::PriorityArbitration::gainControl(const TimePoint& time) noexcept
 {}
 
-void psi_act::PriorityArbitration::loseControl(const TimePoint& time) throw()
+void psi_act::PriorityArbitration::loseControl(const TimePoint& time) noexcept
 {
   if (presentOption >= 0 && presentOption < options.size()) {
     options[presentOption].option->loseControl(time);
@@ -105,7 +105,7 @@ void psi_act::PriorityArbitration::loseControl(const TimePoint& time) throw()
 }
 
 bool psi_act::PriorityArbitration::checkInvocationCondition(
-    const TimePoint& time) throw()
+    const TimePoint& time) noexcept
 {
   return this->checkCommitmentCondition(time);  // This is correct because
   // of the implementation of check commitment: If there's no present
@@ -116,14 +116,14 @@ bool psi_act::PriorityArbitration::checkInvocationCondition(
 }
 
 bool psi_act::PriorityArbitration::checkCommitmentCondition(
-    const TimePoint& time) throw()
+    const TimePoint& time) noexcept
 {
   determineUpcomingOption(time);
   return upcomingOption >= 0 && upcomingOption < options.size();
 }
 
 void psi_act::PriorityArbitration::determineUpcomingOption(
-    const TimePoint& time) throw()
+    const TimePoint& time) noexcept
 {
   // Option for the new cycle has not been determined yet.
   upcomingOption = -1;
