@@ -9,7 +9,7 @@ psi_act::SequentialPlan::SequentialPlan(const std::string& name) :
     Arbitrator(name), presentIntention(-1), scheduledIntention(-1) {
 }
 
-psi_act::SequentialPlan::~SequentialPlan() throw() {
+psi_act::SequentialPlan::~SequentialPlan() noexcept {
   for (std::vector<Stage>::iterator it = options.begin(); it != options.end();
        it++) {
     if (it->owned && it->option) {
@@ -25,16 +25,16 @@ void psi_act::SequentialPlan::appendStage(Option* option,
                                           bool skippable,
                                           bool interruptable,
                                           bool seekInterruption,
-                                          bool takeoverOwnership) throw() {
+                                          bool takeoverOwnership) noexcept {
   Stage stage = {
       option, skippable, interruptable, seekInterruption, takeoverOwnership};
   options.push_back(stage);
 }
 
-void psi_act::SequentialPlan::gainControl(const TimePoint& time) throw() {
+void psi_act::SequentialPlan::gainControl(const TimePoint& time) noexcept {
 }
 
-void psi_act::SequentialPlan::loseControl(const TimePoint& time) throw() {
+void psi_act::SequentialPlan::loseControl(const TimePoint& time) noexcept {
   if (presentIntention >= 0 && presentIntention < options.size()) {
     options[presentIntention].option->loseControl(time);
   }
@@ -43,13 +43,13 @@ void psi_act::SequentialPlan::loseControl(const TimePoint& time) throw() {
 }
 
 void psi_act::SequentialPlan::cycleStarted(const Cycle&,
-                                           const TimePoint&) throw() {
+                                           const TimePoint&) noexcept {
   // reset the scheduled action for this cycle; needs to be reevaluated
   scheduledIntention = -1;
 }
 
 bool psi_act::SequentialPlan::checkInvocationCondition(
-    const TimePoint& time) throw() {
+    const TimePoint& time) noexcept {
   return this->checkCommitmentCondition(time);  // This is correct because
   // of the implementation of check commitment: If there's no present
   // option, it checks for an invocable action. If there's a present
@@ -59,13 +59,13 @@ bool psi_act::SequentialPlan::checkInvocationCondition(
 }
 
 bool psi_act::SequentialPlan::checkCommitmentCondition(
-    const TimePoint& time) throw() {
+    const TimePoint& time) noexcept {
   determineScheduledIntention(time);
   return scheduledIntention >= 0 && scheduledIntention < options.size();
 }
 
 void psi_act::SequentialPlan::determineScheduledIntention(
-    const TimePoint& time) throw() {
+    const TimePoint& time) noexcept {
   // Procedure
   //   scheduledIntention is set to the highest stage that can be executed
   //   nextStage is set to the highest invocable stage

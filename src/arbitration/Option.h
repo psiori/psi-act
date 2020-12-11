@@ -22,15 +22,15 @@ namespace psi_act {
 
     virtual ~Option();
 
-    virtual bool checkCommitmentCondition(const TimePoint&) throw();
-    virtual bool checkInvocationCondition(const TimePoint&) throw();
+    virtual bool checkCommitmentCondition(const TimePoint&) noexcept;
+    virtual bool checkInvocationCondition(const TimePoint&) noexcept;
 
-    virtual double getSuccessProbability(const TimePoint&) const throw();
+    virtual double getSuccessProbability(const TimePoint&) const noexcept;
 
     virtual Command* calculateCommand(const TimePoint&)=0;
     
-    virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) throw();
-    virtual void cycleEnded(const Cycle& cycle, const TimePoint& time) throw();
+    virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) noexcept;
+    virtual void cycleEnded(const Cycle& cycle, const TimePoint& time) noexcept;
 
     virtual void gainControl(const TimePoint&) {}
     virtual void loseControl(const TimePoint&) {}

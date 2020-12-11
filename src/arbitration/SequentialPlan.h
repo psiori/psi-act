@@ -23,15 +23,15 @@ class SequentialPlan : public Arbitrator {
 public:
   SequentialPlan(const std::string& name = "SequentialPlan");
 
-  virtual ~SequentialPlan() throw();
+  virtual ~SequentialPlan() noexcept;
 
-  virtual bool checkInvocationCondition(const TimePoint& time) throw();
-  virtual bool checkCommitmentCondition(const TimePoint& time) throw();
+  virtual bool checkInvocationCondition(const TimePoint& time) noexcept;
+  virtual bool checkCommitmentCondition(const TimePoint& time) noexcept;
 
-  virtual void gainControl(const TimePoint&) throw();
-  virtual void loseControl(const TimePoint&) throw();
+  virtual void gainControl(const TimePoint&) noexcept;
+  virtual void loseControl(const TimePoint&) noexcept;
 
-  virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) throw();
+  virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) noexcept;
 
   virtual Command* calculateCommand(const TimePoint&);
 
@@ -52,7 +52,7 @@ public:
                    bool skippable         = false,
                    bool interruptable     = false,
                    bool seekInteruption   = false,
-                   bool takeoverOwnership = true) throw();
+                   bool takeoverOwnership = true) noexcept;
 
   virtual std::string listOptions(bool listNested = true);
   virtual std::string currentOptionName() const;
@@ -67,7 +67,7 @@ private:
   };
 
   std::vector<Stage> options;
-  virtual void determineScheduledIntention(const TimePoint& time) throw();
+  virtual void determineScheduledIntention(const TimePoint& time) noexcept;
   int presentIntention;    ///< index of present stage (or -1) if inactive
   int scheduledIntention;  ///< index of next stage that can be executed (in
                            ///< many cases same as presentIntention)

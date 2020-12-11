@@ -41,7 +41,7 @@ namespace psi_act {
 
     virtual void gainControl(const TimePoint&) noexcept;
     virtual void loseControl(const TimePoint&) noexcept;
-    
+
     virtual std::string currentOptionName() const;
 
     /** Adds the given argument to the end of the list of available options,

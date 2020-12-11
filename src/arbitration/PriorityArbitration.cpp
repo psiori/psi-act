@@ -173,4 +173,3 @@ std::string psi_act::PriorityArbitration::currentOptionName() const {
   }
   return toString() + "/" + child;
 }
-

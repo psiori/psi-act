@@ -52,8 +52,8 @@ namespace psi_act {
    */
   class CycleNotifiable {
   public:
-    virtual void cycleStarted(const Cycle& cycle, const TimePoint& executionTime) throw()=0;
-    virtual void cycleEnded(const Cycle& cycle, const TimePoint& executionTime) throw()=0;
+    virtual void cycleStarted(const Cycle& cycle, const TimePoint& executionTime) noexcept=0;
+    virtual void cycleEnded(const Cycle& cycle, const TimePoint& executionTime) noexcept=0;
 
     virtual ~CycleNotifiable() {};
   };
