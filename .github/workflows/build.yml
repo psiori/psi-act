@@ -20,12 +20,9 @@ jobs:
         cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
         make -j$(getconf _NPROCESSORS_ONLN)
         make doc -j$(getconf _NPROCESSORS_ONLN)
-    - name: Azure login
-      uses: Azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: Publish to azure webapp
       uses: Azure/webapps-deploy@v1
       with:
         app-name: psiact
         package: doc/html
+        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
