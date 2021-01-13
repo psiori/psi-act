@@ -803,6 +803,15 @@ HTML_FOOTER            =
 
 HTML_STYLESHEET        =
 
+# The HTML_EXTRA_STYLESHEET is an addition to the HTML_STYLESHEET. The
+# latter won't be touched or altered, but extended. This is important
+# because even though HTML_STYLESHEET can be left blank, doxygen still 
+# produces its own stylesheet, which would be completely erased and altered
+# if only small changes were added to HTML_STYLESHEET without having in
+# mind the whole layout of the documentation.
+
+HTML_EXTRA_STYLESHEET  = ../doc/css/html_extra.css
+
 # If the HTML_TIMESTAMP tag is set to YES then the footer of each generated HTML
 # page will contain the date and time when the page was generated. Setting
 # this to NO can help when comparing the output of multiple runs.
