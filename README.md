@@ -2,6 +2,8 @@
 
 A framework for pragmatic decision making in cognitive architectures.
 
+The doxygen documentation is available at [psiact.azurewebsites.net](https://psiact.azurewebsites.net).
+
 # Install
 
 ## Build psi-act library
