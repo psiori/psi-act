@@ -121,21 +121,21 @@ The repository can be divided into three higher level parts represented by the d
 * [Arbitration](#arbitration)
 * [Deliberation](#deliberation)
 
-## Base classes
+## Base classes {#base-classes}
 
-### Command (/src/Command.h)
+### Command (/src/Command.h) {#command}
 Issues a command to the machine controlled by the AI. Last step after deliberation and arbitration (aka the AI) sorted out, which action to take next.
 
-### CycleManager (/src/CycleManager.h)
+### CycleManager (/src/CycleManager.h) {#cycle-manager}
 Contains all necessary information about one cycle in a struct object - psi_act::Cycle::Cycle - such as the expected execution time of the next action. A cycle is one iteration of the control loop (in autocrane).
 
-### TimePoint (/src/TimePoint.h)
+### TimePoint (/src/TimePoint.h) {#time-point}
 A wrapper for several std::chrono::system_clock classes.
 
-## Arbitration (/src/arbitration/)
+## Arbitration (/src/arbitration/) {#arbitration}
 The arbitration is the derivation of the next action to take, taking in information from the world model, containing the current of the crane and sent out "goals" from the deliberator
 
-### Option (/src/arbitration/Option.h)
+### Option (/src/arbitration/Option.h) {#option}
 This is the base class of the so-called behaviours in the autocrane project. More generally speaking, an option is a possible action, the AI can decide to conduct. It contains all necessary functions to
 * start option when condition is met - psi_act::Option::checkCommitmentCondition
 * continue option when condition is met - psi_act::Option::checkInvocationCondition
@@ -144,20 +144,20 @@ This is the base class of the so-called behaviours in the autocrane project. Mor
 ### Arbitrator (/src/arbitration/Arbitrator.cpp)
 Intermediate class between [Option](#option) and either [SequentialPlan](#sequential-plan) or [PriorityArbitration](#priority-arbitration). Does not add any functionality so far.
 
-### SequentialPlan (/src/arbitration/SequentialPlan.h)
+### SequentialPlan (/src/arbitration/SequentialPlan.h) {#sequential-plan}
 With psi_act::SequentialPlan::appendStage adds one or more options, that are going to be executed one after another. Execution depends not only on sequence but also on psi_act::Option::checkInvocationCondition and psi_act::Option::checkCommitmentCondition. By definition, an psi_act::Option which has had the chance to get active won't be able to get active a second time, no matter, if it actually got active or not.
 
-### PriorityArbitration (/src/arbitration/PriorityArbitration.h)
+### PriorityArbitration (/src/arbitration/PriorityArbitration.h) {#priority-arbitration}
 With psi_act::PriorityArbitration::addOption, one or more options can be added to be executed by priority. Highest ranking option (by line number) has highest priority. Difference to [SequentialPlan](#sequential-plan) is, that an psi_act::Option can get active multiple times, depending on whether the conditions linked to it are becoming true or not.
 
-## Deliberation (/src/deliberation/)
+## Deliberation (/src/deliberation/) {#deliberation}
 The Deliberation in the context of psi-act is to send out simple strings like "setupExperiment" or "unloadTruck", which describe the overall goal of the current [TimePoint](#time-point). In contrast to [Arbitration](#arbitration), Deliberation is of higher level and does not directly move the machine controlled by the AI. It merely sets an overall goal, while the [Arbitration](#arbitration) checks the conditions for its options, where the set goal from Deliberation is one possible condition to check for, amongst others.
 
-### Deliberator (/src/deliberation/Deliberator.h)
+### Deliberator (/src/deliberation/Deliberator.h) {#deliberator}
 psi_act::Deliberator::Deliberator is an abstract class for any deliberator yet to come. It contains desire information like its name and when to start (amongst others).
 
-### FiniteStateMachine (/src/deliberation/FiniteStateMachine.h)
+### FiniteStateMachine (/src/deliberation/FiniteStateMachine.h) {#finite-state-machine}
 Handles states and their transitions.
 
-### FiniteStateDeliberator (/src/deliberation/FiniteStateDeliberator.h)
+### FiniteStateDeliberator (/src/deliberation/FiniteStateDeliberator.h) {#finite-state-deliberator}
 A deliberator which inherits from [Deliberator](#deliberator) and [FiniteStateMachine](#finite-state-machine) alike. What emerges is a deliberator which has a given set of goals it can emit, with the condition that only one goal is emitted at a time.
