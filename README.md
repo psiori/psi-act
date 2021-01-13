@@ -119,7 +119,7 @@ The repository can be divided into three higher level parts represented by the d
 * [Arbitration](#arbitration)
 * [Deliberation](#deliberation)
 
-##  Base classes
+## Base classes
 
 ### Command (/src/Command.h)
 Issues a command to the machine controlled by the AI. Last step after deliberation and arbitration (aka the AI) sorted out, which action to take next.
