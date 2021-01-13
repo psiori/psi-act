@@ -18,7 +18,7 @@ jobs:
       - uses: khan/pull-request-comment-trigger@master
         id: trigger
         with:
-          trigger: "@doxygen"
+          trigger: "/publish"
           reaction: rocket
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
