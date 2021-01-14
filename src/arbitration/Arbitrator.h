@@ -5,6 +5,14 @@
 //  Sascha Lange, 2003, 2004, 2019
 //
 
+/**
+* \file Arbitrator.h
+* \brief Abstract class to inherit from for the arbitration class in use.
+*
+* \dir arbitration
+* \brief The arbitration is the derivation of the next action to take, taking into account information from the machine under control and goals sent from deliberation.
+*/
+
 #ifndef Arbitrator_h
 #define Arbitrator_h
 

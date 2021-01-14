@@ -5,6 +5,11 @@
 //  Sascha Lange, 2014, 2020
 //
 
+/**
+ * \file FiniteStateMachine.h
+ * \brief Logical construct, that contains a set number of states, of which only one can be active at a time.
+ */
+
 #ifndef __PSI_ACT__FINITE_STATE_MACHINE_H__
 #define __PSI_ACT__FINITE_STATE_MACHINE_H__
 

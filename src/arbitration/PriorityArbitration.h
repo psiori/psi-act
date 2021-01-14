@@ -8,6 +8,11 @@
 //  Sascha Lange, 2003,2004,2019
 //
 
+/**
+ * \file PriorityArbitration.h
+ * \brief Arbitration of actions by priority. Options can be executed multiple times.
+ */
+
 #include <string>
 #include <vector>
 

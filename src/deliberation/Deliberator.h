@@ -5,6 +5,14 @@
 //  Sascha Lange, 2020
 //
 
+/**
+ * \file Deliberator.h
+ * \brief Abstract class for the deliberator in use, as well as handling of desire information.
+ *
+ * \dir deliberation
+ * \brief The deliberation is the process of computing a so-called goal, which is taken into consideration by arbitration.
+ */
+
 #ifndef __PSI_ACT__DELIBERATOR_H__
 #define __PSI_ACT__DELIBERATOR_H__
 

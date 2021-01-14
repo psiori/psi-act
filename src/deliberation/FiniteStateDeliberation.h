@@ -5,6 +5,11 @@
 //  Sascha Lange, 2020
 //
 
+/**
+ * \file FiniteStateDeliberation.h
+ * \brief Deliberator following the rules of a finite state machine.
+ */
+
 #ifndef __PSI_ACT__FINITESTATEDELIBERATION_H__
 #define __PSI_ACT__FINITESTATEDELIBERATION_H__
 

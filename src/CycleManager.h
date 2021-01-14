@@ -5,6 +5,11 @@
 //  Sascha Lange, 2019
 //
 
+/**
+ * \file CycleManager.h
+ * \brief The computing of the AI is repeatedly run in cycles, which need to be managed.
+ */
+
 #ifndef CycleManager_h
 #define CycleManager_h
 
@@ -13,7 +18,8 @@
 
 #include "TimePoint.h"
 
-namespace psi_act {
+namespace psi_act
+{
 
   /**
    * Cycle represents a cycle of the control loop and holds information about
@@ -31,18 +37,18 @@ namespace psi_act {
    * @attention: Counter may overflow, if the system is run for months without
    * restart.
    */
-  struct Cycle {
+  struct Cycle
+  {
   public:
-    long counter;                   ///< counter, incremented with every cylce
-    bool ended;                     ///< true, if the cycle has been ended
-    TimePoint startedAt;            ///< real start time of the cycle
-    TimePoint desiredEndAt;         ///< desired end time of the cycle
-    TimePoint executionExpectedAt;  ///< time the command will take effect
-    TimePoint endedAt;              ///< time, the cycle has really ben ended
+    long counter;                  ///< counter, incremented with every cylce
+    bool ended;                    ///< true, if the cycle has been ended
+    TimePoint startedAt;           ///< real start time of the cycle
+    TimePoint desiredEndAt;        ///< desired end time of the cycle
+    TimePoint executionExpectedAt; ///< time the command will take effect
+    TimePoint endedAt;             ///< time, the cycle has really ben ended
 
-    Cycle() : counter(0), ended(false), startedAt(psi_act::Clock::now()) {};
+    Cycle() : counter(0), ended(false), startedAt(psi_act::Clock::now()){};
   };
-
 
   /**
    * CycleNotifiable is an abstract interface that all classes need to
@@ -50,12 +56,13 @@ namespace psi_act {
    * These classes also need to register with the cycle manager to receive
    * notifications.
    */
-  class CycleNotifiable {
+  class CycleNotifiable
+  {
   public:
-    virtual void cycleStarted(const Cycle& cycle, const TimePoint& executionTime) noexcept=0;
-    virtual void cycleEnded(const Cycle& cycle, const TimePoint& executionTime) noexcept=0;
+    virtual void cycleStarted(const Cycle &cycle, const TimePoint &executionTime) noexcept = 0;
+    virtual void cycleEnded(const Cycle &cycle, const TimePoint &executionTime) noexcept = 0;
 
-    virtual ~CycleNotifiable() {};
+    virtual ~CycleNotifiable(){};
   };
 
   /**
@@ -70,23 +77,24 @@ namespace psi_act {
    * cycle and advance() at the very end of each cycle before the start
    * of the next cycle.
    */
-  class CycleManager {
+  class CycleManager
+  {
   public:
-    static CycleManager& getTheCycleManager();
+    static CycleManager &getTheCycleManager();
 
-    void registerNotifiable(CycleNotifiable* notifiable);
-    void unregisterNotifiable(CycleNotifiable* notifiable);
+    void registerNotifiable(CycleNotifiable *notifiable);
+    void unregisterNotifiable(CycleNotifiable *notifiable);
     void unregisterAllNotifables();
 
     /** reset the cycle manager to cycle zero using the provided 
      * frequency in Hz (cycles per second). Cycle time is calculated
      * by this method and set properly. */
-    void resetWithFrequency(double frequency=30.0); 
+    void resetWithFrequency(double frequency = 30.0);
     void start();
     void advance();
 
-    const Cycle& currentCycle();
-    
+    const Cycle &currentCycle();
+
     double getFrequency() const;
 
     /**
@@ -98,9 +106,10 @@ namespace psi_act {
     std::chrono::milliseconds remainingInCycle();
 
   protected:
-    CycleManager(long cycle_time_us=33333,
-                 long execution_delay_us=50000);
-    CycleManager(const CycleManager&) {
+    CycleManager(long cycle_time_us = 33333,
+                 long execution_delay_us = 50000);
+    CycleManager(const CycleManager &)
+    {
       // probably should even throw exception
     }
 
@@ -109,16 +118,16 @@ namespace psi_act {
 
     boost::circular_buffer<Cycle> cycles;
 
-    std::set<CycleNotifiable*> notifiables;
+    std::set<CycleNotifiable *> notifiables;
 
     void endCycle();
     void startCycle();
   };
 
-  /// TODO(sascha@psiori.com): we should not have these macros here, but in an appropriate place in the autocrane-core. We should not spam the global scope with non-namespaced symbols nor names
-  #define CM (psi_act::CycleManager::getTheCycleManager())
-  #define CYCLE (psi_act::CycleManager::getTheCycleManager().currentCycle())
+/// TODO(sascha@psiori.com): we should not have these macros here, but in an appropriate place in the autocrane-core. We should not spam the global scope with non-namespaced symbols nor names
+#define CM (psi_act::CycleManager::getTheCycleManager())
+#define CYCLE (psi_act::CycleManager::getTheCycleManager().currentCycle())
 
-}
+} // namespace psi_act
 
 #endif /* CycleManager_h */

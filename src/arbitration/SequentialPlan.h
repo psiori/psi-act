@@ -8,6 +8,11 @@
 //  Sascha Lange, 2003,2004,2019
 //
 
+/**
+ * \file SequentialPlan.h
+ * \brief Arbitration of actions by sequence. Each option can be executed one time only.
+ */
+
 #include <vector>
 
 #include "Arbitrator.h"

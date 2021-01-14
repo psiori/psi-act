@@ -5,6 +5,11 @@
 //  Sascha Lange 2019.
 //
 
+/**
+ * \file Command.h
+ * \brief Abstract class to send a command to the machine under control.
+ */
+
 #ifndef _PSIACT_COMMAND_H_
 #define _PSIACT_COMMAND_H_
 

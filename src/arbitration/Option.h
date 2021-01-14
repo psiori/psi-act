@@ -5,6 +5,11 @@
 //  Sascha Lange, 2003,2004,2019
 //
 
+/**
+* \file Option.h
+* \brief Comprises of all necessary parts needed to conduct one specific behaviour.
+*/
+
 #ifndef _PSIACT_OPTION_H_
 #define _PSIACT_OPTION_H_
 
@@ -28,11 +33,20 @@ namespace psi_act
 
     virtual ~Option();
 
+    /**
+     * @brief check whether an option can be continued
+     */
     virtual bool checkCommitmentCondition(const TimePoint &) noexcept;
+    /**
+     * @brief check whether an option can be started
+     */
     virtual bool checkInvocationCondition(const TimePoint &) noexcept;
 
     virtual double getSuccessProbability(const TimePoint &) const noexcept;
 
+    /**
+     * @brief computed direct command to the machine like velocities or electrical voltage.
+     */
     virtual Command *calculateCommand(const TimePoint &) = 0;
 
     virtual void cycleStarted(const Cycle &cycle, const TimePoint &time) noexcept;
