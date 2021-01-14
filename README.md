@@ -137,7 +137,7 @@ A wrapper for several std::chrono::system_clock classes.
 
 ## Arbitration {#arbitration}
 /src/arbitration/   
-The arbitration is the derivation of the next action to take, taking into account information from the machine under control and goals sent from the psi_act::Deliberator::Deliberator.
+The arbitration is the derivation of the next action to take, taking into account information from the machine under control and goals sent from [Deliberation](#deliberation).
 
 ### Option {#option}
 Option.h / Option.cpp   
