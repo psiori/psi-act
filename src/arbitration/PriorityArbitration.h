@@ -70,6 +70,7 @@ namespace psi_act
   protected:
     virtual void determineUpcomingOption(const TimePoint &time) noexcept;
 
+    /** OptionWithFlags inherits from Option to add additional flags */
     struct OptionWithFlags
     {
       Option *option;
@@ -81,7 +82,7 @@ namespace psi_act
     int upcomingOption; ///<
     int presentOption;
   };
-
+  /** AlternativeOptions inherits from Option, offers opportunity to use another class for Option definition. */
   class AlternativeOptions
   {
   public:

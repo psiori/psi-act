@@ -14,6 +14,7 @@
 
 namespace psi_act
 {
+  /** PsiActException can be thrown when errors specific to psi_act occur. */
   class PsiActException : std::runtime_error
   {
   public:

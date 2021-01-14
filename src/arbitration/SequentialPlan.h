@@ -58,6 +58,7 @@ namespace psi_act
     virtual std::string currentOptionName() const;
 
   private:
+    /** Stage inherits from Option to add some additional flags. */
     struct Stage
     {
       Option *option;

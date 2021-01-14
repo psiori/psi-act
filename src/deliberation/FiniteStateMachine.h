@@ -27,6 +27,10 @@ namespace psi_act
     class Transition;
 
   public:
+    /**
+     * State contains information about its name, functions,
+     * when to execute and also about possible transitions
+    */
     class State
     {
     public:
@@ -71,6 +75,9 @@ namespace psi_act
     State *execute(const TimePoint &time = CYCLE.startedAt);
 
   protected:
+    /**
+     * Transition from one State to another one.
+     */
     class Transition
     {
     public:
