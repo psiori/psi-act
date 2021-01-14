@@ -1,4 +1,4 @@
-name: CMake
+name: Build
 
 on:
   - push
@@ -10,20 +10,23 @@ jobs:
   build:
     runs-on: ubuntu-16.04
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup dependencies
-      run: sudo apt-get install doxygen libboost-dev
-    - name: Build
-      run: |
-        mkdir build
-        cd build
-        cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-        make -j$(getconf _NPROCESSORS_ONLN)
-        make doc -j$(getconf _NPROCESSORS_ONLN)
-    - name: Publish to azure webapp
-      uses: Azure/webapps-deploy@v1
-      with:
-        app-name: psiact
-        package: doc/html
-        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-      if: github.ref == 'refs/heads/master'
+      - uses: actions/checkout@v2
+      - name: Setup dependencies
+        run: sudo apt-get install doxygen libboost-dev
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+          make -j$(getconf _NPROCESSORS_ONLN)
+      - name: Build docs
+        run: |
+          cd build
+          make doc -j$(getconf _NPROCESSORS_ONLN)
+        if: github.ref == 'refs/heads/master'
+      - name: Publish to azure webapp
+        uses: Azure/webapps-deploy@v1
+        with:
+          app-name: psiact
+          package: doc/html
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
