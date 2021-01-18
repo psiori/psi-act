@@ -1,0 +1,76 @@
+# stufff
+
+AccessModifierOffset: -2
+Language: Cpp
+Standard: Cpp11
+BasedOnStyle: Google
+IndentWidth: 2
+
+# short blocks
+
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortIfStatementsOnASingleLine: false
+AllowShortBlocksOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AllowShortLambdasOnASingleLine: Inline
+ExperimentalAutoDetectBinPacking: true
+
+# stuff
+
+BinPackParameters: false
+BinPackArguments: true
+BreakBeforeBraces: Attach
+BreakConstructorInitializersBeforeComma: false
+BreakConstructorInitializers: AfterColon
+# Packed constructor initializers can get hard to read -- force one per line.
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+IndentCaseLabels: true
+KeepEmptyLinesAtTheStartOfBlocks: true
+NamespaceIndentation: None
+ColumnLimit: 80
+# Cannot derive since we want to fix it deterministically everywhere
+DerivePointerAlignment: false
+PointerAlignment: Left
+PointerBindsToType: true
+IncludeBlocks: Regroup
+MaxEmptyLinesToKeep: 2
+IncludeCategories:
+  - Regex: "^<.*"
+    Priority: 1
+  - Regex: "^[^<]*"
+    Priority: 2
+
+# alignments at linebreak
+
+AlignAfterOpenBracket: true
+AlignConsecutiveAssignments: true
+AlignEscapedNewlines: Right
+AlignTrailingComments: true
+
+# line break penalties
+
+PenaltyReturnTypeOnItsOwnLine: 3
+PenaltyBreakAssignment: 2
+PenaltyBreakBeforeFirstCallParameter: 0
+
+AlwaysBreakTemplateDeclarations: No
+
+# comment stuff
+
+ReflowComments: true
+
+# sorting
+
+SortIncludes: true
+
+# spaces where?
+
+SpaceInEmptyParentheses: false
+SpacesInAngles: false
+SpacesInContainerLiterals: false
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeInheritanceColon: true
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceBeforeCtorInitializerColon: true
