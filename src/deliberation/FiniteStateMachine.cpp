@@ -87,6 +87,21 @@ psi_act::FiniteStateMachine::execute(const TimePoint& time)
 }
 
 
+std::string psi_act::FiniteStateMachine::toGraphviz(void) const {
+  std::string text =
+      std::string("digraph FSM {\n  rankdir=LR;\n  node [shape = circle];\n");
+  for (auto state : this->states) {
+    // TODO: Have "consuming" nodes be styled differently
+    // node [shape = doublecircle]; LR_0 LR_3 LR_4 LR_8;
+    for (auto transition : state.second->transitions) {
+      text += "  \"" + transition->from->name + "\" -> \"" +
+              transition->to->name + "\";\n";
+    }
+  }
+  text += "}\n";
+  return text;
+}
+
 
 // ////////////////////////////////////////////////////////////////////////////
 //
