@@ -42,7 +42,6 @@ public:
     std::function<void(void)> onEnter;
     std::function<void(void)> onLeave;
 
-  protected:
     std::vector<const Transition*> transitions;
   };
   
@@ -64,6 +63,7 @@ public:
   State* getPresentState() { return presentState; }
   State* execute(const TimePoint& time = CYCLE.startedAt);
 
+  std::string toGraphviz(void) const;
 protected:
   class Transition {
   public:

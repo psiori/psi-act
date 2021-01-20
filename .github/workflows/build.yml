@@ -30,3 +30,4 @@ jobs:
           app-name: psiact
           package: doc/html
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+        if: github.ref == 'refs/heads/master'
