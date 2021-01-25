@@ -56,24 +56,33 @@ public:
       const std::string& from,
       const std::string& to,
       std::function<bool(const TimePoint&)> condition =
-          [](const TimePoint&) -> bool { return true; });
+          [](const TimePoint&) -> bool { return true; },
+      const std::string& annotation = "");
 
   FiniteStateMachine* registerState(State* state);
   
   State* getPresentState() { return presentState; }
   State* execute(const TimePoint& time = CYCLE.startedAt);
 
+  /**
+   * @brief Produce a graphviz dot format graph of the FSM.
+   * Can be rendered using https://dreampuf.github.io/GraphvizOnline
+   */
   std::string toGraphviz(void) const;
+
 protected:
   class Transition {
   public:
     State* from;
     State* to;
-    
-    Transition(State* from, State* to,
-               std::function<bool(const TimePoint& time)> condition);
+    std::string annotation;
+
+    Transition(State* from,
+               State* to,
+               std::function<bool(const TimePoint& time)> condition,
+               const std::string& annotation = "");
     virtual ~Transition();
-    
+
     std::function<bool(const TimePoint& time)> condition;
   };
 
@@ -81,7 +90,7 @@ protected:
   State* presentState;
 };
 
-}
+}  // namespace psi_act
 
 #endif /* __PSI_ACT__FINITE_STATE_MACHINE_H__ */
 
