@@ -51,25 +51,21 @@ psi_act::FiniteStateMachine::createState(
 }
 
 
-psi_act::FiniteStateMachine*
-psi_act::FiniteStateMachine::addTransition(
+psi_act::FiniteStateMachine* psi_act::FiniteStateMachine::addTransition(
     const std::string& from,
     const std::string& to,
-    std::function<bool(const TimePoint& time)> condition)
-{
+    std::function<bool(const TimePoint& time)> condition,
+    const std::string& annotation) {
   State* fromState = states[from];
-  State* toState = states[to];
-
+  State* toState   = states[to];
   if (!fromState) {
     throw std::invalid_argument("origin state unknown: " + from);
   }
   if (!toState) {
     throw std::invalid_argument("target state unknown: " + to);
   }
-
-  Transition* transition = new Transition(fromState, toState, condition);
-  fromState->addTransition(transition);
-
+  fromState->addTransition(
+      new Transition(fromState, toState, condition, annotation));
   return this;
 }
 
@@ -109,7 +105,8 @@ std::string psi_act::FiniteStateMachine::toGraphviz(void) const {
   for (const auto& state : this->states) {
     for (const auto& transition : state.second->transitions) {
       text += "  \"" + transition->from->name + "\" -> \"" +
-              transition->to->name + "\";\n";
+              transition->to->name + "\" [ label = \"" +
+              transition->annotation + "\" ];\n";
     }
   }
   // Close digraph.
@@ -170,9 +167,10 @@ psi_act::FiniteStateMachine::State::execute(const TimePoint& time)
 psi_act::FiniteStateMachine::Transition::Transition(
     State* from,
     State* to,
-    std::function<bool(const TimePoint& time)> condition)
-  : from(from), to(to), condition(condition)
-{}
+    std::function<bool(const TimePoint& time)> condition,
+    const std::string& annotation) :
+    from(from), to(to), condition(condition), annotation(annotation) {
+}
 
 
 psi_act::FiniteStateMachine::Transition::~Transition()
