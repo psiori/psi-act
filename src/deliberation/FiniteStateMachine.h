@@ -63,10 +63,55 @@ namespace psi_act
     FiniteStateMachine();
     virtual ~FiniteStateMachine();
 
-    FiniteStateMachine *createState(
-        const std::string &name,
-        std::function<void(void)> onEnter = []() {},
-        std::function<void(void)> onLeave = []() {});
+    std::vector<const Transition*> transitions;
+  };
+  
+  FiniteStateMachine();
+  virtual ~FiniteStateMachine();
+
+  FiniteStateMachine* createState(const std::string& name,
+                                  std::function<void(void)> onEnter = []() {},
+                                  std::function<void(void)> onLeave = []() {});
+
+  FiniteStateMachine* addTransition(
+      const std::string& from,
+      const std::string& to,
+      const std::string& annotation,
+      std::function<bool(const TimePoint&)> condition =
+          [](const TimePoint&) -> bool { return true; });
+
+  FiniteStateMachine* addTransition(
+      const std::string& from,
+      const std::string& to,
+      std::function<bool(const TimePoint&)> condition =
+          [](const TimePoint&) -> bool { return true; });
+
+  FiniteStateMachine* registerState(State* state);
+  
+  State* getPresentState() { return presentState; }
+  State* execute(const TimePoint& time = CYCLE.startedAt);
+
+  /**
+   * @brief Produce a graphviz dot format graph of the FSM.
+   * Can be rendered using https://dreampuf.github.io/GraphvizOnline
+   */
+  std::string toGraphviz(void) const;
+
+protected:
+  class Transition {
+  public:
+    State* from;
+    State* to;
+    std::string annotation;
+
+    Transition(State* from,
+               State* to,
+               std::function<bool(const TimePoint& time)> condition,
+               const std::string& annotation = "");
+    virtual ~Transition();
+
+    std::function<bool(const TimePoint& time)> condition;
+  };
 
     FiniteStateMachine *addTransition(
         const std::string &from,
@@ -74,7 +119,7 @@ namespace psi_act
         std::function<bool(const TimePoint &)> condition =
             [](const TimePoint &) -> bool { return true; });
 
-    FiniteStateMachine *registerState(State *state);
+}  // namespace psi_act
 
     State *getPresentState() { return presentState; }
     State *execute(const TimePoint &time = CYCLE.startedAt);

@@ -51,25 +51,29 @@ psi_act::FiniteStateMachine::createState(
 }
 
 
-psi_act::FiniteStateMachine*
-psi_act::FiniteStateMachine::addTransition(
+psi_act::FiniteStateMachine* psi_act::FiniteStateMachine::addTransition(
     const std::string& from,
     const std::string& to,
-    std::function<bool(const TimePoint& time)> condition)
-{
-  State* fromState = states[from];
-  State* toState = states[to];
+    std::function<bool(const TimePoint& time)> condition) {
+  return this->addTransition(from, to, "", condition);
+}
 
+
+psi_act::FiniteStateMachine* psi_act::FiniteStateMachine::addTransition(
+    const std::string& from,
+    const std::string& to,
+    const std::string& annotation,
+    std::function<bool(const TimePoint& time)> condition) {
+  State* fromState = states[from];
+  State* toState   = states[to];
   if (!fromState) {
     throw std::invalid_argument("origin state unknown: " + from);
   }
   if (!toState) {
     throw std::invalid_argument("target state unknown: " + to);
   }
-
-  Transition* transition = new Transition(fromState, toState, condition);
-  fromState->addTransition(transition);
-
+  fromState->addTransition(
+      new Transition(fromState, toState, condition, annotation));
   return this;
 }
 
@@ -86,6 +90,37 @@ psi_act::FiniteStateMachine::execute(const TimePoint& time)
   return presentState;
 }
 
+
+std::string psi_act::FiniteStateMachine::toGraphviz(void) const {
+  // Open digraph.
+  std::string text = std::string("digraph FSM {\n  rankdir=LR;\n");
+  // Consuming states.
+  text += "  node [shape = doublecircle];\n ";
+  for (const auto& state : this->states) {
+    if (state.second->transitions.size() == 0) {
+      text += " \"" + state.second->name + "\"";
+    } else if (state.second->transitions.size() == 1) {
+      const auto* transition = state.second->transitions[0];
+      if (transition->from == transition->to) {
+        text += " " + state.second->name;
+      }
+    }
+  }
+  text += ";\n";
+  // Non-consuming states.
+  text += "  node [shape = circle];\n";
+  // Transitions.
+  for (const auto& state : this->states) {
+    for (const auto& transition : state.second->transitions) {
+      text += "  \"" + transition->from->name + "\" -> \"" +
+              transition->to->name + "\" [ label = \"" +
+              transition->annotation + "\" ];\n";
+    }
+  }
+  // Close digraph.
+  text += "}\n";
+  return text;
+}
 
 
 // ////////////////////////////////////////////////////////////////////////////
@@ -140,9 +175,10 @@ psi_act::FiniteStateMachine::State::execute(const TimePoint& time)
 psi_act::FiniteStateMachine::Transition::Transition(
     State* from,
     State* to,
-    std::function<bool(const TimePoint& time)> condition)
-  : from(from), to(to), condition(condition)
-{}
+    std::function<bool(const TimePoint& time)> condition,
+    const std::string& annotation) :
+    from(from), to(to), condition(condition), annotation(annotation) {
+}
 
 
 psi_act::FiniteStateMachine::Transition::~Transition()
