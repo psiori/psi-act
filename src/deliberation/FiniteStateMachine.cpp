@@ -55,7 +55,7 @@ psi_act::FiniteStateMachine* psi_act::FiniteStateMachine::addTransition(
     const std::string& from,
     const std::string& to,
     std::function<bool(const TimePoint& time)> condition) {
-  this->addTransition(from, to, "", condition);
+  return this->addTransition(from, to, "", condition);
 }
 
 
