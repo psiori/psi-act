@@ -55,9 +55,15 @@ public:
   FiniteStateMachine* addTransition(
       const std::string& from,
       const std::string& to,
+      const std::string& annotation,
       std::function<bool(const TimePoint&)> condition =
-          [](const TimePoint&) -> bool { return true; },
-      const std::string& annotation = "");
+          [](const TimePoint&) -> bool { return true; });
+
+  FiniteStateMachine* addTransition(
+      const std::string& from,
+      const std::string& to,
+      std::function<bool(const TimePoint&)> condition =
+          [](const TimePoint&) -> bool { return true; });
 
   FiniteStateMachine* registerState(State* state);
   

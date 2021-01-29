@@ -54,8 +54,16 @@ psi_act::FiniteStateMachine::createState(
 psi_act::FiniteStateMachine* psi_act::FiniteStateMachine::addTransition(
     const std::string& from,
     const std::string& to,
-    std::function<bool(const TimePoint& time)> condition,
-    const std::string& annotation) {
+    std::function<bool(const TimePoint& time)> condition) {
+  this->addTransition(from, to, "", condition);
+}
+
+
+psi_act::FiniteStateMachine* psi_act::FiniteStateMachine::addTransition(
+    const std::string& from,
+    const std::string& to,
+    const std::string& annotation,
+    std::function<bool(const TimePoint& time)> condition) {
   State* fromState = states[from];
   State* toState   = states[to];
   if (!fromState) {
