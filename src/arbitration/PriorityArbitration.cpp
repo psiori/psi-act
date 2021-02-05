@@ -62,6 +62,13 @@ psi_act::Command* psi_act::PriorityArbitration::calculateCommand(
     }
   }
 
+  // Make sure arbitrators inheriting from this one adhere to calling
+  // gainControl and loseControl, ensuring proper cleanup.
+  if (!this->has_control) {
+    throw std::runtime_error(this->toString() +
+                             std::string("::gainControl was never called."));
+  }
+
   // Store present option although upcomingOption might be -1
   presentOption = upcomingOption;
 
@@ -94,15 +101,16 @@ std::string psi_act::PriorityArbitration::listOptions(bool listNested)
   return ss.str();
 }
 
-void psi_act::PriorityArbitration::gainControl(const TimePoint& time) noexcept
-{}
+void psi_act::PriorityArbitration::gainControl(const TimePoint& time) noexcept {
+  psi_act::Arbitrator::gainControl(time);
+}
 
-void psi_act::PriorityArbitration::loseControl(const TimePoint& time) noexcept
-{
+void psi_act::PriorityArbitration::loseControl(const TimePoint& time) noexcept {
   if (presentOption >= 0 && presentOption < options.size()) {
     options[presentOption].option->loseControl(time);
   }
   presentOption = -1;  // set the "inactive" state
+  psi_act::Arbitrator::loseControl(time);
 }
 
 bool psi_act::PriorityArbitration::checkInvocationCondition(

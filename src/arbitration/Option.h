@@ -28,18 +28,19 @@ namespace psi_act {
     virtual double getSuccessProbability(const TimePoint&) const noexcept;
 
     virtual Command* calculateCommand(const TimePoint&)=0;
-    
+
     virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) noexcept;
     virtual void cycleEnded(const Cycle& cycle, const TimePoint& time) noexcept;
 
-    virtual void gainControl(const TimePoint&) {}
-    virtual void loseControl(const TimePoint&) {}
+    virtual void gainControl(const TimePoint&);
+    virtual void loseControl(const TimePoint&);
 
     virtual std::string toString() const { return name; };
     virtual std::string currentOptionName() const { return toString(); };
 
   protected:
     std::string name;
+    bool has_control = false;
   };
 
 }

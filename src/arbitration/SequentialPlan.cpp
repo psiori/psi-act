@@ -34,6 +34,7 @@ psi_act::SequentialPlan::appendStage(Option* option,
 }
 
 void psi_act::SequentialPlan::gainControl(const TimePoint& time) noexcept {
+  psi_act::Arbitrator::gainControl(time);
 }
 
 void psi_act::SequentialPlan::loseControl(const TimePoint& time) noexcept {
@@ -42,6 +43,7 @@ void psi_act::SequentialPlan::loseControl(const TimePoint& time) noexcept {
   }
   presentIntention   = -1;
   scheduledIntention = -1;  // set the "inactive" state
+  psi_act::Arbitrator::loseControl(time);
 }
 
 void psi_act::SequentialPlan::cycleStarted(const Cycle&,
@@ -138,6 +140,13 @@ psi_act::SequentialPlan::calculateCommand(const TimePoint& time) {
     if (scheduledIntention >= 0 && scheduledIntention < options.size()) {
       options[scheduledIntention].option->gainControl(time);
     }
+  }
+
+  // Make sure arbitrators inheriting from this one adhere to calling
+  // gainControl and loseControl, ensuring proper cleanup.
+  if (!this->has_control) {
+    throw std::runtime_error(this->toString() +
+                             std::string("::gainControl was never called."));
   }
 
   // Store present option although scheduled might be -1
