@@ -21,14 +21,16 @@ psi_act::SequentialPlan::~SequentialPlan() noexcept {
 }
 
 
-void psi_act::SequentialPlan::appendStage(Option* option,
-                                          bool skippable,
-                                          bool interruptable,
-                                          bool seekInterruption,
-                                          bool takeoverOwnership) noexcept {
+psi_act::SequentialPlan*
+psi_act::SequentialPlan::appendStage(Option* option,
+                                     bool skippable,
+                                     bool interruptable,
+                                     bool seekInterruption,
+                                     bool takeoverOwnership) noexcept {
   Stage stage = {
       option, skippable, interruptable, seekInterruption, takeoverOwnership};
   options.push_back(stage);
+  return this;
 }
 
 void psi_act::SequentialPlan::gainControl(const TimePoint& time) noexcept {
