@@ -75,12 +75,13 @@ psi_act::Command* psi_act::PriorityArbitration::calculateCommand(
   }
 }
 
-void psi_act::PriorityArbitration::addOption(Option* option,
-                                             bool interruptable,
-                                             bool takeoverOwnership) noexcept
-{
+psi_act::PriorityArbitration*
+psi_act::PriorityArbitration::addOption(Option* option,
+                                        bool interruptable,
+                                        bool takeoverOwnership) noexcept {
   OptionWithFlags optionWithFlags = {option, interruptable, takeoverOwnership};
   options.push_back(optionWithFlags);
+  return this;
 }
 
 std::string psi_act::PriorityArbitration::listOptions(bool listNested)

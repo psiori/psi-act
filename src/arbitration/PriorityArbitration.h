@@ -44,18 +44,20 @@ namespace psi_act {
 
     virtual std::string currentOptionName() const;
 
-    /** Adds the given argument to the end of the list of available options,
-      with lowest priority.
-
-     \param interrupatable if true, this option may be interrupted by another
-                           option of higher priority.
-
-     \param takeoverOwnership if true, the plan owns the given option and
-                              has to take care of freeing its memory
+    /** 
+     * @brief Adds the given argument to the end of the list of available 
+     * options, with lowest priority.
+     *
+     * \param interrupatable if true, this option may be interrupted by another
+     *                       option of higher priority.
+     *
+     * \param takeoverOwnership if true, the plan owns the given option and
+     *                          has to take care of freeing its memory
      */
-    void addOption (Option* option,
-                    bool interruptable=true,
-                    bool takeoverOwnership=true) throw ();
+    psi_act::PriorityArbitration*
+    addOption(Option* option,
+              bool interruptable     = true,
+              bool takeoverOwnership = true) noexcept;
 
     virtual std::string listOptions(bool listNested=true);
 
