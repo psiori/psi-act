@@ -134,7 +134,7 @@ double psi_act::CycleManager::averageDuration(unsigned long history) const {
   {
       history = cycles.size();
   }
-  for (auto it = cycles.begin() + cycles.size() - std::min(history, cycles.size());
+  for (auto it = cycles.begin() + cycles.size() - std::min<long>(history, cycles.size());
        it != cycles.end(); it++) {
     if (it->ended) {
       duration += std::chrono::duration_cast<std::chrono::milliseconds>(
