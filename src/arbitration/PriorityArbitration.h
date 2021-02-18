@@ -84,6 +84,8 @@ namespace psi_act {
     int upcomingOption; ///<
     int presentOption;
   };
+
+
   /** AlternativeOptions inherits from Option, offers opportunity to use another class for Option definition. */
   class AlternativeOptions {
   public:

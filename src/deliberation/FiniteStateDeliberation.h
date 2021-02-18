@@ -33,7 +33,7 @@ public:
   virtual std::string getPresentDesire() const;
   virtual DesireInformation getPresentDesireInformation() const;
   virtual DesireInformation getPreviousDesireInformation() const;
-
+  
   virtual std::string deliberate(const TimePoint& time=
                                     CYCLE.executionExpectedAt);
 

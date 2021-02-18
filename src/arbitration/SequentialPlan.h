@@ -32,8 +32,8 @@ public:
   virtual bool checkInvocationCondition(const TimePoint& time) noexcept;
   virtual bool checkCommitmentCondition(const TimePoint& time) noexcept;
 
-  virtual void gainControl(const TimePoint& ) noexcept;
-  virtual void loseControl(const TimePoint& ) noexcept;
+  virtual void gainControl(const TimePoint&) noexcept;
+  virtual void loseControl(const TimePoint&) noexcept;
 
   virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) noexcept;
 
@@ -52,13 +52,13 @@ public:
    *          \ref Option's memory after usage.
    */
   void appendStage(Option* option,
-                     bool skippable         = false,
-                     bool interruptable     = false,
-                     bool seekInteruption   = false,
-                     bool takeoverOwnership = true) noexcept;
+                   bool skippable         = false,
+                   bool interruptable     = false,
+                   bool seekInteruption   = false,
+                   bool takeoverOwnership = true) noexcept;
 
   virtual std::string listOptions(bool listNested = true);
-  irtual std::string currentOptionName() const;
+  virtual std::string currentOptionName() const;
 
 private:
   /** Stage inherits from Option to add some additional flags. */
@@ -79,6 +79,6 @@ private:
   bool intentionCompleted;
 };
 
-}
+}  // namespace psi_act
 
 #endif

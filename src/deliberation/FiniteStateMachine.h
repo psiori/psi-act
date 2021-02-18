@@ -49,8 +49,8 @@ public:
       transitions.push_back(transition);
     };
 
-  std::function<void(void)> onEnter;
-  std::function<void(void)> onLeave;
+    std::function<void(void)> onEnter;
+    std::function<void(void)> onLeave;
 
   protected:
     std::vector<const Transition *> transitions;
@@ -137,8 +137,8 @@ protected:
       std::function<bool(const TimePoint &time)> condition;
     };
 
-    std::map<std::string, State *> states;
-    State *presentState;
+    std::map<std::string, State*> states;
+    State* presentState;
   };
 
 } // namespace psi_act

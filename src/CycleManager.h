@@ -91,7 +91,7 @@ namespace psi_act {
     void advance();
 
     const Cycle& currentCycle();
-
+    
     double getFrequency() const;
 
     /**

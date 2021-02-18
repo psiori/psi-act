@@ -26,15 +26,15 @@ namespace psi_act {
    * either SequentialPlan or PriorityArbitration. Does not add
    * any functionality so far.
    */
-  class Arbitrator : public Option
-  {
+  class Arbitrator : public Option {
+
   public:
     Arbitrator(const std::string& name="Arbitrator");
     ~Arbitrator() {};
 
     virtual std::string listOptions(bool listNested=true)=0;
   };
-
+  
 }
 
 #endif /* Arbitrator_h */
