@@ -30,12 +30,13 @@ namespace psi_act
   class Arbitrator : public Option
   {
   public:
-    Arbitrator(const std::string &name = "Arbitrator");
-    ~Arbitrator(){};
+    Arbitrator(const std::string& name="Arbitrator");
+    ~Arbitrator() {};
 
-    virtual std::string listOptions(bool listNested = true) = 0;
+    virtual std::string listOptions(bool listNested=true)=0;
   };
 
-} // namespace psi_act
+} 
+// namespace psi_act
 
 #endif /* Arbitrator_h */

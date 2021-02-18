@@ -19,38 +19,36 @@
 #include "Deliberator.h"
 #include "FiniteStateMachine.h"
 
-namespace psi_act
-{
+namespace psi_act {
   /**
    * FiniteStateDeliberation inherits from Deliberator and FiniteStateMachine.
    * It acts as a deliberator with a finite set of goals, of which only one can
    * be emitted at a time.
    */
-  class FiniteStateDeliberation : public Deliberator
-  {
-  public:
-    FiniteStateDeliberation(const std::string &name = "FiniteStateDeliberation");
-    virtual ~FiniteStateDeliberation();
+class FiniteStateDeliberation : public Deliberator {
+public:
+  FiniteStateDeliberation(const std::string& name="FiniteStateDeliberation");
+  virtual ~FiniteStateDeliberation();
 
-    virtual std::string getPresentDesire() const;
-    virtual DesireInformation getPresentDesireInformation() const;
-    virtual DesireInformation getPreviousDesireInformation() const;
+  virtual std::string getPresentDesire() const;
+  virtual DesireInformation getPresentDesireInformation() const;
+  virtual DesireInformation getPreviousDesireInformation() const;
 
-    virtual std::string deliberate(const TimePoint &time =
+  virtual std::string deliberate(const TimePoint& time=
                                        CYCLE.executionExpectedAt);
 
-    virtual FiniteStateMachine *getFiniteStateMachine() { return fsm; };
-    virtual const FiniteStateMachine *getFiniteStateMachine() const
-    {
-      return fsm;
-    };
-
-  protected:
-    FiniteStateMachine *fsm;
-    DesireInformation presentDesire;
-    DesireInformation previousDesire;
+  virtual FiniteStateMachine *getFiniteStateMachine() { return fsm; };
+  virtual const FiniteStateMachine *getFiniteStateMachine() const {
+    return fsm;
   };
 
-} // namespace psi_act
+protected:
+  FiniteStateMachine *fsm;
+  DesireInformation presentDesire;
+  DesireInformation previousDesire;
+};
+
+} 
+// namespace psi_act
 
 #endif /* __PSI_ACT__FINITESTATEDELIBERATION_H__ */

@@ -21,35 +21,31 @@
 #include "CycleManager.h"
 #include "TimePoint.h"
 
-namespace psi_act
-{
+namespace psi_act {
   /**
  * FiniteStateMachine handles states and their transitions.
  */
-  class FiniteStateMachine
-  {
-  protected:
-    class Transition;
+class FiniteStateMachine {
+protected:
+  class Transition;
 
-  public:
+public:
     /**
      * State contains information about its name, functions,
      * when to execute and also about possible transitions
     */
-    class State
-    {
+  class State {
     public:
       const std::string name;
 
-      State(const std::string &name,
+      State(const std::string& name,
             std::function<void(void)> onEnter,
             std::function<void(void)> onLeave);
       virtual ~State();
 
-      State *execute(const TimePoint &time);
+      State *execute(const TimePoint& time);
 
-      void addTransition(const Transition *transition)
-      {
+      void addTransition(const Transition* transition) {
         transitions.push_back(transition);
       };
 
