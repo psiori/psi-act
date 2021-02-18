@@ -33,12 +33,5 @@ INSTALL(TARGETS state_deliberation_demo
   ARCHIVE DESTINATION lib
 )
 
-set_source_files_properties(${FSM_SOURCES} PROPERTIES COMPILE_OPTIONS -Wno-error)
-set_source_files_properties(${FSM_SOURCES} PROPERTIES COMPILE_OPTIONS -Wno-error=old-style-cast)
-
-set_source_files_properties(${FSD_SOURCES} PROPERTIES COMPILE_OPTIONS -Wno-error)
-set_source_files_properties(${FSD_SOURCES} PROPERTIES COMPILE_OPTIONS -Wno-error=old-style-cast)
-
-
 # add_lint_target(psiact-library-lint "${FILES}")
 # set_property(GLOBAL APPEND PROPERTY LINT_TARGETS psiact-library-lint)
