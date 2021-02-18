@@ -66,7 +66,7 @@ namespace psi_act {
      */
     void addOption (Option* option,
                     bool interruptable=true,
-                    bool takeoverOwnership=true) throw();
+                    bool takeoverOwnership=true) throw ();
 
     virtual std::string listOptions(bool listNested=true);
 
@@ -75,7 +75,7 @@ namespace psi_act {
 
     /** OptionWithFlags inherits from Option to add additional flags */
     struct OptionWithFlags {
-      Option *option;
+      Option* option;
       bool interrupatable;
       bool owned;
     };
@@ -89,10 +89,9 @@ namespace psi_act {
   public:
     // selects and follows the most applicable
   protected:
-    std::vector<Option* > options;
+    std::vector<Option*> options;
   };
 
-} 
-// namespace psi_act
+}
 
 #endif

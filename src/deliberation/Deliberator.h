@@ -35,10 +35,10 @@ struct DesireInformation {
   unsigned long startedAtCycle;
   unsigned long endedAtCycle;
 
-  DesireInformation(const std::string &desire,
-                    const TimePoint &presentTime =
+  DesireInformation(const std::string& desire,
+                    const TimePoint& presentTime =
                         CYCLE.executionExpectedAt,
-                    long presentCycle = CYCLE.counter);
+                    long presentCycle=CYCLE.counter);
 
   DesireInformation();
 };
@@ -65,7 +65,6 @@ protected:
   const std::string name;
 };
 
-} 
-// namespace psi_act
+}
 
 #endif /* __PSI_ACT__DELIBERATOR_H__ */

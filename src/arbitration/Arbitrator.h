@@ -19,8 +19,7 @@
 #include <string>
 #include "Option.h"
 
-namespace psi_act
-{
+namespace psi_act {
 
   /**
    * Arbitrator is the intermediate class between Option and
@@ -36,7 +35,6 @@ namespace psi_act
     virtual std::string listOptions(bool listNested=true)=0;
   };
 
-} 
-// namespace psi_act
+}
 
 #endif /* Arbitrator_h */

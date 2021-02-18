@@ -45,8 +45,9 @@ namespace psi_act {
     TimePoint executionExpectedAt;  ///< time the command will take effect
     TimePoint endedAt;              ///< time, the cycle has really ben ended
 
-    Cycle() : counter(0), ended(false), startedAt(psi_act::Clock::now()){};
+    Cycle() : counter(0), ended(false), startedAt(psi_act::Clock::now()) {};
   };
+
 
   /**
    * CycleNotifiable is an abstract interface that all classes need to
@@ -97,15 +98,14 @@ namespace psi_act {
      * @param   history The number of recent cycles to consider. Pass 0 for global
      * average
      */
-    double averageDuration(unsigned long history=100) const;
+    double averageDuration(unsigned long history = 100) const;
 
     std::chrono::milliseconds remainingInCycle();
 
   protected:
     CycleManager(long cycle_time_us=33333,
                  long execution_delay_us=50000);
-    CycleManager(const CycleManager &)
-    {
+    CycleManager(const CycleManager&) {
       // probably should even throw exception
     }
 
@@ -114,7 +114,7 @@ namespace psi_act {
 
     boost::circular_buffer<Cycle> cycles;
 
-    std::set<CycleNotifiable *> notifiables;
+    std::set<CycleNotifiable*> notifiables;
 
     void endCycle();
     void startCycle();
@@ -124,7 +124,6 @@ namespace psi_act {
   #define CM (psi_act::CycleManager::getTheCycleManager())
   #define CYCLE (psi_act::CycleManager::getTheCycleManager().currentCycle())
 
-} 
-// namespace psi_act
+}
 
 #endif /* CycleManager_h */

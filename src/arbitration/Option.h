@@ -24,8 +24,7 @@ namespace psi_act {
    * - the option - can be executed, and what actual command is issued to the
    * controlled machine.
    */
-  class Option : public CycleNotifiable
-  {
+  class Option : public CycleNotifiable {
   public:
     Option(const std::string& name="GenericOption",
            bool receiveCycleNotifications=false);
@@ -46,7 +45,7 @@ namespace psi_act {
     /**
      * @brief computed direct command to the machine like velocities or electrical voltage.
      */
-    virtual Command *calculateCommand(const TimePoint&) = 0;
+    virtual Command *calculateCommand(const TimePoint&)=0;
 
     virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) noexcept;
     virtual void cycleEnded(const Cycle& cycle, const TimePoint& time) noexcept;
@@ -61,7 +60,6 @@ namespace psi_act {
     std::string name;
   };
 
-} 
-// namespace psi_act
+}
 
 #endif

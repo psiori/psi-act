@@ -15,8 +15,7 @@
 
 #include <chrono>
 
-namespace psi_act
-{
+namespace psi_act {
 
 using SystemTimePoint = std::chrono::system_clock::time_point;
 
@@ -24,7 +23,6 @@ using Duration = std::chrono::system_clock::duration;
 using Clock = std::chrono::system_clock;
 using TimePoint = std::chrono::system_clock::time_point;
 
-} 
-// namespace psi_act
+}
 
 #endif /* _PSIACT_TIME_H_ */

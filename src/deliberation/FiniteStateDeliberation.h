@@ -35,20 +35,19 @@ public:
   virtual DesireInformation getPreviousDesireInformation() const;
 
   virtual std::string deliberate(const TimePoint& time=
-                                       CYCLE.executionExpectedAt);
+                                    CYCLE.executionExpectedAt);
 
-  virtual FiniteStateMachine *getFiniteStateMachine() { return fsm; };
-  virtual const FiniteStateMachine *getFiniteStateMachine() const {
+  virtual FiniteStateMachine* getFiniteStateMachine() { return fsm; };
+  virtual const FiniteStateMachine* getFiniteStateMachine() const {
     return fsm;
   };
 
 protected:
-  FiniteStateMachine *fsm;
+  FiniteStateMachine* fsm;
   DesireInformation presentDesire;
   DesireInformation previousDesire;
 };
 
-} 
-// namespace psi_act
+}
 
 #endif /* __PSI_ACT__FINITESTATEDELIBERATION_H__ */

@@ -35,26 +35,26 @@ public:
      * when to execute and also about possible transitions
     */
   class State {
-    public:
-      const std::string name;
+  public:
+    const std::string name;
 
-      State(const std::string& name,
-            std::function<void(void)> onEnter,
-            std::function<void(void)> onLeave);
-      virtual ~State();
+    State(const std::string& name,
+          std::function<void(void)> onEnter,
+          std::function<void(void)> onLeave);
+    virtual ~State();
 
-      State *execute(const TimePoint& time);
+    State* execute(const TimePoint& time);
 
-      void addTransition(const Transition* transition) {
-        transitions.push_back(transition);
-      };
-
-      std::function<void(void)> onEnter;
-      std::function<void(void)> onLeave;
-
-    protected:
-      std::vector<const Transition *> transitions;
+    void addTransition(const Transition* transition) {
+      transitions.push_back(transition);
     };
+
+  std::function<void(void)> onEnter;
+  std::function<void(void)> onLeave;
+
+  protected:
+    std::vector<const Transition *> transitions;
+  };
 
     FiniteStateMachine();
     virtual ~FiniteStateMachine();

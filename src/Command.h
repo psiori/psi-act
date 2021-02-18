@@ -23,7 +23,7 @@ namespace psi_act
 class PsiActException : std::runtime_error
 {
 public:
-  PsiActException(const std::string &msg) : std::runtime_error(msg) {}
+  PsiActException(const std::string& msg) : std::runtime_error(msg) {}
 };
 
 /**
@@ -35,15 +35,15 @@ public:
 class Command
 {
 public:
-  virtual ~Command(){};
+  virtual ~Command() {};
 
   /** sets the neutral command used as a fallback command. */
-  static void setNeutralCommand(Command *cmd, bool own = true);
+  static void setNeutralCommand(Command* cmd, bool own=true);
   /** gets the neutral command used as a fallback command. */
-  static Command *getNeutralCommand();
+  static Command* getNeutralCommand();
 
 protected:
-  static Command *the_neutral_command;
+  static Command* the_neutral_command;
   static bool neutral_command_owned;
 };
 
