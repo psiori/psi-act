@@ -44,7 +44,11 @@ set(PSIACT_INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR};${CMAKE_CURRENT_LIST_DIR}/deli
 
 FIND_PACKAGE(Boost REQUIRED)
 ADD_LIBRARY(psiact STATIC ${PSIACT_SRCS})
-target_compile_options(psiact PRIVATE -Wno-error -Wno-error=old-style-cast)
+
+# disable flags on msvc
+if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang.*" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    target_compile_options(psiact PRIVATE -Wno-error -Wno-error=old-style-cast)
+endif()
 
 message(STATUS "PSIACT_INCLUDE_DIRS: ${PSIACT_INCLUDE_DIRS}")
 # Include PUBLICly so including projects get these as well

@@ -45,17 +45,17 @@ public:
    * @param option            The \ref Option that will be executed.
    * @param skippable         Whether this behavior may be skipped.
    * @param interruptable     Whether this behavior may be interrupted after
-   *          having taken control.
+   *                          having taken control.
    * @param seekInterruption  Whether this behavior tries to interrupt previous
-   *          behaviors.
+   *                          behaviors.
    * @param takeOwnership     Make this \ref Arbitrator responsible to free this
    *          \ref Option's memory after usage.
    */
-  void appendStage(Option* option,
-                   bool skippable         = false,
-                   bool interruptable     = false,
-                   bool seekInteruption   = false,
-                   bool takeoverOwnership = true) noexcept;
+  psi_act::SequentialPlan* appendStage(Option* option,
+                                       bool skippable         = false,
+                                       bool interruptable     = false,
+                                       bool seekInteruption   = false,
+                                       bool takeoverOwnership = true) noexcept;
 
   virtual std::string listOptions(bool listNested = true);
   virtual std::string currentOptionName() const;
