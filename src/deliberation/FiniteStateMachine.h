@@ -21,6 +21,7 @@
 #include "CycleManager.h"
 #include "TimePoint.h"
 
+
 namespace psi_act {
   /**
  * FiniteStateMachine handles states and their transitions.
@@ -108,4 +109,5 @@ protected:
 
 } // namespace psi_act
 
-#endif /* __PSI_ACT__FINITE_STATE_MACHINE_H__ */
+#endif  /* __PSI_ACT__FINITE_STATE_MACHINE_H__ */
+
