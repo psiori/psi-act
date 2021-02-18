@@ -93,32 +93,32 @@ public:
    */
   std::string toGraphviz(void) const;
 
-protected:
-  class Transition {
-  public:
-    State* from;
-    State* to;
-    std::string annotation;
+// protected:
+//   class Transition {
+//   public:
+//     State* from;
+//     State* to;
+//     std::string annotation;
 
-    Transition(State* from,
-               State* to,
-               std::function<bool(const TimePoint& time)> condition,
-               const std::string& annotation = "");
-    virtual ~Transition();
+//     Transition(State* from,
+//                State* to,
+//                std::function<bool(const TimePoint& time)> condition,
+//                const std::string& annotation = "");
+//     virtual ~Transition();
 
-    std::function<bool(const TimePoint& time)> condition;
-  };
+//     std::function<bool(const TimePoint& time)> condition;
+//   };
 
-    FiniteStateMachine *addTransition(
-        const std::string &from,
-        const std::string &to,
-        std::function<bool(const TimePoint &)> condition =
-            [](const TimePoint &) -> bool { return true; });
+//     FiniteStateMachine *addTransition(
+//         const std::string &from,
+//         const std::string &to,
+//         std::function<bool(const TimePoint &)> condition =
+//             [](const TimePoint &) -> bool { return true; });
 
-}  // namespace psi_act
+// }  // namespace psi_act
 
-    State *getPresentState() { return presentState; }
-    State *execute(const TimePoint &time = CYCLE.startedAt);
+//     State *getPresentState() { return presentState; }
+//     State *execute(const TimePoint &time = CYCLE.startedAt);
 
   protected:
     /**
