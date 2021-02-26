@@ -82,11 +82,11 @@ psi_act::FiniteStateMachine::State*
 psi_act::FiniteStateMachine::execute(const TimePoint& time)
 {
   State* targetState = presentState->execute(time);
-
-  presentState->onLeave();
-  presentState = targetState;
-  presentState->onEnter();
-
+  if (targetState != presentState) {
+    presentState->onLeave();
+    presentState = targetState;
+    presentState->onEnter();
+  }
   return presentState;
 }
 
