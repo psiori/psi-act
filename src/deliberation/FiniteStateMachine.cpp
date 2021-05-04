@@ -96,17 +96,22 @@ std::string psi_act::FiniteStateMachine::toGraphviz(void) const {
   std::string text = std::string("digraph FSM {\n  rankdir=LR;\n");
   // Consuming states.
   text += "  node [shape = doublecircle];\n ";
+  bool has_consuming_states = false;
   for (const auto& state : this->states) {
     if (state.second->transitions.size() == 0) {
       text += " \"" + state.second->name + "\"";
+      has_consuming_states = true;
     } else if (state.second->transitions.size() == 1) {
       const auto* transition = state.second->transitions[0];
       if (transition->from == transition->to) {
         text += " " + state.second->name;
+        has_consuming_states = true;
       }
     }
   }
-  text += ";\n";
+  if (has_consuming_states) {
+    text += ";\n";
+  }
   // Non-consuming states.
   text += "  node [shape = circle];\n";
   // Transitions.
