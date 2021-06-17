@@ -33,7 +33,8 @@ psi_act::FiniteStateMachine::~FiniteStateMachine()
 
 
 psi_act::FiniteStateMachine* psi_act::FiniteStateMachine::setTransitionFunction(
-    std::function<void(const psi_act::FiniteStateMachine::State&)>
+    std::function<void(const psi_act::FiniteStateMachine::State& previousState,
+                       const psi_act::FiniteStateMachine::State& nextState)>
         onTransition) {
   this->onTransition = onTransition;
   return this;
@@ -92,8 +93,8 @@ psi_act::FiniteStateMachine::execute(const TimePoint& time)
   State* targetState = presentState->execute(time);
   if (targetState != presentState) {
     presentState->onLeave();
+    this->onTransition(*presentState, *targetState);
     presentState = targetState;
-    this->onTransition(*presentState);
     presentState->onEnter();
   }
   return presentState;
