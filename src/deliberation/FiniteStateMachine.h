@@ -22,7 +22,7 @@ namespace psi_act {
 class FiniteStateMachine {
 protected:
   class Transition;
-  
+
 public:
   class State {
   public:
@@ -47,6 +47,10 @@ public:
   
   FiniteStateMachine();
   virtual ~FiniteStateMachine();
+
+  FiniteStateMachine* setTransitionFunction(
+      std::function<void(const State& previousState, const State& nextState)>
+          onTransition);
 
   FiniteStateMachine* createState(const std::string& name,
                                   std::function<void(void)> onEnter = []() {},
@@ -94,6 +98,9 @@ protected:
 
   std::map<std::string, State*> states;
   State* presentState;
+  std::function<void(const State& previousState, const State& nextState)>
+      onTransition = [](const State& previousState, const State& nextState) {
+      };
 };
 
 }  // namespace psi_act
