@@ -74,6 +74,9 @@ public:
   State* getPresentState() { return presentState; }
   State* execute(const TimePoint& time = CYCLE.startedAt);
 
+  /** Get names of all registered states. */
+  std::vector<std::string> getStates() const;
+
   /**
    * @brief Produce a graphviz dot format graph of the FSM.
    * Can be rendered using https://dreampuf.github.io/GraphvizOnline
