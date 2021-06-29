@@ -101,6 +101,15 @@ psi_act::FiniteStateMachine::execute(const TimePoint& time)
 }
 
 
+std::vector<std::string> psi_act::FiniteStateMachine::getStates() const {
+  std::vector<std::string> state_names;
+  for (const std::pair<const std::string, State*> kv : this->states) {
+    state_names.push_back(kv.first);
+  }
+  return state_names;
+}
+
+
 std::string psi_act::FiniteStateMachine::toGraphviz(void) const {
   // Open digraph.
   std::string text = std::string("digraph FSM {\n  rankdir=LR;\n");
@@ -175,7 +184,6 @@ psi_act::FiniteStateMachine::State::execute(const TimePoint& time)
   std::cerr << "ERROR: no transition condition was met. Stay in present state."
             << std::endl;  // \todo : should we throw an exception?
 #endif
-
   return this;
 }
 
