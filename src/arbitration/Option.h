@@ -40,6 +40,8 @@ namespace psi_act {
 
   protected:
     std::string name;
+
+    bool receiveCycleNotifications;
   };
 
 }

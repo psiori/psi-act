@@ -1,18 +1,18 @@
 
 #include "Option.h"
 
-psi_act::Option::Option(const std::string& name, 
-                        bool receiveCycleNotifications)
-  : name(name)
-{
+psi_act::Option::Option(const std::string& name,
+                        bool receiveCycleNotifications) :
+    name(name), receiveCycleNotifications(receiveCycleNotifications) {
   if (receiveCycleNotifications) {
     CM.registerNotifiable(this);  // register self to receive notifications
   }
 }
 
-psi_act::Option::~Option()
-{
-  CM.unregisterNotifiable(this);
+psi_act::Option::~Option() {
+  if (receiveCycleNotifications) {
+    CM.unregisterNotifiable(this);
+  }
 }
 
 
