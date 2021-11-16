@@ -135,7 +135,7 @@ include(ExternalProject)
 # Download and install GoogleTest
 ExternalProject_Add(
     psi-act-gtest
-    URL https://github.com/google/googletest/archive/master.zip
+    URL https://github.com/google/googletest/archive/main.zip
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/psi-act-gtest
     # Disable install step
     INSTALL_COMMAND ""
