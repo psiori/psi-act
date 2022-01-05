@@ -16,7 +16,6 @@ LIST(APPEND PSIACT_SRCS
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/Deliberator.cpp
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/FiniteStateMachine.cpp
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/FiniteStateDeliberation.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/TimePoint.cpp
 )
 
 LIST(APPEND PSIACT_HEADERS
