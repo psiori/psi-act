@@ -87,7 +87,7 @@ SET(CMAKE_INSTALL_PREFIX
 )
 ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
-OPTION( TESTING "Set to OFF to prevent compilation of unit tests." OFF )
+OPTION( TESTING "Set to OFF to prevent compilation of unit tests." ON )
 
 MESSAGE( STATUS )
 MESSAGE( STATUS "-- PSI-ACT Build Options ---------------------------------" )
