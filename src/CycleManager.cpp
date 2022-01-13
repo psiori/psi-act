@@ -25,7 +25,9 @@ void psi_act::CycleManager::registerNotifiable(CycleNotifiable* notifiable)
 
 void psi_act::CycleManager::unregisterNotifiable(CycleNotifiable* notifiable)
 {
-  this->notifiables.erase(notifiable);
+  if (notifiable) {
+    this->notifiables.erase(notifiable);
+  }
 }
 
 void psi_act::CycleManager::unregisterAllNotifables()
