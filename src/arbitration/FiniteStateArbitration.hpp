@@ -67,7 +67,6 @@ public:
   virtual void loseControl(const TimePoint &time) noexcept;
   virtual void cycleStarted(const Cycle &cycle, const TimePoint &time) noexcept;
   virtual std::string currentOptionName() const;
-  virtual std::string currentStateName() const;
   virtual std::string listOptions(bool listNested = true);
 
 protected:
@@ -76,6 +75,19 @@ protected:
 
   /** Mapping from state names to Options */
   std::map<std::string, std::shared_ptr<Option>> state_option_map;
+
+private:
+  /**
+   * @brief Returns the current option
+   * @return shared pointer to the current option or nullptr
+   */
+  std::shared_ptr<Option> currentOption() const;
+
+  /**
+   * @brief Returns the current state name
+   * @return shared pointer to the current option or empty string
+   */
+  std::string currentStateName() const;
 };
 
 } // namespace psi_act

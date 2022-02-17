@@ -16,6 +16,8 @@ FiniteStateArbitration::FiniteStateArbitration(const std::string &name)
 FiniteStateArbitration *FiniteStateArbitration::createState(
     const std::string &name, std::shared_ptr<Option> option,
     std::function<void(void)> onEnter, std::function<void(void)> onLeave) {
+
+  // Create the state and link the option in the state option map
   this->state_machine.createState(name, onEnter, onLeave);
   this->state_option_map[name] = option;
   return this;
@@ -28,25 +30,53 @@ FiniteStateArbitration *FiniteStateArbitration::addTransition(
   return this;
 }
 
+bool FiniteStateArbitration::checkInvocationCondition(
+    const TimePoint &time) noexcept {
+
+  // If no states available
+  if (this->state_machine.getStates().size() == 0) {
+    return false;
+  }
+
+  // If no current option active
+  if (this->currentOption() == nullptr) {
+    return false;
+  }
+
+  return this->currentOption()->checkInvocationCondition(time);
+}
+
+bool FiniteStateArbitration::checkCommitmentCondition(
+    const TimePoint &time) noexcept {
+
+  // If no states available
+  if (this->state_machine.getStates().size() == 0) {
+    return false;
+  }
+
+  // If no current option active
+  if (this->currentOption() == nullptr) {
+    return false;
+  }
+
+  return this->currentOption()->checkCommitmentCondition(time);
+}
+
 Command *FiniteStateArbitration::calculateCommand(
     const TimePoint &time) noexcept(false) {
+
   // Make sure right away that a neutral command is set.
   if (!Command::getNeutralCommand()) {
     throw std::runtime_error("Neutral command for arbitration not set");
   }
 
-  // If no states available do nothing
-  if (this->state_machine.getPresentState() == nullptr) {
+  // If no state is active do nothing
+  if (this->currentOption() == nullptr) {
     return new Command();
   }
 
-  // Check which state is active and get the corresponding option
-  std::string cur_state_name = this->currentStateName();
-  std::shared_ptr<Option> cur_option =
-      this->state_option_map.at(cur_state_name);
-
-  // Execute that option
-  return cur_option->calculateCommand(time);
+  // Execute the active option
+  return this->currentOption()->calculateCommand(time);
 }
 
 void FiniteStateArbitration::cycleStarted(const Cycle &cycle,
@@ -54,13 +84,26 @@ void FiniteStateArbitration::cycleStarted(const Cycle &cycle,
   this->state_machine.execute(time);
 }
 
+std::shared_ptr<Option> FiniteStateArbitration::currentOption() const {
+  try {
+    return this->state_option_map.at(this->currentStateName());
+  } catch (const std::runtime_error &e) {
+    return nullptr;
+  }
+}
+
 std::string FiniteStateArbitration::currentOptionName() const {
-  std::string cur_state_name = this->currentStateName();
-  return this->state_option_map.at(cur_state_name)->toString();
+  std::shared_ptr<Option> cur_option = this->currentOption();
+  return (cur_option == nullptr) ? "" : cur_option->toString();
 }
 
 std::string FiniteStateArbitration::currentStateName() const {
-  return this->state_machine.getPresentState()->name;
+  const FiniteStateMachine::State *cur_state =
+      this->state_machine.getPresentState();
+  if (cur_state == nullptr) {
+    throw std::runtime_error("No state available");
+  }
+  return cur_state->name;
 }
 
 std::string FiniteStateArbitration::listOptions(bool listNested) {
