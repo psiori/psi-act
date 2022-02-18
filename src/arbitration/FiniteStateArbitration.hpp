@@ -76,7 +76,6 @@ protected:
   /** Mapping from state names to Options */
   std::map<std::string, std::shared_ptr<Option>> state_option_map;
 
-private:
   /**
    * @brief Returns the current option
    * @return shared pointer to the current option or nullptr
