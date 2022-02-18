@@ -16,7 +16,6 @@
 #include "CycleManager.h"
 #include "TimePoint.h"
 
-
 namespace psi_act {
 
 class FiniteStateMachine {
@@ -27,55 +26,54 @@ public:
   class State {
   public:
     const std::string name;
-    
-    State(const std::string& name,
-          std::function<void(void)> onEnter,
+
+    State(const std::string &name, std::function<void(void)> onEnter,
           std::function<void(void)> onLeave);
     virtual ~State();
-    
-    State* execute(const TimePoint& time);
-    
-    void addTransition(const Transition* transition) {
+
+    State *execute(const TimePoint &time);
+
+    void addTransition(const Transition *transition) {
       transitions.push_back(transition);
     };
 
     std::function<void(void)> onEnter;
     std::function<void(void)> onLeave;
 
-    std::vector<const Transition*> transitions;
+    std::vector<const Transition *> transitions;
   };
-  
+
   FiniteStateMachine();
   virtual ~FiniteStateMachine();
 
-  FiniteStateMachine* setTransitionFunction(
-      std::function<void(const State& previousState, const State& nextState)>
+  FiniteStateMachine *setTransitionFunction(
+      std::function<void(const State &previousState, const State &nextState)>
           onTransition);
 
-  FiniteStateMachine* createState(const std::string& name,
-                                  std::function<void(void)> onEnter = []() {},
-                                  std::function<void(void)> onLeave = []() {});
+  FiniteStateMachine *createState(
+      const std::string &name, std::function<void(void)> onEnter = []() {},
+      std::function<void(void)> onLeave = []() {});
 
-  FiniteStateMachine* addTransition(
-      const std::string& from,
-      const std::string& to,
-      const std::string& annotation,
-      std::function<bool(const TimePoint&)> condition =
-          [](const TimePoint&) -> bool { return true; });
+  FiniteStateMachine *addTransition(
+      const std::string &from, const std::string &to,
+      const std::string &annotation,
+      std::function<bool(const TimePoint &)> condition =
+          [](const TimePoint &) -> bool { return true; });
 
-  FiniteStateMachine* addTransition(
-      const std::string& from,
-      const std::string& to,
-      std::function<bool(const TimePoint&)> condition =
-          [](const TimePoint&) -> bool { return true; });
+  FiniteStateMachine *addTransition(
+      const std::string &from, const std::string &to,
+      std::function<bool(const TimePoint &)> condition =
+          [](const TimePoint &) -> bool { return true; });
 
-  FiniteStateMachine* registerState(State* state);
-  
-  State* getPresentState() const { return presentState; }
-  State* execute(const TimePoint& time = CYCLE.startedAt);
+  FiniteStateMachine *registerState(State *state);
+
+  State *getPresentState() const { return presentState; }
+  State *execute(const TimePoint &time = CYCLE.startedAt);
 
   /** Get names of all registered states. */
   std::vector<std::string> getStates() const;
+
+  void setActiveState(std::string name);
 
   /**
    * @brief Produce a graphviz dot format graph of the FSM.
@@ -86,28 +84,24 @@ public:
 protected:
   class Transition {
   public:
-    State* from;
-    State* to;
+    State *from;
+    State *to;
     std::string annotation;
 
-    Transition(State* from,
-               State* to,
-               std::function<bool(const TimePoint& time)> condition,
-               const std::string& annotation = "");
+    Transition(State *from, State *to,
+               std::function<bool(const TimePoint &time)> condition,
+               const std::string &annotation = "");
     virtual ~Transition();
 
-    std::function<bool(const TimePoint& time)> condition;
+    std::function<bool(const TimePoint &time)> condition;
   };
 
-  std::map<std::string, State*> states;
-  State* presentState;
-  std::function<void(const State& previousState, const State& nextState)>
-      onTransition = [](const State& previousState, const State& nextState) {
-      };
+  std::map<std::string, State *> states;
+  State *presentState;
+  std::function<void(const State &previousState, const State &nextState)>
+      onTransition = [](const State &previousState, const State &nextState) {};
 };
 
-}  // namespace psi_act
+} // namespace psi_act
 
 #endif /* __PSI_ACT__FINITE_STATE_MACHINE_H__ */
-
-

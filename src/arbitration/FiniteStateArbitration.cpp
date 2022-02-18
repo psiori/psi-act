@@ -62,6 +62,15 @@ bool FiniteStateArbitration::checkCommitmentCondition(
   return this->currentOption()->checkCommitmentCondition(time);
 }
 
+void FiniteStateArbitration::loseControl(const TimePoint &time) noexcept {
+  if (this->state_machine.getStates().size() == 0) {
+    return;
+  }
+
+  std::string initial_state_name = this->state_machine.getStates()[0];
+  this->state_machine.setActiveState(initial_state_name);
+}
+
 Command *FiniteStateArbitration::calculateCommand(
     const TimePoint &time) noexcept(false) {
 
