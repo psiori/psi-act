@@ -99,7 +99,8 @@ MESSAGE( STATUS "----------------------------------------------------------" )
 MESSAGE( STATUS )
 
 add_subdirectory(src)
-add_subdirectory(examples)
+# TODO: add switch to build examples
+# add_subdirectory(examples)
 
 
 # doc target
