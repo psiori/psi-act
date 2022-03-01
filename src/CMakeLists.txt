@@ -21,6 +21,7 @@ LIST(APPEND PSIACT_SRCS
 LIST(APPEND PSIACT_HEADERS
   ${CMAKE_CURRENT_LIST_DIR}/Command.h
   ${CMAKE_CURRENT_LIST_DIR}/CycleManager.h
+  ${CMAKE_CURRENT_LIST_DIR}/ConfigNode.hpp
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/Option.h
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/PriorityArbitration.h
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/SequentialPlan.h

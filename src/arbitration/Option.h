@@ -16,12 +16,19 @@
 
 namespace psi_act {
 
+class ConfigNode;
+
   class Option : public CycleNotifiable {
   public:
     Option(const std::string& name="GenericOption",
            bool receiveCycleNotifications=false);
 
     virtual ~Option();
+
+    /**
+     * Configure this option (and options managed by this option, if any).
+     */
+    virtual void configure(const ConfigNode&) noexcept {}
 
     virtual bool checkCommitmentCondition(const TimePoint&) noexcept;
     virtual bool checkInvocationCondition(const TimePoint&) noexcept;
@@ -36,8 +43,8 @@ namespace psi_act {
     virtual void gainControl(const TimePoint&) {}
     virtual void loseControl(const TimePoint&) {}
 
-    virtual std::string toString() const { return name; };
-    virtual std::string currentOptionName() const { return toString(); };
+    virtual std::string toString() const { return name; }
+    virtual std::string currentOptionName() const { return toString(); }
 
   protected:
     std::string name;
