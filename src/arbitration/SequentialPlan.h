@@ -57,6 +57,14 @@ public:
   virtual std::string listOptions(bool listNested = true);
   virtual std::string currentOptionName() const;
 
+  std::vector<Option*> getOptions() {
+    std::vector<Option*> opts;
+    for (Stage& stage : this->options) {
+      opts.emplace_back(stage.option);
+    }
+    return opts;
+  }
+
 private:
   struct Stage {
     Option* option;

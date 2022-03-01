@@ -61,6 +61,14 @@ namespace psi_act {
 
     virtual std::string listOptions(bool listNested=true);
 
+    std::vector<Option*> getOptions(void) {
+      std::vector<Option*> opts;
+      for (OptionWithFlags& stage : this->options) {
+        opts.emplace_back(stage.option);
+      }
+      return opts;
+    }
+
   protected:
     virtual void determineUpcomingOption(const TimePoint& time) noexcept;
 
