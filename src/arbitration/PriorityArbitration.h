@@ -12,9 +12,9 @@
 #include <string>
 #include <vector>
 
-#include "Arbitrator.h"
-#include "Command.h"
-#include "CycleManager.h"
+#include "psiact/arbitration/Arbitrator.h"
+#include "psiact/Command.h"
+#include "psiact/CycleManager.h"
 
 namespace psi_act {
 
@@ -34,18 +34,20 @@ namespace psi_act {
     virtual Command* calculateCommand(const TimePoint&) noexcept(false);
 
     /** true, if at least one of the available options is invocable */
-    virtual bool checkInvocationCondition(const TimePoint& time) noexcept;
+    virtual bool
+    checkInvocationCondition(const TimePoint& time) noexcept override;
     /** true, if the presently executed option can continue, or at least
       one different option is invocable */
-    virtual bool checkCommitmentCondition(const TimePoint& time) noexcept;
+    virtual bool
+    checkCommitmentCondition(const TimePoint& time) noexcept override;
 
-    virtual void gainControl(const TimePoint&) noexcept;
-    virtual void loseControl(const TimePoint&) noexcept;
+    virtual void gainControl(const TimePoint&) noexcept override;
+    virtual void loseControl(const TimePoint&) noexcept override;
 
     virtual std::string currentOptionName() const;
 
-    /** 
-     * @brief Adds the given argument to the end of the list of available 
+    /**
+     * @brief Adds the given argument to the end of the list of available
      * options, with lowest priority.
      *
      * \param interrupatable if true, this option may be interrupted by another
@@ -59,9 +61,9 @@ namespace psi_act {
               bool interruptable     = true,
               bool takeoverOwnership = true) noexcept;
 
-    virtual std::string listOptions(bool listNested=true);
+    std::string listOptions(bool listNested = true) noexcept override;
 
-    std::vector<Option*> getOptions(void) {
+    std::vector<Option*> getOptions(void) noexcept override {
       std::vector<Option*> opts;
       for (OptionWithFlags& stage : this->options) {
         opts.emplace_back(stage.option);

@@ -20,7 +20,7 @@ class PsiActException : std::runtime_error
 public:
   PsiActException(const std::string& msg) : std::runtime_error(msg) {}
 };
-  
+
 /**
  * Command is the base class for all Commands created by the Decision Making.
  * Users need to subclass command and to implement an application specific

@@ -11,7 +11,7 @@
 
 #include <vector>
 
-#include "Arbitrator.h"
+#include "psiact/arbitration/Arbitrator.h"
 
 namespace psi_act {
 /**
@@ -25,16 +25,18 @@ public:
 
   virtual ~SequentialPlan() noexcept;
 
-  virtual bool checkInvocationCondition(const TimePoint& time) noexcept;
-  virtual bool checkCommitmentCondition(const TimePoint& time) noexcept;
+  virtual bool
+  checkInvocationCondition(const TimePoint& time) noexcept override;
+  virtual bool
+  checkCommitmentCondition(const TimePoint& time) noexcept override;
 
-  virtual void gainControl(const TimePoint&) noexcept;
-  virtual void loseControl(const TimePoint&) noexcept;
+  virtual void gainControl(const TimePoint&) noexcept override;
+  virtual void loseControl(const TimePoint&) noexcept override;
 
-  virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) noexcept;
+  virtual void
+  cycleStarted(const Cycle& cycle, const TimePoint& time) noexcept override;
 
-  virtual Command* calculateCommand(const TimePoint&);
-
+  virtual Command* calculateCommand(const TimePoint&) override;
 
   /**
    * @brief Add an \ref Option with different settings as a stage. The stages
@@ -54,10 +56,11 @@ public:
                                        bool seekInteruption   = false,
                                        bool takeoverOwnership = true) noexcept;
 
-  virtual std::string listOptions(bool listNested = true);
-  virtual std::string currentOptionName() const;
+  std::string listOptions(bool listNested = true) noexcept override;
 
-  std::vector<Option*> getOptions() {
+  std::string currentOptionName() const override;
+
+  std::vector<Option*> getOptions() noexcept override {
     std::vector<Option*> opts;
     for (Stage& stage : this->options) {
       opts.emplace_back(stage.option);

@@ -13,8 +13,8 @@
 #include <string>
 #include <vector>
 
-#include "CycleManager.h"
-#include "TimePoint.h"
+#include "psiact/CycleManager.h"
+#include "psiact/TimePoint.h"
 
 
 namespace psi_act {
@@ -27,14 +27,14 @@ public:
   class State {
   public:
     const std::string name;
-    
+
     State(const std::string& name,
           std::function<void(void)> onEnter,
           std::function<void(void)> onLeave);
     virtual ~State();
-    
+
     State* execute(const TimePoint& time);
-    
+
     void addTransition(const Transition* transition) {
       transitions.push_back(transition);
     };
@@ -44,7 +44,7 @@ public:
 
     std::vector<const Transition*> transitions;
   };
-  
+
   FiniteStateMachine();
   virtual ~FiniteStateMachine();
 
@@ -70,7 +70,7 @@ public:
           [](const TimePoint&) -> bool { return true; });
 
   FiniteStateMachine* registerState(State* state);
-  
+
   State* getPresentState() { return presentState; }
   State* execute(const TimePoint& time = CYCLE.startedAt);
 
