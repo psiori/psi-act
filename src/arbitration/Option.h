@@ -10,8 +10,9 @@
 
 #include <string>
 #include <chrono>
-#include "Command.h"
-#include "CycleManager.h"
+
+#include "psiact/Command.h"
+#include "psiact/CycleManager.h"
 
 namespace psi_act {
 
@@ -28,7 +29,7 @@ namespace psi_act {
     virtual double getSuccessProbability(const TimePoint&) const noexcept;
 
     virtual Command* calculateCommand(const TimePoint&)=0;
-    
+
     virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) noexcept;
     virtual void cycleEnded(const Cycle& cycle, const TimePoint& time) noexcept;
 

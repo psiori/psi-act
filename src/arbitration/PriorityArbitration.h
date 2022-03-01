@@ -12,9 +12,9 @@
 #include <string>
 #include <vector>
 
-#include "Arbitrator.h"
-#include "Command.h"
-#include "CycleManager.h"
+#include "psiact/arbitration/Arbitrator.h"
+#include "psiact/Command.h"
+#include "psiact/CycleManager.h"
 
 namespace psi_act {
 
@@ -44,8 +44,8 @@ namespace psi_act {
 
     virtual std::string currentOptionName() const;
 
-    /** 
-     * @brief Adds the given argument to the end of the list of available 
+    /**
+     * @brief Adds the given argument to the end of the list of available
      * options, with lowest priority.
      *
      * \param interrupatable if true, this option may be interrupted by another

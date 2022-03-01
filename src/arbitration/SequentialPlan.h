@@ -11,7 +11,7 @@
 
 #include <vector>
 
-#include "Arbitrator.h"
+#include "psiact/arbitration/Arbitrator.h"
 
 namespace psi_act {
 /**

@@ -8,8 +8,4 @@
 #include "Arbitrator.h"
 
 
-psi_act::Arbitrator::Arbitrator(const std::string& name) : Option(name) 
-{};
-
-
-
+psi_act::Arbitrator::Arbitrator(const std::string& name) : Option(name){};

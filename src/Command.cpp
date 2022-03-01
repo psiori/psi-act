@@ -5,7 +5,7 @@
 //  Sascha Lange 2019.
 //
 
-#include "Command.h"
+#include "psiact/Command.h"
 
 psi_act::Command* psi_act::Command::the_neutral_command = 0;
 bool psi_act::Command::neutral_command_owned = false;

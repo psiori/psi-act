@@ -10,9 +10,9 @@
 
 #include <string>
 
-#include "TimePoint.h"
-#include "Deliberator.h"
-#include "FiniteStateMachine.h"
+#include "psiact/TimePoint.h"
+#include "psiact/deliberation/Deliberator.h"
+#include "psiact/deliberation/FiniteStateMachine.h"
 
 namespace psi_act {
 
@@ -20,11 +20,11 @@ class FiniteStateDeliberation : public Deliberator {
 public:
   FiniteStateDeliberation(const std::string& name="FiniteStateDeliberation");
   virtual ~FiniteStateDeliberation();
-  
+
   virtual std::string getPresentDesire() const;
   virtual DesireInformation getPresentDesireInformation() const;
   virtual DesireInformation getPreviousDesireInformation() const;
-  
+
   virtual std::string deliberate(const TimePoint& time=
                                     CYCLE.executionExpectedAt);
 
