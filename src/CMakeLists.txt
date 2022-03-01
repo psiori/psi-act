@@ -1,4 +1,4 @@
-project(PSIACT LANGUAGES CXX)
+project(psiact LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 14)
 
 # if no option is given, standard is release
@@ -55,7 +55,13 @@ target_include_directories(psiact PUBLIC ${PSIACT_INCLUDE_DIRS})
 target_include_directories(psiact SYSTEM PUBLIC ${Boost_INCLUDE_DIRS})
 target_link_libraries(psiact PUBLIC ${Boost_LIBRARIES})
 
-INSTALL(FILES ${PSIACT_HEADERS} DESTINATION include)
+# Install headers into include/psiact/*, keeping the src directory structure.
+foreach(file ${PSIACT_HEADERS})
+  get_filename_component(dir ${file} DIRECTORY BASE_DIR ${CMAKE_CURRENT_LIST_DIR})
+  string(REGEX REPLACE "^${CMAKE_CURRENT_LIST_DIR}" "" dir "${dir}")
+  string(REGEX REPLACE "^/" "" dir "${dir}")
+  install(FILES ${file} DESTINATION include/${CMAKE_PROJECT_NAME}/${dir})
+endforeach()
 
 INSTALL(TARGETS psiact
   RUNTIME DESTINATION bin
