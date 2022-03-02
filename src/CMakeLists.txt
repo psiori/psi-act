@@ -22,6 +22,7 @@ LIST(APPEND PSIACT_HEADERS
   ${CMAKE_CURRENT_LIST_DIR}/Command.h
   ${CMAKE_CURRENT_LIST_DIR}/CycleManager.h
   ${CMAKE_CURRENT_LIST_DIR}/ConfigNode.hpp
+  ${CMAKE_CURRENT_LIST_DIR}/TimePoint.h
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/Option.h
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/PriorityArbitration.h
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/SequentialPlan.h
@@ -29,7 +30,6 @@ LIST(APPEND PSIACT_HEADERS
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/Deliberator.h
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/FiniteStateMachine.h
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/FiniteStateDeliberation.h
-  ${CMAKE_CURRENT_LIST_DIR}/TimePoint.h
 )
 
 LIST(APPEND FILES
