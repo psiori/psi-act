@@ -22,10 +22,10 @@ public:
   Arbitrator(const std::string& name = "Arbitrator");
   ~Arbitrator(){};
 
-  /**
-   * Configure all options managed by this arbitrator.
-   */
-  virtual void configure(const ConfigNode&) noexcept override;
+  // /**
+  //  * Configure all options managed by this arbitrator.
+  //  */
+  // virtual void configure(const ConfigNode&) noexcept override;
 
   virtual std::string listOptions(bool listNested = true) noexcept = 0;
 

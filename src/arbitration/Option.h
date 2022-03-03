@@ -25,10 +25,10 @@ class ConfigNode;
 
     virtual ~Option();
 
-    /**
-     * Configure this option (and options managed by this option, if any).
-     */
-    virtual void configure(const ConfigNode&) noexcept {}
+    // /**
+    //  * Configure this option (and options managed by this option, if any).
+    //  */
+    // virtual void configure(const ConfigNode&) noexcept {}
 
     virtual bool checkCommitmentCondition(const TimePoint&) noexcept;
     virtual bool checkInvocationCondition(const TimePoint&) noexcept;
