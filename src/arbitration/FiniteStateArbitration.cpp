@@ -66,6 +66,8 @@ bool FiniteStateArbitration::checkCommitmentCondition(
     return false;
   }
 
+  this->state_machine.execute(time);
+
   return this->currentOption()->checkCommitmentCondition(time);
 }
 
@@ -98,9 +100,7 @@ Command *FiniteStateArbitration::calculateCommand(
 }
 
 void FiniteStateArbitration::cycleStarted(const Cycle &cycle,
-                                          const TimePoint &time) noexcept {
-  this->state_machine.execute(time);
-}
+                                          const TimePoint &time) noexcept {}
 
 Option *FiniteStateArbitration::currentOption() const {
   try {
