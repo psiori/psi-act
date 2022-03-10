@@ -69,6 +69,8 @@ bool FiniteStateArbitration::checkCommitmentCondition(
   return this->currentOption()->checkCommitmentCondition(time);
 }
 
+void FiniteStateArbitration::gainControl(const TimePoint &time) noexcept {}
+
 void FiniteStateArbitration::loseControl(const TimePoint &time) noexcept {
   if (this->state_machine.getStates().size() == 0) {
     return;
