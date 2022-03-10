@@ -13,9 +13,16 @@ using namespace psi_act;
 FiniteStateArbitration::FiniteStateArbitration(const std::string &name)
     : Arbitrator(name), state_machine{}, state_option_map{} {}
 
-FiniteStateArbitration *FiniteStateArbitration::createState(
-    const std::string &name, std::shared_ptr<Option> option,
-    std::function<void(void)> onEnter, std::function<void(void)> onLeave) {
+FiniteStateArbitration::~FiniteStateArbitration() {
+  for (std::string &state : this->state_machine.getStates()) {
+    delete this->state_option_map[state];
+  }
+}
+
+FiniteStateArbitration *
+FiniteStateArbitration::createState(const std::string &name, Option *option,
+                                    std::function<void(void)> onEnter,
+                                    std::function<void(void)> onLeave) {
 
   // Create the state and link the option in the state option map
   this->state_machine.createState(name, onEnter, onLeave);
@@ -93,7 +100,7 @@ void FiniteStateArbitration::cycleStarted(const Cycle &cycle,
   this->state_machine.execute(time);
 }
 
-std::shared_ptr<Option> FiniteStateArbitration::currentOption() const {
+Option *FiniteStateArbitration::currentOption() const {
   try {
     return this->state_option_map.at(this->currentStateName());
   } catch (const std::runtime_error &e) {
@@ -102,7 +109,7 @@ std::shared_ptr<Option> FiniteStateArbitration::currentOption() const {
 }
 
 std::string FiniteStateArbitration::currentOptionName() const {
-  std::shared_ptr<Option> cur_option = this->currentOption();
+  Option *cur_option = this->currentOption();
   return (cur_option == nullptr) ? "" : cur_option->toString();
 }
 

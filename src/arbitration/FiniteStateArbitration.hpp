@@ -39,7 +39,7 @@ public:
    * @param onLeave Callback when leaving the state
    */
   FiniteStateArbitration *createState(
-      const std::string &name, std::shared_ptr<Option> option,
+      const std::string &name, Option *option,
       std::function<void(void)> onEnter = []() {},
       std::function<void(void)> onLeave = []() {});
 
@@ -59,7 +59,7 @@ public:
       });
 
   FiniteStateArbitration(const std::string &name = "FiniteStateArbitration");
-  virtual ~FiniteStateArbitration() noexcept;
+  virtual ~FiniteStateArbitration();
   virtual Command *calculateCommand(const TimePoint &) noexcept(false);
   virtual bool checkInvocationCondition(const TimePoint &time) noexcept;
   virtual bool checkCommitmentCondition(const TimePoint &time) noexcept;
@@ -74,13 +74,13 @@ protected:
   FiniteStateMachine state_machine;
 
   /** Mapping from state names to Options */
-  std::map<std::string, std::shared_ptr<Option>> state_option_map;
+  std::map<std::string, Option *> state_option_map;
 
   /**
    * @brief Returns the current option
-   * @return shared pointer to the current option or nullptr
+   * @return pointer to the current option or nullptr
    */
-  std::shared_ptr<Option> currentOption() const;
+  Option *currentOption() const;
 
   /**
    * @brief Returns the current state name
