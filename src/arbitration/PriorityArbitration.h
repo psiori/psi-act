@@ -31,7 +31,8 @@ namespace psi_act {
     PriorityArbitration(const std::string& name="PriorityArbitration");
     virtual ~PriorityArbitration() noexcept;
 
-    virtual Command* calculateCommand(const TimePoint&) noexcept(false);
+    virtual Command*
+    calculateCommand(const TimePoint&) noexcept(false) override;
 
     /** true, if at least one of the available options is invocable */
     virtual bool
@@ -44,7 +45,7 @@ namespace psi_act {
     virtual void gainControl(const TimePoint&) noexcept override;
     virtual void loseControl(const TimePoint&) noexcept override;
 
-    virtual std::string currentOptionName() const;
+    virtual std::string currentOptionName() const override;
 
     /**
      * @brief Adds the given argument to the end of the list of available
