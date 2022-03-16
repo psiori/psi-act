@@ -9,6 +9,8 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "psiact/Command.h"
+
 
 psi_act::PriorityArbitration::PriorityArbitration(const std::string& name)
     : Arbitrator(name), upcomingOption(-1), presentOption(-1)

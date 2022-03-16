@@ -13,7 +13,6 @@
 #include <vector>
 
 #include "psiact/arbitration/Arbitrator.h"
-#include "psiact/Command.h"
 #include "psiact/CycleManager.h"
 
 namespace psi_act {

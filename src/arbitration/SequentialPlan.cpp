@@ -5,6 +5,8 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "psiact/Command.h"
+
 psi_act::SequentialPlan::SequentialPlan(const std::string& name) :
     Arbitrator(name), presentIntention(-1), scheduledIntention(-1) {
 }

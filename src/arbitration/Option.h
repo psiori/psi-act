@@ -11,10 +11,11 @@
 #include <string>
 #include <chrono>
 
-#include "psiact/Command.h"
 #include "psiact/CycleManager.h"
 
 namespace psi_act {
+
+  class Command;
 
   class Option : public CycleNotifiable {
   public:
