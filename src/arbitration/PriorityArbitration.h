@@ -62,7 +62,7 @@ namespace psi_act {
               bool interruptable     = true,
               bool takeoverOwnership = true) noexcept;
 
-    std::string listOptions(bool listNested = true) noexcept override;
+    std::string listOptions(bool listNested = true) const noexcept override;
 
     std::vector<Option*> getOptions(void) noexcept override {
       std::vector<Option*> opts;

@@ -56,7 +56,7 @@ public:
                                        bool seekInteruption   = false,
                                        bool takeoverOwnership = true) noexcept;
 
-  std::string listOptions(bool listNested = true) noexcept override;
+  std::string listOptions(bool listNested = true) const noexcept override;
 
   std::string currentOptionName() const override;
 

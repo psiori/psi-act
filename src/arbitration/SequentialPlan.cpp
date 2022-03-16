@@ -153,7 +153,8 @@ psi_act::SequentialPlan::calculateCommand(const TimePoint& time) {
 }
 
 // "listNested" argument necessary for required signature, but not used
-std::string psi_act::SequentialPlan::listOptions(bool listNested) noexcept {
+std::string
+psi_act::SequentialPlan::listOptions(bool listNested) const noexcept {
   std::stringstream ss;
   for (unsigned int i = 0; i < options.size(); i++) {
     ss << options[i].option->toString() << std::endl;

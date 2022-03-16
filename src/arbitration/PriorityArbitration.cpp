@@ -84,8 +84,8 @@ psi_act::PriorityArbitration::addOption(Option* option,
   return this;
 }
 
-std::string psi_act::PriorityArbitration::listOptions(bool listNested) noexcept
-{
+std::string 
+psi_act::PriorityArbitration::listOptions(bool listNested) const noexcept {
   std::stringstream ss;
   for (unsigned int i = 0; i < options.size(); i++)
   {

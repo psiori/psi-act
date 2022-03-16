@@ -20,7 +20,7 @@ public:
   Arbitrator(const std::string& name = "Arbitrator");
   ~Arbitrator(){};
 
-  virtual std::string listOptions(bool listNested = true) noexcept = 0;
+  virtual std::string listOptions(bool listNested = true) const noexcept = 0;
 
   virtual std::vector<Option*> getOptions(void) noexcept = 0;
 };
