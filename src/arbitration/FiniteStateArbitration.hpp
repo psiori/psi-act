@@ -34,13 +34,13 @@ using Condition = std::function<bool(const TimePoint&)>;
  * first and use its `calculateCommand` method to act. By calling
  * `checkCommitmentCondition` the state machine will check the conditions
  * provided in the lambda of every transition of the current state and perform
- * the transition whenever this result is `True` (Important: This does not
- * consider the options checkCommitmentCondition per default, this must be added
- * manually as part of the conditional that is returned in the lambda). The
- * transition checks are done in the order same order they where added to the
- * state machine. The arbitrator can only invoke/commit if at least one option
- * is provided through the `createState` interface. Otherwise it uses the
- * options commitment condition to determine if to keep commiting.
+ * the transition whenever this result is `True` as well as the commitment
+ * condition of the active state's option being false and the invocation
+ * condition of the destination state being true. The transition checks are done
+ * in the order same order they where added to the state machine. The arbitrator
+ * can only invoke/commit if at least one option is provided through the
+ * `createState` interface. Otherwise it uses the options commitment condition
+ * to determine if to keep commiting.
  */
 class FiniteStateArbitration : public Arbitrator {
 public:
