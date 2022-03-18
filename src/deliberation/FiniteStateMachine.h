@@ -16,6 +16,7 @@
 #include "CycleManager.h"
 #include "TimePoint.h"
 
+
 namespace psi_act {
 
 class FiniteStateMachine {
@@ -26,14 +27,14 @@ public:
   class State {
   public:
     const std::string name;
-
+    
     State(const std::string& name,
           std::function<void(void)> onEnter,
           std::function<void(void)> onLeave);
     virtual ~State();
-
+    
     State* execute(const TimePoint& time);
-
+    
     void addTransition(const Transition* transition) {
       transitions.push_back(transition);
     };
@@ -43,7 +44,7 @@ public:
 
     std::vector<const Transition*> transitions;
   };
-
+  
   FiniteStateMachine();
   virtual ~FiniteStateMachine();
 
@@ -51,10 +52,9 @@ public:
       std::function<void(const State& previousState, const State& nextState)>
           onTransition);
 
-  FiniteStateMachine* createState(
-      const std::string& name,
-      std::function<void(void)> onEnter = []() {},
-      std::function<void(void)> onLeave = []() {});
+  FiniteStateMachine* createState(const std::string& name,
+                                  std::function<void(void)> onEnter = []() {},
+                                  std::function<void(void)> onLeave = []() {});
 
   FiniteStateMachine* addTransition(
       const std::string& from,
@@ -70,16 +70,14 @@ public:
           [](const TimePoint&) -> bool { return true; });
 
   FiniteStateMachine* registerState(State* state);
-
-  State* getPresentState() const {
-    return presentState;
-  }
+  
+  State* getPresentState() { return presentState; }
   State* execute(const TimePoint& time = CYCLE.startedAt);
 
   /** Get names of all registered states. */
   std::vector<std::string> getStates() const;
 
-  /**
+   /**
    * Sets the active state of the state machine
    * @param name the name of the state
    */
@@ -117,3 +115,5 @@ protected:
 }  // namespace psi_act
 
 #endif /* __PSI_ACT__FINITE_STATE_MACHINE_H__ */
+
+
