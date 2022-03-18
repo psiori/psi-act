@@ -14,14 +14,15 @@
  */
 #pragma once
 
+#include <string>
+
 #include "Arbitrator.h"
 #include "Command.h"
 #include "FiniteStateMachine.h"
-#include <string>
 
 namespace psi_act {
 
-using Condition = std::function<bool(const TimePoint &)>;
+using Condition = std::function<bool(const TimePoint&)>;
 
 /**
  * @brief Arbitrator using a finite state machine to choose between different
@@ -38,7 +39,6 @@ using Condition = std::function<bool(const TimePoint &)>;
  * to keep commiting.
  */
 class FiniteStateArbitration : public Arbitrator {
-
 public:
   /**
    * @brief Create a State corresponding to a given Option
@@ -48,8 +48,9 @@ public:
    * @param onEnter Callback when entering the state
    * @param onLeave Callback when leaving the state
    */
-  FiniteStateArbitration *createState(
-      const std::string &name, Option *option,
+  FiniteStateArbitration* createState(
+      const std::string& name,
+      Option* option,
       std::function<void(void)> onEnter = []() {},
       std::function<void(void)> onLeave = []() {});
 
@@ -61,21 +62,22 @@ public:
    * @param annotation (optional) description of the transition
    * @param condition (optional) condition for the transition to happen
    */
-  FiniteStateArbitration *addTransition(
-      const std::string &from, const std::string &to,
-      const std::string &annotation = "",
-      const Condition condition = [](const TimePoint &) -> bool {
+  FiniteStateArbitration* addTransition(
+      const std::string& from,
+      const std::string& to,
+      const std::string& annotation = "",
+      const Condition condition     = [](const TimePoint&) -> bool {
         return true;
       });
 
-  FiniteStateArbitration(const std::string &name = "FiniteStateArbitration");
+  FiniteStateArbitration(const std::string& name = "FiniteStateArbitration");
   virtual ~FiniteStateArbitration();
-  virtual Command *calculateCommand(const TimePoint &) noexcept(false);
-  virtual bool checkInvocationCondition(const TimePoint &time) noexcept;
-  virtual bool checkCommitmentCondition(const TimePoint &time) noexcept;
-  virtual void gainControl(const TimePoint &time) noexcept;
-  virtual void loseControl(const TimePoint &time) noexcept;
-  virtual void cycleStarted(const Cycle &cycle, const TimePoint &time) noexcept;
+  virtual Command* calculateCommand(const TimePoint&) noexcept(false);
+  virtual bool checkInvocationCondition(const TimePoint& time) noexcept;
+  virtual bool checkCommitmentCondition(const TimePoint& time) noexcept;
+  virtual void gainControl(const TimePoint& time) noexcept;
+  virtual void loseControl(const TimePoint& time) noexcept;
+  virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) noexcept;
   virtual std::string currentOptionName() const;
   virtual std::string listOptions(bool listNested = true);
 
@@ -84,13 +86,13 @@ protected:
   FiniteStateMachine state_machine;
 
   /** Mapping from state names to Options */
-  std::map<std::string, Option *> state_option_map;
+  std::map<std::string, Option*> state_option_map;
 
   /**
    * @brief Returns the current option
    * @return pointer to the current option or nullptr
    */
-  Option *currentOption() const;
+  Option* currentOption() const;
 
   /**
    * @brief Returns the current state name
@@ -99,4 +101,4 @@ protected:
   std::string currentStateName() const;
 };
 
-} // namespace psi_act
+}  // namespace psi_act
