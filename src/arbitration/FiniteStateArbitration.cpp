@@ -37,7 +37,15 @@ FiniteStateArbitration::addTransition(const std::string& from,
                                       const std::string& to,
                                       const std::string& annotation,
                                       const Condition condition) {
-  this->state_machine.addTransition(from, to, annotation, condition);
+  const Condition combined_condition = [=](const TimePoint& time) -> bool {
+    const bool can_enter_new_state =
+        this->state_option_map[to]->checkInvocationCondition(time);
+    const bool can_leave_old_state =
+        !this->state_option_map[from]->checkCommitmentCondition(time);
+    return can_enter_new_state && can_leave_old_state && condition(time);
+  };
+
+  this->state_machine.addTransition(from, to, annotation, combined_condition);
   return this;
 }
 
