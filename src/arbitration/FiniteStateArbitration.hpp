@@ -26,15 +26,17 @@ using Condition = std::function<bool(const TimePoint&)>;
 
 /**
  * @brief Arbitrator using a finite state machine to choose between different
- * Options. Options can be added to the finite state machine using
+ *        Options. 
+ *
+ * Options can be added to the finite state machine using
  * `createState`. Transitions between the options can be added using
- * addTransition. The state machine will initially enter the earliest created
- * state and use its calculateCommand method to act. By calling
+ * `addTransition`. The state machine will initially enter the state created
+ * first and use its `calculateCommand` method to act. By calling
  * `checkCommitmentCondition` the state machine will check the conditions
  * provided in the lambda of every transition of the current state and perform
  * the transition whenever this result is `True`. This is done in the order the
  * transitions where added to the state machine. The arbitrator can only
- * invoke/commit if at least one option is provided through the createState
+ * invoke/commit if at least one option is provided through the `createState`
  * interface. Otherwise it uses the options commitment condition to determine if
  * to keep commiting.
  */
