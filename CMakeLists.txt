@@ -89,14 +89,15 @@ endfunction()
 
 OPTION( TESTING "Set to OFF to prevent compilation of unit tests." OFF )
 
-MESSAGE( STATUS )
-MESSAGE( STATUS "-- PSI-ACT Build Options ---------------------------------" )
-MESSAGE( STATUS "CMAKE_INSTALL_PREFIX   = ${CMAKE_INSTALL_PREFIX}" )
-MESSAGE( STATUS "TESTING                = ${TESTING}" )
-MESSAGE( STATUS "CMAKE_BUILD_TYPE       = ${CMAKE_BUILD_TYPE}")
-MESSAGE( STATUS "Change a value with: cmake -D<VAR>=<VALUE>" )
-MESSAGE( STATUS "----------------------------------------------------------" )
-MESSAGE( STATUS )
+MESSAGE(STATUS)
+MESSAGE(STATUS "-- PSI-ACT Build Options ---------------------------------")
+MESSAGE(STATUS "CMAKE_INSTALL_PREFIX   = ${CMAKE_INSTALL_PREFIX}")
+MESSAGE(STATUS "CMAKE_PREFIX_PATH      = ${CMAKE_PREFIX_PATH}")
+MESSAGE(STATUS "TESTING                = ${TESTING}")
+MESSAGE(STATUS "CMAKE_BUILD_TYPE       = ${CMAKE_BUILD_TYPE}")
+MESSAGE(STATUS "Change a value with: cmake -D<VAR>=<VALUE>")
+MESSAGE(STATUS "----------------------------------------------------------")
+MESSAGE(STATUS)
 
 add_subdirectory(src)
 # TODO: add switch to build examples
