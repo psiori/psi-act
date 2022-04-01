@@ -48,6 +48,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang.*" OR CMAKE_CXX_COMPILER_ID MATCHES "G
 endif()
 
 message(STATUS "PSIACT_INCLUDE_DIRS: ${PSIACT_INCLUDE_DIRS}")
+message(STATUS "PSIACT CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}")
+message(STATUS "PSIACT BOOST: ${Boost_LIBRARIES} ${Boost_INCLUDE_DIRS}")
 # Include PUBLICly so including projects get these as well
 target_include_directories(psiact SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
 target_link_libraries(psiact PUBLIC ${Boost_LIBRARIES})
