@@ -53,15 +53,15 @@ std::string
 psi_act::FiniteStateDeliberation::deliberate(const TimePoint& time)
 {
   FiniteStateMachine::State* state = fsm->execute(time);
-  
+
   if (state->name != presentDesire.desire) {
     presentDesire.endedAt = time;
     presentDesire.endedAtCycle = CYCLE.counter;
     previousDesire = presentDesire;
-    
+
     presentDesire = DesireInformation(state->name, time, CYCLE.counter);
   }
-  
+
   return state->name;
 }
 

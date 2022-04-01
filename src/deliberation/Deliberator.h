@@ -10,8 +10,8 @@
 
 #include <string>
 
-#include "TimePoint.h"
-#include "CycleManager.h"
+#include "psiact/CycleManager.h"
+#include "psiact/TimePoint.h"
 
 namespace psi_act {
 
@@ -28,7 +28,7 @@ struct DesireInformation {
                     const TimePoint& presentTime=
                         CYCLE.executionExpectedAt,
                     long presentCycle=CYCLE.counter);
-  
+
   DesireInformation();
 };
 
@@ -36,14 +36,14 @@ class Deliberator {
 public:
   Deliberator(const std::string& name="AbstractDeliberator");
   virtual ~Deliberator() {};
-  
+
   virtual std::string getPresentDesire() const=0;
   virtual DesireInformation getPresentDesireInformation() const=0;
   virtual DesireInformation getPreviousDesireInformation() const=0;
-  
+
   virtual std::string deliberate(const TimePoint& time=
                                     CYCLE.executionExpectedAt)=0;
-  
+
   std::string getName() const { return name; }
 
 protected:

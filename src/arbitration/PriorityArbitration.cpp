@@ -9,6 +9,8 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "psiact/Command.h"
+
 
 psi_act::PriorityArbitration::PriorityArbitration(const std::string& name)
     : Arbitrator(name), upcomingOption(-1), presentOption(-1)
@@ -84,8 +86,8 @@ psi_act::PriorityArbitration::addOption(Option* option,
   return this;
 }
 
-std::string psi_act::PriorityArbitration::listOptions(bool listNested)
-{
+std::string 
+psi_act::PriorityArbitration::listOptions(bool listNested) const noexcept {
   std::stringstream ss;
   for (unsigned int i = 0; i < options.size(); i++)
   {

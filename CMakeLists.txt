@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15.0)
 
-project(PSIACT CXX C)
+project(psiact CXX C)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -81,13 +81,13 @@ endfunction()
 #
 # ############################################################################
 
-IF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-SET(CMAKE_INSTALL_PREFIX
-"${PSIACT_SOURCE_DIR}" CACHE PATH "PSI-ACT install prefix" FORCE
-)
-ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+# IF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+# SET(CMAKE_INSTALL_PREFIX
+# "${PSIACT_SOURCE_DIR}" CACHE PATH "PSI-ACT install prefix" FORCE
+# )
+# ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
-OPTION( TESTING "Set to OFF to prevent compilation of unit tests." ON )
+OPTION( TESTING "Set to OFF to prevent compilation of unit tests." OFF )
 
 MESSAGE( STATUS )
 MESSAGE( STATUS "-- PSI-ACT Build Options ---------------------------------" )
@@ -183,7 +183,7 @@ ENDIF()
 enable_testing()
 add_subdirectory(test)
 
-ENDIF()
+ENDIF() # testing
 
 
 # ############################################################################
