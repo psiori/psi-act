@@ -8,10 +8,8 @@
 #include "Deliberator.h"
 
 
-
-psi_act::Deliberator::Deliberator(const std::string& name) : name(name)
-{}
-
+psi_act::Deliberator::Deliberator(const std::string& name) : name(name) {
+}
 
 
 // ////////////////////////////////////////////////////////////////////////////
@@ -20,12 +18,12 @@ psi_act::Deliberator::Deliberator(const std::string& name) : name(name)
 //
 // ////////////////////////////////////////////////////////////////////////////
 
-psi_act::DesireInformation::DesireInformation() : desire("_UNDEFINED")
-{}
+psi_act::DesireInformation::DesireInformation() : desire("_UNDEFINED") {
+}
 
 
 psi_act::DesireInformation::DesireInformation(const std::string& desire,
                                               const TimePoint& presentTime,
-                                              long presentCycle)
-  : desire(desire), startedAt(presentTime), startedAtCycle(presentCycle)
-{}
+                                              long presentCycle) :
+    desire(desire), startedAt(presentTime), startedAtCycle(presentCycle) {
+}

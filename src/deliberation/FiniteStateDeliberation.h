@@ -18,17 +18,19 @@ namespace psi_act {
 
 class FiniteStateDeliberation : public Deliberator {
 public:
-  FiniteStateDeliberation(const std::string& name="FiniteStateDeliberation");
+  FiniteStateDeliberation(const std::string& name = "FiniteStateDeliberation");
   virtual ~FiniteStateDeliberation();
 
   virtual std::string getPresentDesire() const;
   virtual DesireInformation getPresentDesireInformation() const;
   virtual DesireInformation getPreviousDesireInformation() const;
 
-  virtual std::string deliberate(const TimePoint& time=
-                                    CYCLE.executionExpectedAt);
+  virtual std::string
+  deliberate(const TimePoint& time = CYCLE.executionExpectedAt);
 
-  virtual FiniteStateMachine* getFiniteStateMachine() { return fsm; };
+  virtual FiniteStateMachine* getFiniteStateMachine() {
+    return fsm;
+  };
   virtual const FiniteStateMachine* getFiniteStateMachine() const {
     return fsm;
   };
@@ -39,6 +41,6 @@ protected:
   DesireInformation previousDesire;
 };
 
-}
+}  // namespace psi_act
 
 #endif /* __PSI_ACT__FINITESTATEDELIBERATION_H__ */
