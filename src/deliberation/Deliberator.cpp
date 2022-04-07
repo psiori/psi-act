@@ -29,5 +29,3 @@ psi_act::DesireInformation::DesireInformation(const std::string& desire,
                                               long presentCycle)
   : desire(desire), startedAt(presentTime), startedAtCycle(presentCycle)
 {}
-
-

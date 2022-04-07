@@ -64,4 +64,3 @@ psi_act::FiniteStateDeliberation::deliberate(const TimePoint& time)
 
   return state->name;
 }
-

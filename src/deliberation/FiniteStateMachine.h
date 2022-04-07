@@ -109,5 +109,3 @@ protected:
 }  // namespace psi_act
 
 #endif /* __PSI_ACT__FINITE_STATE_MACHINE_H__ */
-
-

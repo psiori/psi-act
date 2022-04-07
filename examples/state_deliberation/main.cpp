@@ -34,7 +34,7 @@ int main(int argc, const char* argv[]) {
     ->addTransition("divisable by 4", "not divisable by 4");
 
   std::string goal = "";
-  
+
   while (goal != "exit") {
     // pseudo control loop. Doing one decision / transition per cycle.
     CM.advance();

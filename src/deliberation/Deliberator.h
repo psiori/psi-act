@@ -53,4 +53,3 @@ protected:
 }
 
 #endif /* __PSI_ACT__DELIBERATOR_H__ */
-
