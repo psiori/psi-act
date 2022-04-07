@@ -1,11 +1,3 @@
-project(psiact LANGUAGES CXX)
-set(CMAKE_CXX_STANDARD 14)
-
-# if no option is given, standard is release
-IF(NOT CMAKE_BUILD_TYPE)
-   SET(CMAKE_BUILD_TYPE Release)
-ENDIF()
-
 LIST(APPEND PSIACT_SRCS
   ${CMAKE_CURRENT_LIST_DIR}/Command.cpp
   ${CMAKE_CURRENT_LIST_DIR}/CycleManager.cpp
@@ -39,7 +31,10 @@ LIST(APPEND FILES
 # define subgroups for XCode and other IDEs
 source_group( src FILES ${PSIACT_HEADERS} ${PSIACT_SRCS} )
 
-FIND_PACKAGE(Boost REQUIRED)
+find_package(Boost)
+message(STATUS "Boost include dirs: ${Boost_INCLUDE_DIRS}")
+message(STATUS "Boost libraries: ${Boost_LIBRARIES}")
+message(STATUS "Boost library dirs: ${Boost_LIBRARY_DIRS}")
 ADD_LIBRARY(psiact STATIC ${PSIACT_SRCS})
 
 # disable flags on msvc
