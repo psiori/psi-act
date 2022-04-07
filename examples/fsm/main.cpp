@@ -19,37 +19,37 @@ int main(int argc, const char* argv[]) {
   FiniteStateMachine* automaton = new FiniteStateMachine();
   // \note: the code below is an automaton, as it has a side effect at each
   //        transition (onEnter). Most effects are void, but when entering
-  //        the divisable step, it outputs some text.
+  //        the divisible step, it outputs some text.
 
 
   // Create two states, one for counter values that can be divided by 4
   // without rest, and one for counter values that cannot be divided by 4.
 
   automaton
-    ->createState("not divisable by 4")
-    ->createState("divisable by 4", []() {
-      std::cout << "(Whoop, whoop! I've just entered the divisable state :) ";
+    ->createState("not divisible by 4")
+    ->createState("divisible by 4", []() {
+      std::cout << "(Whoop, whoop! I've just entered the divisible state :) ";
     });
 
   // Now, we want to connect these states in such a way that the automaton
   // is always in the state that matches the present cycle's counter value.
 
   // This is done by adding 3 transitions:
-  // 1) will switch from not divisable to divisable on a condition passed as
+  // 1) will switch from not divisible to divisible on a condition passed as
   //    lambda. You could also pass a function object.
-  // 2) switches from not divisable back to itself, not divisable, otherwise,
+  // 2) switches from not divisible back to itself, not divisible, otherwise,
   //    relying on the default condition, which is always true. This
   //    works, because transitions' conditions are checked according to
   //    priority, which is defined by sequence of adding.
-  // 3) will switch from divisable to not divisable, always, again, by relying
+  // 3) will switch from divisible to not divisible, always, again, by relying
   //    on the default condition.
 
   automaton
-    ->addTransition("not divisable by 4", "divisable by 4",
+    ->addTransition("not divisible by 4", "divisible by 4",
                     [](const TimePoint& time)
                         -> bool { return CYCLE.counter % 4 == 0; })
-    ->addTransition("not divisable by 4", "not divisable by 4")
-    ->addTransition("divisable by 4", "not divisable by 4");
+    ->addTransition("not divisible by 4", "not divisible by 4")
+    ->addTransition("divisible by 4", "not divisible by 4");
 
   do {  // pseudo control loop. Doing one decision / transition per cycle.
     CM.advance();

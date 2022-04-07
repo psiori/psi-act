@@ -79,9 +79,9 @@ psi_act::Command* psi_act::PriorityArbitration::calculateCommand(
 
 psi_act::PriorityArbitration*
 psi_act::PriorityArbitration::addOption(Option* option,
-                                        bool interruptable,
+                                        bool interruptible,
                                         bool takeoverOwnership) noexcept {
-  OptionWithFlags optionWithFlags = {option, interruptable, takeoverOwnership};
+  OptionWithFlags optionWithFlags = {option, interruptible, takeoverOwnership};
   options.push_back(optionWithFlags);
   return this;
 }
@@ -135,7 +135,7 @@ void psi_act::PriorityArbitration::determineUpcomingOption(
                                  presentOption < options.size());
 
 
-  // If present option is not interruptable and commited to continue, continue.
+  // If present option is not interruptible and committed to continue, continue.
   if (hasPresentOption && !options[presentOption].interrupatable &&
       options[presentOption].option->checkCommitmentCondition(time))
   {

@@ -18,7 +18,7 @@
 namespace psi_act {
 
   /**
-   * \attention: the implemenation assumes that within the same
+   * \attention: the implementation assumes that within the same
    *             cycle of the control loop, checkCommitmentCondition,
    *             checkInvocationCondition, and getCommand all are called
    *             with only the same single timestamp; if you need handling
@@ -58,7 +58,7 @@ namespace psi_act {
      */
     psi_act::PriorityArbitration*
     addOption(Option* option,
-              bool interruptable     = true,
+              bool interruptible     = true,
               bool takeoverOwnership = true) noexcept;
 
     std::string listOptions(bool listNested = true) const noexcept override;

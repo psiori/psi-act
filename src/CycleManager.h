@@ -22,7 +22,7 @@ namespace psi_act {
    * cycle. Expected execution time is the desired end time of the cycle
    * (as the command is emitted near the cycle end) plus the average delay
    * that the system needs to really execute this command physically. e.g.
-   * by changing the voltage of the motors and thus changing the accelaration.
+   * by changing the voltage of the motors and thus changing the acceleration.
    * All filters and behaviors should always do all their calculations and
    * decisions for the expected execution time of the command. The cycle
    * also features a counter for the number of cycles that have been executed

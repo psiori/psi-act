@@ -177,7 +177,7 @@ set(_GTEST_INCLUDE_DIRS ${SOURCE_DIR}/googletest/include)
 set(_GMOCK_INCLUDE_DIRS ${SOURCE_DIR}/googlemock/include)
 set(GTEST_INCLUDE_DIRS ${_GTEST_INCLUDE_DIRS} ${_GMOCK_INCLUDE_DIRS})
 
-# directories must exist to use INTERFACE inlcude dirs, but they are only created at
+# directories must exist to use INTERFACE include dirs, but they are only created at
 # build time. so we manually create at configure time to make cmake happy.
 file(MAKE_DIRECTORY ${_GTEST_INCLUDE_DIRS})
 file(MAKE_DIRECTORY ${_GMOCK_INCLUDE_DIRS})

@@ -69,7 +69,7 @@ The architecture's basis was designed by SL in 2003 / 2004, for the first time p
 during his first working week in spring 2004 and subsequently implemented inside the
 robot control software of the Brainstormers Tribots afterwards.
 
-Unfortunately, although quite successul in enabling the implementation of complex,
+Unfortunately, although quite successful in enabling the implementation of complex,
 distributed real-time strategies in the team of 6 soccer robots, the architecture and
 principles were never fully published. Only some aspects were detailed in Lauer et al,
 Cognitive Concepts in Autonomous Soccer Playing Robots and, Riedmiller et al,
@@ -95,7 +95,7 @@ This would make the deliberation about when to switch into what process step (un
 
 My idea is, that we'll have one high level priority arbitrator, that has individual arbitrators as options, probably one per possible desire (plus safety, emergency, default etc).
 
-What we have to make sure is, that on this highest level the switches between options in reaction to changes in desire are reasonable, that is, only, if present crane state allows it. Probably we have to use a lot of "interruptable = false" here.
+What we have to make sure is, that on this highest level the switches between options in reaction to changes in desire are reasonable, that is, only, if present crane state allows it. Probably we have to use a lot of "interruptible = false" here.
 
 So, for the other, presently empty classes in /src/deliberation: Deliberator is the counter part for the top-level option (the strategy) on the intention / behavior level that we already have implemented. There will be one Deliberator in the crane AI, it will be owned by the ControlLoop, deliberate once per cycle, before we then let the strategy do its calculations. Either the options will be able to access the Deliberator as singleton or I will pass the Deliberator during the construction down to them.
 

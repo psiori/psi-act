@@ -26,11 +26,11 @@ psi_act::SequentialPlan::~SequentialPlan() noexcept {
 psi_act::SequentialPlan*
 psi_act::SequentialPlan::appendStage(Option* option,
                                      bool skippable,
-                                     bool interruptable,
+                                     bool interruptible,
                                      bool seekInterruption,
                                      bool takeoverOwnership) noexcept {
   Stage stage = {
-      option, skippable, interruptable, seekInterruption, takeoverOwnership};
+      option, skippable, interruptible, seekInterruption, takeoverOwnership};
   options.push_back(stage);
   return this;
 }
@@ -86,10 +86,10 @@ void psi_act::SequentialPlan::determineScheduledIntention(
   bool foundInvocable   = false;
   intentionCompleted    = true;
   if (presentIntention >= 0 && presentIntention < stageNum) {
-    interruptAllowed = options[presentIntention].interruptable;
+    interruptAllowed = options[presentIntention].interruptible;
     if (options[presentIntention].option->checkCommitmentCondition(time)) {
       foundInvocable =
-          true;  // if this stage is commited, no need to search further
+          true;  // if this stage is committed, no need to search further
       intentionCompleted = false;
       scheduledIntention = presentIntention;
     }
