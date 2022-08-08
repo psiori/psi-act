@@ -1,10 +1,17 @@
 cmake_minimum_required(VERSION 3.15.0)
-
-project(PSIACT CXX C)
+project(psiact LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# if no option is given, standard is release
+IF(NOT CMAKE_BUILD_TYPE)
+  SET(CMAKE_BUILD_TYPE Release)
+ENDIF()
+
+message(STATUS)
+message(STATUS "----------------------------------------------------------")
+message(STATUS "-- psiact ------------------------------------------------")
 
 # ############################################################################
 #
@@ -18,22 +25,20 @@ MESSAGE( STATUS "Searching for additional packages ------------------------" )
 FIND_PACKAGE(Doxygen)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(Doxygen DEFAULT_MSG DOXYGEN_EXECUTABLE)
 
+# Seems like the system includes do not need to be specified explicitly?
+# If they are: Watch out as they might collide with whatever is provided by
+# CMAKE_PREFIX_PATH.
 
-include_directories("/opt/local/include")
-link_directories("/opt/local/lib")
-
+# include_directories("/opt/local/include")
+# link_directories("/opt/local/lib")
 # PRINT LIBRARY AND INCLUDE SEARCH ORDER ON CONSOLE
-
-MESSAGE( STATUS )
-MESSAGE( STATUS "Search order for includes --------------------------------" )
-get_property(directories DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
-MESSAGE( STATUS "${directories}")
-
-MESSAGE( STATUS )
-MESSAGE( STATUS "Search order for libraries -------------------------------" )
-get_property(directories DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY LINK_DIRECTORIES)
-MESSAGE( STATUS "${directories}")
-
+# MESSAGE( STATUS "Search order for includes --------------------------------" )
+# get_property(directories DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
+# MESSAGE( STATUS "${directories}")
+# MESSAGE( STATUS )
+# MESSAGE( STATUS "Search order for libraries -------------------------------" )
+# get_property(directories DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY LINK_DIRECTORIES)
+# MESSAGE( STATUS "${directories}")
 
 # ############################################################################
 #
@@ -44,35 +49,36 @@ MESSAGE( STATUS "${directories}")
 # the following styles and lint function will be used in the package
 # definitions.
 
-set(STYLE_FILTER)
-set(STYLE_FILTER ${STYLE_FILTER}-legal/copyright,)
-set(STYLE_FILTER ${STYLE_FILTER}-build/header_guard,)
-set(STYLE_FILTER ${STYLE_FILTER}-build/include,)
-set(STYLE_FILTER ${STYLE_FILTER}+build/include_order,)
-set(STYLE_FILTER ${STYLE_FILTER}+build/include_what_you_use,)
-
-FUNCTION(add_lint_target TARGET_NAME SOURCES_LIST)
-
-  list(REMOVE_DUPLICATES SOURCES_LIST)
-  list(SORT SOURCES_LIST)
-
-  if(NOT ${TARGET_NAME})
-  add_custom_target(${TARGET_NAME}
-    COMMAND "${CMAKE_COMMAND}" -E chdir
-            "${CMAKE_CURRENT_SOURCE_DIR}"
-            "${PYTHON_EXECUTABLE}"
-            "${CMAKE_SOURCE_DIR}/vendor/cpplint.py"
-            "--filter=${STYLE_FILTER}"
-            "--counting=detailed"
-            "--extensions=cc,cpp,hpp,h"
-            "--linelength=80"
-            ${SOURCES_LIST}
-    DEPENDS ${SOURCES_LIST}
-    COMMENT "Linting ${TARGET_NAME}"
-    VERBATIM)
-    endif()
-
-endfunction()
+# Following configures cpp lint. Currently unused as broken (was never used in
+# this codebase).
+# set(STYLE_FILTER)
+# set(STYLE_FILTER ${STYLE_FILTER}-legal/copyright,)
+# set(STYLE_FILTER ${STYLE_FILTER}-build/header_guard,)
+# set(STYLE_FILTER ${STYLE_FILTER}-build/include,)
+# set(STYLE_FILTER ${STYLE_FILTER}+build/include_order,)
+# set(STYLE_FILTER ${STYLE_FILTER}+build/include_what_you_use,)
+# set(PYTHON_EXECUTABLE python3)
+# FUNCTION(add_lint_target TARGET_NAME SOURCES_LIST)
+#   list(REMOVE_DUPLICATES SOURCES_LIST)
+#   list(SORT SOURCES_LIST)
+#   if(NOT ${TARGET_NAME})
+#     message(status "${TARGET_NAME} ${SOURCES_LIST}")
+#     add_custom_target(${TARGET_NAME}
+#       COMMAND "${CMAKE_COMMAND}" -E chdir
+#               "${CMAKE_CURRENT_SOURCE_DIR}"
+#               "cpplint"
+#               "--filter=${STYLE_FILTER}"
+#               "--counting=detailed"
+#               "--extensions=cc,cpp,hpp,h"
+#               "--linelength=80"
+#               ${SOURCES_LIST}
+#       DEPENDS ${SOURCES_LIST}
+#       COMMENT "Linting ${TARGET_NAME}"
+#       VERBATIM)
+#   endif()
+# endfunction()
+# add_lint_target(psiact-library-lint ${PSIACT_SRCS})
+# set_property(GLOBAL APPEND PROPERTY LINT_TARGETS psiact-library-lint)
 
 
 # ############################################################################
@@ -81,25 +87,27 @@ endfunction()
 #
 # ############################################################################
 
-IF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-SET(CMAKE_INSTALL_PREFIX
-"${PSIACT_SOURCE_DIR}" CACHE PATH "PSI-ACT install prefix" FORCE
-)
-ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+# IF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+# SET(CMAKE_INSTALL_PREFIX
+# "${PSIACT_SOURCE_DIR}" CACHE PATH "PSI-ACT install prefix" FORCE
+# )
+# ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
 OPTION( TESTING "Set to OFF to prevent compilation of unit tests." OFF )
 
-MESSAGE( STATUS )
-MESSAGE( STATUS "-- PSI-ACT Build Options ---------------------------------" )
-MESSAGE( STATUS "CMAKE_INSTALL_PREFIX   = ${CMAKE_INSTALL_PREFIX}" )
-MESSAGE( STATUS "TESTING                = ${TESTING}" )
-MESSAGE( STATUS "CMAKE_BUILD_TYPE       = ${CMAKE_BUILD_TYPE}")
-MESSAGE( STATUS "Change a value with: cmake -D<VAR>=<VALUE>" )
-MESSAGE( STATUS "----------------------------------------------------------" )
-MESSAGE( STATUS )
+MESSAGE(STATUS)
+MESSAGE(STATUS "-- PSI-ACT Build Options ---------------------------------")
+MESSAGE(STATUS "CMAKE_INSTALL_PREFIX   = ${CMAKE_INSTALL_PREFIX}")
+MESSAGE(STATUS "CMAKE_PREFIX_PATH      = ${CMAKE_PREFIX_PATH}")
+MESSAGE(STATUS "TESTING                = ${TESTING}")
+MESSAGE(STATUS "CMAKE_BUILD_TYPE       = ${CMAKE_BUILD_TYPE}")
+MESSAGE(STATUS "Change a value with: cmake -D<VAR>=<VALUE>")
+MESSAGE(STATUS "----------------------------------------------------------")
+MESSAGE(STATUS)
 
 add_subdirectory(src)
-add_subdirectory(examples)
+# TODO: add switch to build examples
+# add_subdirectory(examples)
 
 
 # doc target
@@ -135,7 +143,7 @@ include(ExternalProject)
 # Download and install GoogleTest
 ExternalProject_Add(
     psi-act-gtest
-    URL https://github.com/google/googletest/archive/master.zip
+    URL https://github.com/google/googletest/archive/main.zip
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/psi-act-gtest
     # Disable install step
     INSTALL_COMMAND ""
@@ -182,7 +190,7 @@ ENDIF()
 enable_testing()
 add_subdirectory(test)
 
-ENDIF()
+ENDIF() # testing
 
 
 # ############################################################################
@@ -198,3 +206,7 @@ add_custom_target(psi-act-lint ALL
   DEPENDS ${LINT_TARGETS}
   VERBATIM)
 ENDIF()
+
+message(STATUS "-- psiact ------------------------------------------------")
+message(STATUS "----------------------------------------------------------")
+message(STATUS)

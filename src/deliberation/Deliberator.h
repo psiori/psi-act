@@ -18,8 +18,8 @@
 
 #include <string>
 
-#include "TimePoint.h"
-#include "CycleManager.h"
+#include "psiact/CycleManager.h"
+#include "psiact/TimePoint.h"
 
 namespace psi_act {
   /**
@@ -58,7 +58,7 @@ public:
 
   virtual std::string deliberate(const TimePoint& time=
                                     CYCLE.executionExpectedAt)=0;
-  
+
   std::string getName() const { return name; }
 
 protected:

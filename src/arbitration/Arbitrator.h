@@ -17,24 +17,27 @@
 #define Arbitrator_h
 
 #include <string>
-#include "Option.h"
+#include <vector>
+
+#include "psiact/arbitration/Option.h"
 
 namespace psi_act {
 
-  /**
-   * Arbitrator is the intermediate class between Option and
-   * either SequentialPlan or PriorityArbitration. Does not add
-   * any functionality so far.
-   */
-  class Arbitrator : public Option {
+/**
+ * Arbitrator is the intermediate class between Option and
+ * either SequentialPlan or PriorityArbitration. Does not add
+ * any functionality so far.
+ */
+class Arbitrator : public Option {
+public:
+  Arbitrator(const std::string& name = "Arbitrator");
+  ~Arbitrator(){};
 
-  public:
-    Arbitrator(const std::string& name="Arbitrator");
-    ~Arbitrator() {};
+  virtual std::string listOptions(bool listNested = true) const noexcept = 0;
 
-    virtual std::string listOptions(bool listNested=true)=0;
-  };
-  
-}
+  virtual std::vector<Option*> getOptions(void) noexcept = 0;
+};
+
+}  // namespace psi_act
 
 #endif /* Arbitrator_h */

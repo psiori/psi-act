@@ -5,6 +5,8 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "psiact/Command.h"
+
 psi_act::SequentialPlan::SequentialPlan(const std::string& name) :
     Arbitrator(name), presentIntention(-1), scheduledIntention(-1) {
 }
@@ -152,9 +154,9 @@ psi_act::SequentialPlan::calculateCommand(const TimePoint& time) {
   }
 }
 
-std::string psi_act::SequentialPlan::listOptions(
-    bool listNested)  // argmunet necessary for required signature, but not used
-{
+// "listNested" argument necessary for required signature, but not used
+std::string
+psi_act::SequentialPlan::listOptions(bool listNested) const noexcept {
   std::stringstream ss;
   for (unsigned int i = 0; i < options.size(); i++) {
     ss << options[i].option->toString() << std::endl;

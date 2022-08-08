@@ -9,7 +9,6 @@
 #include <functional>
 #include <iostream>
 
-
 // ////////////////////////////////////////////////////////////////////////////
 //
 //    F I N I T E   S T A T E   M A C H I N E
@@ -29,6 +28,15 @@ psi_act::FiniteStateMachine::~FiniteStateMachine()
   for (auto it : states) {
     delete it.second;
   }
+}
+
+
+psi_act::FiniteStateMachine* psi_act::FiniteStateMachine::setTransitionFunction(
+    std::function<void(const psi_act::FiniteStateMachine::State& previousState,
+                       const psi_act::FiniteStateMachine::State& nextState)>
+        onTransition) {
+  this->onTransition = onTransition;
+  return this;
 }
 
 
@@ -82,12 +90,22 @@ psi_act::FiniteStateMachine::State*
 psi_act::FiniteStateMachine::execute(const TimePoint& time)
 {
   State* targetState = presentState->execute(time);
-
-  presentState->onLeave();
-  presentState = targetState;
-  presentState->onEnter();
-
+  if (targetState != presentState) {
+    presentState->onLeave();
+    this->onTransition(*presentState, *targetState);
+    presentState = targetState;
+    presentState->onEnter();
+  }
   return presentState;
+}
+
+
+std::vector<std::string> psi_act::FiniteStateMachine::getStates() const {
+  std::vector<std::string> state_names;
+  for (const std::pair<const std::string, State*> kv : this->states) {
+    state_names.push_back(kv.first);
+  }
+  return state_names;
 }
 
 
@@ -96,17 +114,22 @@ std::string psi_act::FiniteStateMachine::toGraphviz(void) const {
   std::string text = std::string("digraph FSM {\n  rankdir=LR;\n");
   // Consuming states.
   text += "  node [shape = doublecircle];\n ";
+  bool has_consuming_states = false;
   for (const auto& state : this->states) {
     if (state.second->transitions.size() == 0) {
       text += " \"" + state.second->name + "\"";
+      has_consuming_states = true;
     } else if (state.second->transitions.size() == 1) {
       const auto* transition = state.second->transitions[0];
       if (transition->from == transition->to) {
         text += " " + state.second->name;
+        has_consuming_states = true;
       }
     }
   }
-  text += ";\n";
+  if (has_consuming_states) {
+    text += ";\n";
+  }
   // Non-consuming states.
   text += "  node [shape = circle];\n";
   // Transitions.
@@ -160,7 +183,6 @@ psi_act::FiniteStateMachine::State::execute(const TimePoint& time)
   std::cerr << "ERROR: no transition condition was met. Stay in present state."
             << std::endl;  // \todo : should we throw an exception?
 #endif
-
   return this;
 }
 

@@ -18,8 +18,8 @@
 #include <string>
 #include <vector>
 
-#include "CycleManager.h"
-#include "TimePoint.h"
+#include "psiact/CycleManager.h"
+#include "psiact/TimePoint.h"
 
 
 namespace psi_act {
@@ -55,9 +55,13 @@ public:
 
     std::vector<const Transition*> transitions;
   };
-  
+
   FiniteStateMachine();
   virtual ~FiniteStateMachine();
+
+  FiniteStateMachine* setTransitionFunction(
+      std::function<void(const State& previousState, const State& nextState)>
+          onTransition);
 
   FiniteStateMachine* createState(const std::string& name,
                                   std::function<void(void)> onEnter = []() {},
@@ -77,9 +81,12 @@ public:
           [](const TimePoint&) -> bool { return true; });
 
   FiniteStateMachine* registerState(State* state);
-  
+
   State* getPresentState() { return presentState; }
   State* execute(const TimePoint& time = CYCLE.startedAt);
+
+  /** Get names of all registered states. */
+  std::vector<std::string> getStates() const;
 
   /**
    * @brief Produce a graphviz dot format graph of the FSM.
@@ -105,6 +112,9 @@ protected:
 
   std::map<std::string, State*> states;
   State* presentState;
+  std::function<void(const State& previousState, const State& nextState)>
+      onTransition = [](const State& previousState, const State& nextState) {
+      };
 };
 
 } // namespace psi_act

@@ -20,7 +20,7 @@ Configure cmake and create make files (also builds the tools):
 
     > cmake -DCMAKE_BUILD_TYPE=Release ..
 
-Build and install BrickTrack:
+Build and install Psi-Act:
 
     > make
     > make install
@@ -49,8 +49,8 @@ This will generate a new project psi-act.xcodeproj.
 
 # Origins and Further Reading
 
-P-ACT is a non-dogmatic blend of several "classical" ideas from cognitive architecture 
-research with some-- at that time-- newer ideas from the AI community playing robotic
+PSI-ACT is a non-dogmatic blend of several "classical" ideas from cognitive architecture 
+research with some -- at that time -- newer ideas from the AI community playing robotic
 soccer. 
 
 It mixes ideas from 

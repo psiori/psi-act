@@ -15,10 +15,13 @@
 
 #include <string>
 #include <chrono>
-#include "Command.h"
-#include "CycleManager.h"
+
+#include "psiact/CycleManager.h"
 
 namespace psi_act {
+
+  class Command;
+
   /**
    * Option contains all information necessary to decide whether a behaviour
    * - the option - can be executed, and what actual command is issued to the
@@ -35,6 +38,7 @@ namespace psi_act {
      * @brief check whether an option can be continued
      */
     virtual bool checkCommitmentCondition(const TimePoint&) noexcept;
+
     /**
      * @brief check whether an option can be started
      */
@@ -45,7 +49,7 @@ namespace psi_act {
     /**
      * @brief computed direct command to the machine like velocities or electrical voltage.
      */
-    virtual Command* calculateCommand(const TimePoint&)=0;
+    virtual Command* calculateCommand(const TimePoint&) = 0;
 
     virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) noexcept;
     virtual void cycleEnded(const Cycle& cycle, const TimePoint& time) noexcept;
@@ -53,11 +57,15 @@ namespace psi_act {
     virtual void gainControl(const TimePoint&) {}
     virtual void loseControl(const TimePoint&) {}
 
-    virtual std::string toString() const { return name; };
-    virtual std::string currentOptionName() const { return toString(); };
+    virtual std::string toString() const { return name; }
+    virtual std::string currentOptionName() const {
+      return toString();
+    }
 
   protected:
     std::string name;
+
+    bool receiveCycleNotifications;
   };
 
 }

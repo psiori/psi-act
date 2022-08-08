@@ -25,7 +25,9 @@ void psi_act::CycleManager::registerNotifiable(CycleNotifiable* notifiable)
 
 void psi_act::CycleManager::unregisterNotifiable(CycleNotifiable* notifiable)
 {
-  this->notifiables.erase(notifiable);
+  if (notifiable) {
+    this->notifiables.erase(notifiable);
+  }
 }
 
 void psi_act::CycleManager::unregisterAllNotifables()
@@ -45,7 +47,7 @@ void psi_act::CycleManager::resetWithFrequency(double frequency)
 
 
 double psi_act::CycleManager::getFrequency() const
-{ 
+{
   return 1000000.0 / duration_us.count();
 };
 
