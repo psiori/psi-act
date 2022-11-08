@@ -1,0 +1,71 @@
+exclude: "vendor"
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-json
+        exclude: ^tests/assets/test_trackStakes_0.json$
+      - id: trailing-whitespace
+      - id: detect-private-key
+      - id: check-added-large-files
+      - id: no-commit-to-branch
+        args:
+          - --branch
+          - master
+          - --branch
+          - main
+
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v2.6.2
+    hooks:
+      - id: prettier
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.1.0
+    hooks:
+      - id: codespell
+        exclude: >
+          (?x)^(
+            doc
+          )$
+        # args:
+        #   - -I
+        #   - scripts/.dictionary
+
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 2.1.6
+    hooks:
+      - id: forbid-binary
+        exclude: doc
+
+  - repo: local
+    hooks:
+      - id: clang-format
+        name: clang-format
+        language: script
+        entry: ./scripts/check_style.sh
+        types:
+          - file
+        files: \.(cpp|hpp|tpp|c|h|ino|proto)$
+
+  # - repo: local
+  #   hooks:
+  #     - id: remove-unicode-non-breaking-spaces
+  #       name: Remove unicode non-breaking space character U+00A0 aka M-BM-
+  #       language: system
+  #       entry: perl -pi* -e 's/\xc2\xa0/ /g && ($t = 1) && print STDERR $_; END{{exit $t}}'
+  #       files: ^[^.]+$|\.(?!(pcd|png|jpg|ppm|)$)([^.]+$)
+  #     - id: remove-en-dashes
+  #       name: Remove the EXTREMELY confusing unicode character U+2013
+  #       language: system
+  #       entry: perl -pi* -e 's/\xe2\x80\x93/-/g && ($t = 1) && print STDERR $_; END{{exit $t}}'
+  #       files: ^[^.]+$|\.(?!(pcd|png|jpg|ppm|)$)([^.]+$)

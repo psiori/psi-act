@@ -12,13 +12,12 @@
 
 #include "TimePoint.h"
 
-namespace psi_act
-{
+namespace psi_act {
 
-class PsiActException : std::runtime_error
-{
+class PsiActException : std::runtime_error {
 public:
-  PsiActException(const std::string& msg) : std::runtime_error(msg) {}
+  PsiActException(const std::string& msg) : std::runtime_error(msg) {
+  }
 };
 
 /**
@@ -27,13 +26,12 @@ public:
  * Command class which the application's options fill with appropriate
  * values for the actions to take.
  */
-class Command
-{
+class Command {
 public:
-  virtual ~Command() {};
+  virtual ~Command(){};
 
   /** sets the neutral command used as a fallback command. */
-  static void setNeutralCommand(Command* cmd, bool own=true);
+  static void setNeutralCommand(Command* cmd, bool own = true);
   /** gets the neutral command used as a fallback command. */
   static Command* getNeutralCommand();
 

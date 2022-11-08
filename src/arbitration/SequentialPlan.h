@@ -43,7 +43,7 @@ public:
    * will be executed FIFO.
    * @param option            The \ref Option that will be executed.
    * @param skippable         Whether this behavior may be skipped.
-   * @param interruptable     Whether this behavior may be interrupted after
+   * @param interruptible     Whether this behavior may be interrupted after
    *                          having taken control.
    * @param seekInterruption  Whether this behavior tries to interrupt previous
    *                          behaviors.
@@ -52,7 +52,7 @@ public:
    */
   psi_act::SequentialPlan* appendStage(Option* option,
                                        bool skippable         = false,
-                                       bool interruptable     = false,
+                                       bool interruptible     = false,
                                        bool seekInteruption   = false,
                                        bool takeoverOwnership = true) noexcept;
 
@@ -72,7 +72,7 @@ private:
   struct Stage {
     Option* option;
     bool skipable;
-    bool interruptable;
+    bool interruptible;
     bool seekInteruption;
     bool owned;
   };

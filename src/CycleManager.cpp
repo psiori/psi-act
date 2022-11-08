@@ -14,75 +14,67 @@ psi_act::CycleManager& psi_act::CycleManager::getTheCycleManager() {
 }
 
 psi_act::CycleManager::CycleManager(long cycle_time_us,
-                                    long execution_delay_us)
-  : duration_us(cycle_time_us), delay_us(execution_delay_us), cycles(30) {
+                                    long execution_delay_us) :
+    duration_us(cycle_time_us), delay_us(execution_delay_us), cycles(30) {
 }
 
-void psi_act::CycleManager::registerNotifiable(CycleNotifiable* notifiable)
-{
+void psi_act::CycleManager::registerNotifiable(CycleNotifiable* notifiable) {
   this->notifiables.insert(notifiable);
 }
 
-void psi_act::CycleManager::unregisterNotifiable(CycleNotifiable* notifiable)
-{
+void psi_act::CycleManager::unregisterNotifiable(CycleNotifiable* notifiable) {
   if (notifiable) {
     this->notifiables.erase(notifiable);
   }
 }
 
-void psi_act::CycleManager::unregisterAllNotifables()
-{
+void psi_act::CycleManager::unregisterAllNotifables() {
   this->notifiables.clear();
 }
 
-void psi_act::CycleManager::resetWithFrequency(double frequency)
-{
+void psi_act::CycleManager::resetWithFrequency(double frequency) {
   if (frequency <= 0) {
-    throw std::invalid_argument("CycleManger::reset called with invalid "
-                                "frequency. Must be larger than zero.");
+    throw std::invalid_argument(
+        "CycleManger::reset called with invalid "
+        "frequency. Must be larger than zero.");
   }
   duration_us = static_cast<std::chrono::microseconds>(
-    (long long)(1000/frequency*1000.0));
+      (long long)(1000 / frequency * 1000.0));
 }
 
 
-double psi_act::CycleManager::getFrequency() const
-{
+double psi_act::CycleManager::getFrequency() const {
   return 1000000.0 / duration_us.count();
 };
 
 
-
-void psi_act::CycleManager::start()
-{
+void psi_act::CycleManager::start() {
   cycles.clear();
   startCycle();
 }
 
-void psi_act::CycleManager::endCycle()
-{
+void psi_act::CycleManager::endCycle() {
   if (cycles.size()) {
-    Cycle& cycle = cycles.back();
+    Cycle& cycle  = cycles.back();
     cycle.endedAt = psi_act::Clock::now();
-    cycle.ended = true;
-    for (auto it = this->notifiables.begin(); it != this->notifiables.end(); it++) {
+    cycle.ended   = true;
+    for (auto it = this->notifiables.begin(); it != this->notifiables.end();
+         it++) {
       (*it)->cycleEnded(cycle, cycle.executionExpectedAt);
     }
   }
 }
 
-void psi_act::CycleManager::startCycle()
-{
+void psi_act::CycleManager::startCycle() {
   Cycle cycle;
   int missed_cycles = 0;
 
   cycle.startedAt = psi_act::Clock::now();
 
   if (cycles.size()) {
-    cycle.counter = cycles.back().counter + 1;
+    cycle.counter      = cycles.back().counter + 1;
     cycle.desiredEndAt = cycles.back().desiredEndAt + duration_us;
-  }
-  else {
+  } else {
     cycle.desiredEndAt = cycle.startedAt + duration_us;
   }
 
@@ -98,18 +90,16 @@ void psi_act::CycleManager::startCycle()
   cycle.executionExpectedAt = cycle.desiredEndAt + delay_us;
   cycles.push_back(cycle);
 
-  for (auto it = this->notifiables.begin(); it != this->notifiables.end(); it++) {
+  for (auto it = this->notifiables.begin(); it != this->notifiables.end();
+       it++) {
     (*it)->cycleStarted(cycle, cycle.executionExpectedAt);
   }
-
 }
 
-void psi_act::CycleManager::advance()
-{
+void psi_act::CycleManager::advance() {
   if (!cycles.size()) {
     this->start();
-  }
-  else {
+  } else {
     this->endCycle();
     this->startCycle();
   }
@@ -124,20 +114,20 @@ const psi_act::Cycle& psi_act::CycleManager::currentCycle() {
 
 std::chrono::milliseconds psi_act::CycleManager::remainingInCycle() {
   return std::chrono::duration_cast<std::chrono::milliseconds>(
-    currentCycle().desiredEndAt - psi_act::Clock::now());
+      currentCycle().desiredEndAt - psi_act::Clock::now());
 }
-
 
 
 double psi_act::CycleManager::averageDuration(unsigned long history) const {
   long duration = 0;
   int count     = 0;
-  if (history == 0)
-  {
-      history = cycles.size();
+  if (history == 0) {
+    history = cycles.size();
   }
-  for (auto it = cycles.begin() + cycles.size() - std::min<long>(history, cycles.size());
-       it != cycles.end(); it++) {
+  for (auto it = cycles.begin() + cycles.size() -
+                 std::min<long>(history, cycles.size());
+       it != cycles.end();
+       it++) {
     if (it->ended) {
       duration += std::chrono::duration_cast<std::chrono::milliseconds>(
                       it->endedAt - it->startedAt)

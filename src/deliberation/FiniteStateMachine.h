@@ -52,9 +52,10 @@ public:
       std::function<void(const State& previousState, const State& nextState)>
           onTransition);
 
-  FiniteStateMachine* createState(const std::string& name,
-                                  std::function<void(void)> onEnter = []() {},
-                                  std::function<void(void)> onLeave = []() {});
+  FiniteStateMachine* createState(
+      const std::string& name,
+      std::function<void(void)> onEnter = []() {},
+      std::function<void(void)> onLeave = []() {});
 
   FiniteStateMachine* addTransition(
       const std::string& from,
@@ -71,7 +72,9 @@ public:
 
   FiniteStateMachine* registerState(State* state);
 
-  State* getPresentState() { return presentState; }
+  State* getPresentState() {
+    return presentState;
+  }
   State* execute(const TimePoint& time = CYCLE.startedAt);
 
   /** Get names of all registered states. */
@@ -109,5 +112,3 @@ protected:
 }  // namespace psi_act
 
 #endif /* __PSI_ACT__FINITE_STATE_MACHINE_H__ */
-
-

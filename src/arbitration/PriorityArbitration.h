@@ -12,87 +12,87 @@
 #include <string>
 #include <vector>
 
-#include "psiact/arbitration/Arbitrator.h"
 #include "psiact/CycleManager.h"
+#include "psiact/arbitration/Arbitrator.h"
 
 namespace psi_act {
 
+/**
+ * \attention: the implementation assumes that within the same
+ *             cycle of the control loop, checkCommitmentCondition,
+ *             checkInvocationCondition, and getCommand all are called
+ *             with only the same single timestamp; if you need handling
+ *             of queries with different timestamps within the same
+ *             cycle, you might have to overwrite these three methods.
+ */
+class PriorityArbitration : public Arbitrator {
+public:
+  PriorityArbitration(const std::string& name = "PriorityArbitration");
+  virtual ~PriorityArbitration() noexcept;
+
+  virtual Command* calculateCommand(const TimePoint&) noexcept(false) override;
+
+  /** true, if at least one of the available options is invocable */
+  virtual bool
+  checkInvocationCondition(const TimePoint& time) noexcept override;
+  /** true, if the presently executed option can continue, or at least
+    one different option is invocable */
+  virtual bool
+  checkCommitmentCondition(const TimePoint& time) noexcept override;
+
+  virtual void gainControl(const TimePoint&) noexcept override;
+  virtual void loseControl(const TimePoint&) noexcept override;
+
+  virtual std::string currentOptionName() const override;
+
   /**
-   * \attention: the implemenation assumes that within the same
-   *             cycle of the control loop, checkCommitmentCondition,
-   *             checkInvocationCondition, and getCommand all are called
-   *             with only the same single timestamp; if you need handling
-   *             of queries with different timestamps within the same
-   *             cycle, you might have to overwrite these three methods.
+   * @brief Adds the given argument to the end of the list of available
+   * options, with lowest priority.
+   *
+   * \param interrupatable if true, this option may be interrupted by another
+   *                       option of higher priority.
+   *
+   * \param takeoverOwnership if true, the plan owns the given option and
+   *                          has to take care of freeing its memory
    */
-  class PriorityArbitration : public Arbitrator {
-  public:
-    PriorityArbitration(const std::string& name="PriorityArbitration");
-    virtual ~PriorityArbitration() noexcept;
+  psi_act::PriorityArbitration*
+  addOption(Option* option,
+            bool interruptible     = true,
+            bool takeoverOwnership = true) noexcept;
 
-    virtual Command*
-    calculateCommand(const TimePoint&) noexcept(false) override;
+  std::string listOptions(bool listNested = true) const noexcept override;
 
-    /** true, if at least one of the available options is invocable */
-    virtual bool
-    checkInvocationCondition(const TimePoint& time) noexcept override;
-    /** true, if the presently executed option can continue, or at least
-      one different option is invocable */
-    virtual bool
-    checkCommitmentCondition(const TimePoint& time) noexcept override;
-
-    virtual void gainControl(const TimePoint&) noexcept override;
-    virtual void loseControl(const TimePoint&) noexcept override;
-
-    virtual std::string currentOptionName() const override;
-
-    /**
-     * @brief Adds the given argument to the end of the list of available
-     * options, with lowest priority.
-     *
-     * \param interrupatable if true, this option may be interrupted by another
-     *                       option of higher priority.
-     *
-     * \param takeoverOwnership if true, the plan owns the given option and
-     *                          has to take care of freeing its memory
-     */
-    psi_act::PriorityArbitration*
-    addOption(Option* option,
-              bool interruptable     = true,
-              bool takeoverOwnership = true) noexcept;
-
-    std::string listOptions(bool listNested = true) const noexcept override;
-
-    std::vector<Option*> getOptions(void) noexcept override {
-      std::vector<Option*> opts;
-      for (OptionWithFlags& stage : this->options) {
-        opts.emplace_back(stage.option);
-      }
-      return opts;
+  std::vector<Option*> getOptions(void) noexcept override {
+    std::vector<Option*> opts;
+    for (OptionWithFlags& stage : this->options) {
+      opts.emplace_back(stage.option);
     }
+    return opts;
+  }
 
-  protected:
-    virtual void determineUpcomingOption(const TimePoint& time) noexcept;
+protected:
+  virtual void determineUpcomingOption(const TimePoint& time) noexcept;
 
-    struct OptionWithFlags {
-      Option* option;
-      bool interrupatable;
-      bool owned;
-    };
-    std::vector<OptionWithFlags> options; ///< in order of decreasing priority
-
-    int upcomingOption; ///<
-    int presentOption;
+  struct OptionWithFlags {
+    Option* option;
+    bool interrupatable;
+    bool owned;
   };
+  std::vector<OptionWithFlags> options;  ///< in order of decreasing priority
+
+  int upcomingOption;  ///<
+  int presentOption;
+};
 
 
-  class AlternativeOptions {
-  public:
-    // selects and follows the most applicable
-  protected:
-    std::vector<Option*> options;
-  };
+class AlternativeOptions {
+public:
+  // selects and follows the most applicable
 
-}
+protected:
+  std::vector<Option*> options;
+};
+
+}  // namespace psi_act
 
 #endif
