@@ -95,6 +95,12 @@ namespace psi_act {
      */
     double averageDuration(unsigned long history = 100) const;
 
+    /**
+     * @param   history The number of recent cycles to consider. Pass 0 for global
+     * average
+     */
+    double maxDuration(unsigned long history = 100) const;
+
     std::chrono::milliseconds remainingInCycle();
 
   protected:
