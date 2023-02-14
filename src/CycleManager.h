@@ -22,7 +22,7 @@ namespace psi_act {
    * cycle. Expected execution time is the desired end time of the cycle
    * (as the command is emitted near the cycle end) plus the average delay
    * that the system needs to really execute this command physically. e.g.
-   * by changing the voltage of the motors and thus changing the accelaration.
+   * by changing the voltage of the motors and thus changing the acceleration.
    * All filters and behaviors should always do all their calculations and
    * decisions for the expected execution time of the command. The cycle
    * also features a counter for the number of cycles that have been executed
@@ -33,7 +33,7 @@ namespace psi_act {
    */
   struct Cycle {
   public:
-    long counter;                   ///< counter, incremented with every cylce
+    long counter;                   ///< counter, incremented with every cycle
     bool ended;                     ///< true, if the cycle has been ended
     TimePoint startedAt;            ///< real start time of the cycle
     TimePoint desiredEndAt;         ///< desired end time of the cycle
@@ -94,6 +94,12 @@ namespace psi_act {
      * average
      */
     double averageDuration(unsigned long history = 100) const;
+
+    /**
+     * @param   history The number of recent cycles to consider. Pass 0 for global
+     * duration
+     */
+    std::chrono::milliseconds maxDuration(unsigned long history = 100) const;
 
     std::chrono::milliseconds remainingInCycle();
 
