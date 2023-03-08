@@ -53,10 +53,10 @@ double psi_act::CycleManager::getFrequency() const
 
 
 
-void psi_act::CycleManager::start()
+void psi_act::CycleManager::start(const psi_act::TimePoint& time)
 {
   cycles.clear();
-  startCycle();
+  startCycle(time);
 }
 
 void psi_act::CycleManager::endCycle()
@@ -71,12 +71,12 @@ void psi_act::CycleManager::endCycle()
   }
 }
 
-void psi_act::CycleManager::startCycle()
+void psi_act::CycleManager::startCycle(const psi_act::TimePoint& time)
 {
   Cycle cycle;
   int missed_cycles = 0;
 
-  cycle.startedAt = psi_act::Clock::now();
+  cycle.startedAt = time;
 
   if (cycles.size()) {
     cycle.counter = cycles.back().counter + 1;

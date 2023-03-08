@@ -82,7 +82,7 @@ namespace psi_act {
      * frequency in Hz (cycles per second). Cycle time is calculated
      * by this method and set properly. */
     void resetWithFrequency(double frequency=30.0);
-    void start();
+    void start(const psi_act::TimePoint& t = psi_act::Clock::now());
     void advance();
 
     const Cycle& currentCycle();
@@ -118,7 +118,7 @@ namespace psi_act {
     std::set<CycleNotifiable*> notifiables;
 
     void endCycle();
-    void startCycle();
+    void startCycle(const psi_act::TimePoint& t = psi_act::Clock::now());
   };
 
   /// TODO(sascha@psiori.com): we should not have these macros here, but in an appropriate place in the autocrane-core. We should not spam the global scope with non-namespaced symbols nor names
