@@ -37,7 +37,7 @@ using Condition = std::function<bool(const TimePoint&)>;
  * the transition whenever this result is `True` as well as the commitment
  * condition of the active state's option being false and the invocation
  * condition of the destination state being true. The transition checks are done
- * in the order same order they where added to the state machine. The arbitrator
+ * in the same order they where added to the state machine. The arbitrator
  * can only invoke/commit if at least one option is provided through the
  * `createState` interface. Otherwise it uses the options commitment condition
  * to determine if to keep commiting.
