@@ -77,6 +77,12 @@ public:
   /** Get names of all registered states. */
   std::vector<std::string> getStates() const;
 
+   /**
+   * Sets the active state of the state machine
+   * @param name the name of the state
+   */
+  void setActiveState(std::string name);
+
   /**
    * @brief Produce a graphviz dot format graph of the FSM.
    * Can be rendered using https://dreampuf.github.io/GraphvizOnline

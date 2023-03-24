@@ -5,6 +5,7 @@ LIST(APPEND PSIACT_SRCS
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/PriorityArbitration.cpp
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/SequentialPlan.cpp
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/Arbitrator.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/arbitration/FiniteStateArbitration.cpp
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/Deliberator.cpp
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/FiniteStateMachine.cpp
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/FiniteStateDeliberation.cpp
@@ -18,6 +19,7 @@ LIST(APPEND PSIACT_HEADERS
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/PriorityArbitration.h
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/SequentialPlan.h
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/Arbitrator.h
+  ${CMAKE_CURRENT_LIST_DIR}/arbitration/FiniteStateArbitration.h
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/Deliberator.h
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/FiniteStateMachine.h
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/FiniteStateDeliberation.h

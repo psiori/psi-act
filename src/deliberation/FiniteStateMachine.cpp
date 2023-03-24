@@ -108,6 +108,10 @@ std::vector<std::string> psi_act::FiniteStateMachine::getStates() const {
   return state_names;
 }
 
+void psi_act::FiniteStateMachine::setActiveState(std::string state_name) {
+  this->presentState = this->states.at(state_name);
+}
+
 
 std::string psi_act::FiniteStateMachine::toGraphviz(void) const {
   // Open digraph.
