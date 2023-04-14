@@ -71,7 +71,7 @@ public:
 
   FiniteStateMachine* registerState(State* state);
 
-  State* getPresentState() { return presentState; }
+  State* getPresentState() const;
   State* execute(const TimePoint& time = CYCLE.startedAt);
 
   /** Get names of all registered states. */

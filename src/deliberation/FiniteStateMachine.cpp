@@ -85,6 +85,11 @@ psi_act::FiniteStateMachine* psi_act::FiniteStateMachine::addTransition(
   return this;
 }
 
+psi_act::FiniteStateMachine::State* 
+psi_act::FiniteStateMachine::getPresentState() const {
+  return this->presentState;
+}
+
 
 psi_act::FiniteStateMachine::State*
 psi_act::FiniteStateMachine::execute(const TimePoint& time)

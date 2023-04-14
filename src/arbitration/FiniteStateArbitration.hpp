@@ -17,12 +17,13 @@
 #include <string>
 
 #include "Arbitrator.h"
-#include "Command.h"
-#include "FiniteStateMachine.h"
+#include "psiact/Command.h"
+#include "psiact/deliberation/FiniteStateMachine.h"
 
 namespace psi_act {
 
-using Condition = std::function<bool(const TimePoint&)>;
+using Condition =
+    std::function<bool(const TimePoint&, const bool old_state_commitable)>;
 
 /**
  * @brief Arbitrator using a finite state machine to choose between different
@@ -66,24 +67,26 @@ public:
    * @param annotation (optional) description of the transition
    * @param condition (optional) condition for the transition to happen
    */
-  FiniteStateArbitration* addTransition(
-      const std::string& from,
-      const std::string& to,
-      const std::string& annotation = "",
-      const Condition condition     = [](const TimePoint&) -> bool {
-        return true;
-      });
+  FiniteStateArbitration* addTransition(const std::string& from,
+                                        const std::string& to,
+                                        const std::string& annotation,
+                                        const Condition condition);
 
   FiniteStateArbitration(const std::string& name = "FiniteStateArbitration");
-  virtual ~FiniteStateArbitration();
-  virtual Command* calculateCommand(const TimePoint&) noexcept(false);
-  virtual bool checkInvocationCondition(const TimePoint& time) noexcept;
-  virtual bool checkCommitmentCondition(const TimePoint& time) noexcept;
-  virtual void gainControl(const TimePoint& time) noexcept;
-  virtual void loseControl(const TimePoint& time) noexcept;
-  virtual void cycleStarted(const Cycle& cycle, const TimePoint& time) noexcept;
-  virtual std::string currentOptionName() const;
-  virtual std::string listOptions(bool listNested = true);
+  virtual ~FiniteStateArbitration() override;
+  virtual Command* calculateCommand(const TimePoint&) override;
+  virtual bool
+  checkInvocationCondition(const TimePoint& time) noexcept override;
+  virtual bool
+  checkCommitmentCondition(const TimePoint& time) noexcept override;
+  virtual void gainControl(const TimePoint& time) noexcept override;
+  virtual void loseControl(const TimePoint& time) noexcept override;
+  virtual void
+  cycleStarted(const Cycle& cycle, const TimePoint& time) noexcept override;
+  std::string currentOptionName() const override;
+  std::string listOptions(bool listNested = true) const noexcept override;
+
+  std::vector<Option*> getOptions() noexcept override;
 
 protected:
   /** State machine handling the substates */
