@@ -19,7 +19,7 @@ LIST(APPEND PSIACT_HEADERS
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/PriorityArbitration.h
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/SequentialPlan.h
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/Arbitrator.h
-  ${CMAKE_CURRENT_LIST_DIR}/arbitration/FiniteStateArbitration.h
+  ${CMAKE_CURRENT_LIST_DIR}/arbitration/FiniteStateArbitration.hpp
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/Deliberator.h
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/FiniteStateMachine.h
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/FiniteStateDeliberation.h

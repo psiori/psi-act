@@ -2,12 +2,13 @@
 
 #include <functional>
 #include <iostream>
+#include <psiact/CycleManager.h>
+#include <psiact/deliberation/FiniteStateMachine.h>
 #include <sstream>
 #include <string>
 #include <vector>
 
-#include "Command.h"
-#include "CycleManager.h"
+#include "psiact/Command.h"
 
 using namespace psi_act;
 
@@ -37,12 +38,16 @@ FiniteStateArbitration::addTransition(const std::string& from,
                                       const std::string& to,
                                       const std::string& annotation,
                                       const Condition condition) {
-  const Condition combined_condition = [=](const TimePoint& time) -> bool {
-    const bool can_enter_new_state =
-        this->state_option_map[to]->checkInvocationCondition(time);
-    const bool can_leave_old_state =
-        !this->state_option_map[from]->checkCommitmentCondition(time);
-    return can_enter_new_state && can_leave_old_state && condition(time);
+  const auto combined_condition =
+      [*this, to, from, condition](const TimePoint& time) -> bool {
+    // Enforce that the new "to" state is invokable, but pass the commitment
+    // condition of "from" to the condition so that the caller can decide if to
+    // respect it or not.
+    const bool to_invokable =
+        this->state_option_map.at(to)->checkInvocationCondition(time);
+    const bool from_commitable =
+        this->state_option_map.at(from)->checkCommitmentCondition(time);
+    return to_invokable && condition(time, from_commitable);
   };
 
   this->state_machine.addTransition(from, to, annotation, combined_condition);
@@ -51,11 +56,6 @@ FiniteStateArbitration::addTransition(const std::string& from,
 
 bool FiniteStateArbitration::checkInvocationCondition(
     const TimePoint& time) noexcept {
-  // If no states available
-  if (this->state_machine.getStates().size() == 0) {
-    return false;
-  }
-
   // If no current option active
   if (this->currentOption() == nullptr) {
     return false;
@@ -66,18 +66,12 @@ bool FiniteStateArbitration::checkInvocationCondition(
 
 bool FiniteStateArbitration::checkCommitmentCondition(
     const TimePoint& time) noexcept {
-  // If no states available
-  if (this->state_machine.getStates().size() == 0) {
-    return false;
-  }
-
   // If no current option active
   if (this->currentOption() == nullptr) {
     return false;
   }
 
   this->state_machine.execute(time);
-
   return this->currentOption()->checkCommitmentCondition(time);
 }
 
@@ -123,22 +117,28 @@ Option* FiniteStateArbitration::currentOption() const {
 
 std::string FiniteStateArbitration::currentOptionName() const {
   Option* cur_option = this->currentOption();
-  return (cur_option == nullptr) ? "" : cur_option->toString();
+  return (cur_option == nullptr) ? "NONE" : cur_option->toString();
 }
 
 std::string FiniteStateArbitration::currentStateName() const {
   const FiniteStateMachine::State* cur_state =
       this->state_machine.getPresentState();
-  if (cur_state == nullptr) {
-    throw std::runtime_error("No state available");
-  }
-  return cur_state->name;
+  return (cur_state == nullptr) ? "NONE" : cur_state->name;
 }
 
-std::string FiniteStateArbitration::listOptions(bool listNested) {
+std::string
+FiniteStateArbitration::listOptions(bool listNested) const noexcept {
   std::stringstream ss;
   for (std::string& state : this->state_machine.getStates()) {
     ss << this->state_option_map.at(state)->toString() << std::endl;
   }
   return ss.str();
+}
+
+std::vector<Option*> FiniteStateArbitration::getOptions() noexcept {
+  std::vector<Option*> opts;
+  for (const std::string& name : this->state_machine.getStates()) {
+    opts.emplace_back(state_option_map[name]);
+  }
+  return opts;
 }
