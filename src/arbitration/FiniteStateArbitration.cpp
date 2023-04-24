@@ -39,7 +39,7 @@ FiniteStateArbitration::addTransition(const std::string& from,
                                       const std::string& annotation,
                                       const Condition condition) {
   const auto combined_condition =
-      [*this, to, from, condition](const TimePoint& time) -> bool {
+      [this, to, from, condition](const TimePoint& time) -> bool {
     // Enforce that the new "to" state is invokable, but pass the commitment
     // condition of "from" to the condition so that the caller can decide if to
     // respect it or not.
