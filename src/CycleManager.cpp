@@ -6,7 +6,7 @@
 //
 
 #include "CycleManager.h"
-
+#include <vector>
 
 psi_act::CycleManager& psi_act::CycleManager::getTheCycleManager() {
   static CycleManager the_cycle_manager;
