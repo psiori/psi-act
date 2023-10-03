@@ -97,6 +97,12 @@ namespace psi_act {
 
     /**
      * @param   history The number of recent cycles to consider. Pass 0 for global
+     * average
+     */
+    double medianDuration(unsigned long history = 100) const;
+
+    /**
+     * @param   history The number of recent cycles to consider. Pass 0 for global
      * duration
      */
     std::chrono::milliseconds maxDuration(unsigned long history = 100) const;
