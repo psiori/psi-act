@@ -148,8 +148,7 @@ double psi_act::CycleManager::averageDuration(unsigned long history) const {
   return count > 0 ? duration / (double)count : duration_us.count() / 1000.0;
 }
 double psi_act::CycleManager::medianDuration(unsigned long history) const {
-  std::vector<long> durations = 0;
-  int count     = 0;
+  std::vector<long> durations;
   if (history == 0)
   {
       history = cycles.size();
@@ -165,7 +164,7 @@ double psi_act::CycleManager::medianDuration(unsigned long history) const {
   }
   std::sort(durations.begin(), durations.end());
 
-  return count > 0 ? durations[durations.size()/2] : duration_us.count() / 1000.0;
+  return durations.size() > 0 ? durations[durations.size()/2] : duration_us.count() / 1000.0;
 }
 
 std::chrono::milliseconds
