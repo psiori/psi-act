@@ -147,6 +147,25 @@ double psi_act::CycleManager::averageDuration(unsigned long history) const {
   }
   return count > 0 ? duration / (double)count : duration_us.count() / 1000.0;
 }
+double psi_act::CycleManager::medianDuration(unsigned long history) const {
+  std::vector<long> durations;
+  if (history == 0)
+  {
+      history = cycles.size();
+  }
+  // or: cycles.end() - 1 - std::min<long>(history, cycles.size() ? 
+  for (auto it = cycles.begin() + cycles.size() - std::min<long>(history, cycles.size());
+       it != cycles.end(); it++) {
+    if (it->ended) {
+      durations.push_back(std::chrono::duration_cast<std::chrono::milliseconds>(
+                      it->endedAt - it->startedAt)
+                      .count());
+    }
+  }
+  std::sort(durations.begin(), durations.end());
+
+  return durations.size() > 0 ? durations[durations.size()/2] : duration_us.count() / 1000.0;
+}
 
 std::chrono::milliseconds
 psi_act::CycleManager::maxDuration(unsigned long history) const {
