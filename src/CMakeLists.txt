@@ -1,3 +1,5 @@
+set(CMAKE_CXX_STANDARD 20)
+
 LIST(APPEND PSIACT_SRCS
   ${CMAKE_CURRENT_LIST_DIR}/Command.cpp
   ${CMAKE_CURRENT_LIST_DIR}/CycleManager.cpp
@@ -9,6 +11,11 @@ LIST(APPEND PSIACT_SRCS
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/Deliberator.cpp
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/FiniteStateMachine.cpp
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/FiniteStateDeliberation.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/utils/Logger.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/utils/YAMLReader.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/fundamentals/ConfigNode.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/fundamentals/ThreadUtils.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/fundamentals/TimeUtils.cpp
 )
 
 LIST(APPEND PSIACT_HEADERS
@@ -23,15 +30,22 @@ LIST(APPEND PSIACT_HEADERS
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/Deliberator.h
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/FiniteStateMachine.h
   ${CMAKE_CURRENT_LIST_DIR}/deliberation/FiniteStateDeliberation.h
+  ${CMAKE_CURRENT_LIST_DIR}/utils/Logger.hpp
+  ${CMAKE_CURRENT_LIST_DIR}/fundamentals/Exceptions.hpp
+  ${CMAKE_CURRENT_LIST_DIR}/fundamentals/ThreadUtils.hpp
+  ${CMAKE_CURRENT_LIST_DIR}/utils/YAMLReader.hpp
+  ${CMAKE_CURRENT_LIST_DIR}/fundamentals/ConfigNode.hpp
+  ${CMAKE_CURRENT_LIST_DIR}/fundamentals/Utils.hpp
+  ${CMAKE_CURRENT_LIST_DIR}/fundamentals/StreamUtils.hpp
+  ${CMAKE_CURRENT_LIST_DIR}/fundamentals/TimeUtils.hpp
 )
 
 LIST(APPEND FILES
   ${PSIACT_SRCS}
   ${PSIACT_HEADERS})
 
-
 # define subgroups for XCode and other IDEs
-source_group( src FILES ${PSIACT_HEADERS} ${PSIACT_SRCS} )
+source_group(src FILES ${PSIACT_HEADERS} ${PSIACT_SRCS})
 
 find_package(Boost)
 message(STATUS "Boost include dirs: ${Boost_INCLUDE_DIRS}")
@@ -41,13 +55,35 @@ ADD_LIBRARY(psiact STATIC ${PSIACT_SRCS})
 
 # disable flags on msvc
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang.*" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_compile_options(psiact PRIVATE -Wno-error -Wno-error=old-style-cast)
+  target_compile_options(psiact PRIVATE -Wno-error -Wno-error=old-style-cast)
 endif()
 
 message(STATUS "PSIACT BOOST: ${Boost_LIBRARIES} ${Boost_INCLUDE_DIRS}")
+
+find_package(yaml-cpp CONFIG REQUIRED)
+message(STATUS "PSIACT YAML-CPP: ${YAML_CPP_INCLUDE_DIR} ${YAML_CPP_LIBRARIES}")
+
+if(NOT YAML_CPP_INCLUDE_DIR)
+  get_property(
+    YAML_INCLUDE_PROP
+    TARGET yaml-cpp
+    PROPERTY INTERFACE_INCLUDE_DIRECTORIES
+  )
+  message(STATUS "Yaml-cpp include prop = ${YAML_INCLUDE_PROP}")
+  set(YAML_CPP_INCLUDE_DIR ${YAML_INCLUDE_PROP})
+endif()
+
+if(NOT YAML_CPP_LIBRARIES)
+  message(STATUS "Yaml-cpp hardcoding empty libraries var...")
+  set(YAML_CPP_LIBRARIES yaml-cpp)
+endif()
+
+message(STATUS "Yaml-cpp headers: ${YAML_CPP_INCLUDE_DIR}")
+message(STATUS "Yaml-cpp libraries: ${YAML_CPP_LIBRARIES}")
+
 # Include PUBLICly so including projects get these as well
-target_include_directories(psiact SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
-target_link_libraries(psiact PUBLIC ${Boost_LIBRARIES})
+target_include_directories(psiact SYSTEM PRIVATE ${Boost_INCLUDE_DIRS} ${YAML_CPP_INCLUDE_DIR})
+target_link_libraries(psiact PUBLIC ${Boost_LIBRARIES} ${YAML_CPP_LIBRARIES})
 
 # Install headers into include/psiact/*, keeping the src directory structure.
 # This matches what other libraries (opencv, tensorflow..) do, although they
@@ -56,6 +92,7 @@ target_link_libraries(psiact PUBLIC ${Boost_LIBRARIES})
 # mockery to still allow namespaced includes.
 set(CMAKE_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_PREFIX}/include)
 set(CMAKE_BUILD_INCLUDEDIR ${CMAKE_BINARY_DIR}/include)
+
 foreach(file ${PSIACT_HEADERS})
   set_target_properties(psiact PROPERTIES PUBLIC_HEADER ${file})
   get_filename_component(dir ${file} DIRECTORY BASE_DIR ${CMAKE_CURRENT_LIST_DIR})
@@ -77,7 +114,6 @@ endforeach()
 # Only use the mocked ./build/include dir as include directory. CMake will take
 # care of always moving the up-to-date headers there.
 target_include_directories(psiact PUBLIC ${CMAKE_BUILD_INCLUDEDIR})
-
 
 INSTALL(TARGETS psiact
   RUNTIME DESTINATION bin
