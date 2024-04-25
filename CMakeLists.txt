@@ -37,6 +37,7 @@ LIST(APPEND PSIACT_SRCS
   ${SRC_DIR}/fundamentals/ConfigNode.cpp
   ${SRC_DIR}/fundamentals/ThreadUtils.cpp
   ${SRC_DIR}/fundamentals/TimeUtils.cpp
+  ${SRC_DIR}/fundamentals/Utils.cpp
 )
 
 target_sources(${PROJECT_NAME} PRIVATE ${PSIACT_SRCS})

@@ -1,5 +1,22 @@
 #pragma once
+#include "psiact/TimePoint.h"
+#include <algorithm> // std::sort, std::stable_sort
+#include <cerrno>
+#include <cstdlib>
+#include <cstring>
 #include <filesystem>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <numeric> // std::iota
+#include <psiact/TimePoint.h>
+#include <set>
+#include <sstream>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unordered_map>
+#include <vector>
 
 namespace sfs = std::filesystem;
 namespace psi_act {
@@ -53,37 +70,6 @@ std::vector<char> read_file(const std::string &file);
  * @note Does not do any error checking, will crash on invalid file.
  */
 std::vector<char> read_file(std::ifstream &stream);
-
-/**
- * @brief   Task our friends boyer and moore to find lines containing a search
- * string (no regex)
- *
- * @param stream    Opened binary stream
- * @param pattern   String to look for
- */
-std::vector<std::string> matching_lines(std::ifstream &stream,
-                                        const std::string &pattern);
-
-/**
- * @brief Search directories created by a \ref autocrane::FolderIO to find the
- * newest file. This can also optionally ignore files older than a certain
- * cutoff, e.g. more than 5 minutes old. The path finding works by recursively
- * listing all files in the base directory , and then
- * finding the one with the largest seconds since epoch. If its newer than the
- * cutoff, the path to it is returned, otherwise an empty string is returned. If
- * a non-existent `base_directory` is passed, it will also return an empty
- * string. If the directories exist, but there are no files, it will also return
- * an empty etring.
- * @param base_directory Directory created by the \ref autocrane::FolderIO
- * @param cutoff How old something has to be in relation to now in order to be
- * considered expired and thus ignored. This can not be a negative number!
- * @param ext Extension to use for filtering files.
- * @return Path to latest file, or empty string if no valid latest file, no
- * directory, or not files found
- */
-std::string path_latest_filename(const std::string &base_directory,
-                                 const psi_act::Duration &cutoff,
-                                 std::string ext = "");
 
 } // namespace file
 } // namespace utils

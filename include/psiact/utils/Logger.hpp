@@ -248,7 +248,7 @@ protected:
 };
 } // namespace psi_act
 
-#define LOGGER (Logger::getLogger())
+#define LOGGER (psi_act::Logger::getLogger())
 
 // kinda ugly: The cmake build defines the Macro which must be one of
 // Logger::Level. If they somehow change it'll break
