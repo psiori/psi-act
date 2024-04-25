@@ -52,7 +52,7 @@ target_include_directories(
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>
   $<INSTALL_INTERFACE:include>)
 
-find_package(Boost)
+find_package(Boost REQUIRED)
 message(STATUS "Boost include dirs: ${Boost_INCLUDE_DIRS}")
 message(STATUS "Boost libraries: ${Boost_LIBRARIES}")
 message(STATUS "Boost library dirs: ${Boost_LIBRARY_DIRS}")
