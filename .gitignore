@@ -37,6 +37,5 @@ build
 build_xcode
 build_x
 bin/*
-include/*
 tags
 tags
