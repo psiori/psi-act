@@ -9,8 +9,7 @@ target_link_libraries(test_psiact
   gtest gmock
 )
 
-
-set_target_properties(test_psiact PROPERTIES COMPILE_FLAGS -std=c++11)
+set_target_properties(test_psiact PROPERTIES COMPILE_FLAGS -std=c++20)
 
 include_directories(
   ${PSIACT_SOURCE_DIR})
