@@ -308,17 +308,17 @@ static void log_stream(const Logger::Level &level, const Logger::Identifier &id,
       std::stringstream _ss;                                                   \
       _ss << args;                                                             \
       const auto msg = _ss.str();                                              \
-      Logger::getLogger().log(level, identifier, msg);                         \
+      psi_act::Logger::getLogger().log(level, identifier, msg);                \
     }                                                                          \
   }
 
 #define LOG_STREAM_ECHO(level, identifier, args, echo)                         \
   {                                                                            \
-    if (level >= Logger::MIN_LOG_LEVEL) {                                      \
+    if (level >= psi_act::Logger::MIN_LOG_LEVEL) {                             \
       std::stringstream _ss;                                                   \
       _ss << args;                                                             \
       const auto msg = _ss.str();                                              \
-      Logger::getLogger().log(level, identifier, msg);                         \
+      psi_act::Logger::getLogger().log(level, identifier, msg);                \
       bool do_echo = echo;                                                     \
       if (do_echo) {                                                           \
         std::cout << msg << std::endl;                                         \
@@ -356,13 +356,13 @@ static void log_stream(const Logger::Level &level, const Logger::Identifier &id,
 // is enabled.
 #ifndef DISABLE_LOGGING
 
-#define LOG_ALWAYS(...) LOG_STREAM(Logger::ALWAYS, __VA_ARGS__)
-#define LOG_FATAL(...) LOG_STREAM(Logger::FATAL, __VA_ARGS__)
-#define LOG_ERROR(...) LOG_STREAM(Logger::ERROR, __VA_ARGS__)
-#define LOG_WARN(...) LOG_STREAM(Logger::WARN, __VA_ARGS__)
-#define LOG_INFO(...) LOG_STREAM(Logger::INFO, __VA_ARGS__)
-#define LOG_DEBUG(...) LOG_STREAM(Logger::DEBUG, __VA_ARGS__)
-#define LOG_TRACE(...) LOG_STREAM(Logger::TRACE, __VA_ARGS__)
+#define LOG_ALWAYS(...) LOG_STREAM(psi_act::Logger::ALWAYS, __VA_ARGS__)
+#define LOG_FATAL(...) LOG_STREAM(psi_act::Logger::FATAL, __VA_ARGS__)
+#define LOG_ERROR(...) LOG_STREAM(psi_act::Logger::ERROR, __VA_ARGS__)
+#define LOG_WARN(...) LOG_STREAM(psi_act::Logger::WARN, __VA_ARGS__)
+#define LOG_INFO(...) LOG_STREAM(psi_act::Logger::INFO, __VA_ARGS__)
+#define LOG_DEBUG(...) LOG_STREAM(psi_act::Logger::DEBUG, __VA_ARGS__)
+#define LOG_TRACE(...) LOG_STREAM(psi_act::Logger::TRACE, __VA_ARGS__)
 
 #else // ifdef DISABLE_LOGGING
 
