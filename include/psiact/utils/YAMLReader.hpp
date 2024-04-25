@@ -140,5 +140,5 @@ template <> struct convert<psi_act::TimePoint> {
 
 } // namespace YAML
 
-#define AC_CR YAMLReader::getYAMLReader()
+#define AC_CR psi_act::YAMLReader::getYAMLReader()
 #endif
