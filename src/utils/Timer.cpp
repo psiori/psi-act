@@ -12,7 +12,7 @@
  * @authors Robin Jehn (robin@psiori.com)
  */
 
-#include "Logging/Timer.hpp"
+#include "psiact/Logging/Timer.hpp"
 
 #include <boost/format.hpp>
 #include <chrono>
@@ -24,7 +24,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Logging/Logger.hpp"
+#include "psiact/Logging/Logger.hpp"
 
 namespace psi_act {
 

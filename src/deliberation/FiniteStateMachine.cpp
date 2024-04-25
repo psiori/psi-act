@@ -4,7 +4,7 @@
 //  Sascha Lange, 2014, 2020
 //
 
-#include "FiniteStateMachine.h"
+#include "psiact/deliberation/FiniteStateMachine.h"
 
 #include <functional>
 #include <iostream>

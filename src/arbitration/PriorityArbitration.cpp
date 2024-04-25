@@ -3,7 +3,7 @@
 //  psi-act
 //
 
-#include "PriorityArbitration.h"
+#include "psiact/arbitration/PriorityArbitration.h"
 
 #include <iostream>
 #include <sstream>

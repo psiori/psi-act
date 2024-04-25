@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "deliberation/FiniteStateMachine.h"
-#include "CycleManager.h"
+#include "psiact/CycleManager.h"
+#include "psiact/deliberation/FiniteStateMachine.h"
 
 /** This is a demo of the FiniteStateMachine that demonstrates construction
  * of the transition graph and executing it, switching between states once per

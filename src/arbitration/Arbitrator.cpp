@@ -5,8 +5,7 @@
 //  Sascha Lange, 2003, 2004, 2019.
 //
 
-#include "Arbitrator.h"
-
+#include "psiact/arbitration/Arbitrator.h"
 
 namespace psi_act {
 

@@ -1,4 +1,4 @@
-#include "FiniteStateArbitration.hpp"
+#include "psiact/arbitration/FiniteStateArbitration.hpp"
 
 #include <functional>
 #include <iostream>

@@ -1,5 +1,5 @@
 
-#include "Option.h"
+#include "psiact/arbitration/Option.h"
 
 psi_act::Option::Option(const std::string& name,
                         bool receiveCycleNotifications) :

@@ -1,8 +1,7 @@
 #include <iostream>
 
-#include "deliberation/FiniteStateDeliberation.h"
-#include "CycleManager.h"
-
+#include "psiact/CycleManager.h"
+#include "psiact/deliberation/FiniteStateDeliberation.h"
 
 using namespace psi_act;
 

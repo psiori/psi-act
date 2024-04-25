@@ -1,5 +1,5 @@
 
-#include "SequentialPlan.h"
+#include "psiact/arbitration/SequentialPlan.h"
 
 #include <iostream>
 #include <sstream>

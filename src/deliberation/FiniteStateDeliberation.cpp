@@ -5,7 +5,7 @@
 //  Sascha Lange, 2020
 //
 
-#include "FiniteStateDeliberation.h"
+#include "psiact/deliberation/FiniteStateDeliberation.h"
 
 #include <iostream>
 

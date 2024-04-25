@@ -5,9 +5,7 @@
 //  Sascha Lange, 2020
 //
 
-#include "Deliberator.h"
-
-
+#include "psiact/deliberation/Deliberator.h"
 
 psi_act::Deliberator::Deliberator(const std::string& name) : name(name)
 {}

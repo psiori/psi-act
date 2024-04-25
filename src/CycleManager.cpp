@@ -5,7 +5,7 @@
 //  Sascha Lange, 2019
 //
 
-#include "CycleManager.h"
+#include "psiact/CycleManager.h"
 #include <vector>
 
 psi_act::CycleManager& psi_act::CycleManager::getTheCycleManager() {
