@@ -304,7 +304,7 @@ static void log_stream(const Logger::Level &level, const Logger::Identifier &id,
 // useless, as you could just use the first version
 #define LOG_STREAM_NO_ECHO(level, identifier, args)                            \
   {                                                                            \
-    if (level >= Logger::MIN_LOG_LEVEL) {                                      \
+    if (level >= psi_act::Logger::MIN_LOG_LEVEL) {                             \
       std::stringstream _ss;                                                   \
       _ss << args;                                                             \
       const auto msg = _ss.str();                                              \
