@@ -43,6 +43,8 @@ if(BUILD_UTILS)
            psiact_utils_headers
            TYPE
            HEADERS
+           BASE_DIRS
+           ${INCLUDE_DIR}
            FILES
            ${INCLUDE_DIR}/psiact/fundamentals/ConfigNode.hpp
            ${INCLUDE_DIR}/psiact/CycleManager.h
@@ -88,6 +90,8 @@ if(BUILD_BEHAVIORS)
            psiact_behavior_headers
            TYPE
            HEADERS
+           BASE_DIRS
+           ${INCLUDE_DIR}
            FILES
            ${INCLUDE_DIR}/psiact/Command.h
            ${INCLUDE_DIR}/psiact/deliberation
