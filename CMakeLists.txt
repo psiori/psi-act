@@ -5,7 +5,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # if no option is given, standard is release
 IF(NOT CMAKE_BUILD_TYPE)
-  SET(CMAKE_BUILD_TYPE Release)
+    SET(CMAKE_BUILD_TYPE Release)
 ENDIF()
 
 message(STATUS)
@@ -18,51 +18,89 @@ set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 set(SRC_DIR ${CMAKE_CURRENT_LIST_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_CURRENT_LIST_DIR}/include)
 
-add_library(${PROJECT_NAME})
-add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+option(BUILD_BEHAVIORS "Build the cognitive architecture stack" ON)
+option(BUILD_UTILS "Build non-psi-act-related utilities" ON)
 
-LIST(APPEND PSIACT_SRCS
-  ${SRC_DIR}/Command.cpp
-  ${SRC_DIR}/CycleManager.cpp
-  ${SRC_DIR}/arbitration/Option.cpp
-  ${SRC_DIR}/arbitration/PriorityArbitration.cpp
-  ${SRC_DIR}/arbitration/SequentialPlan.cpp
-  ${SRC_DIR}/arbitration/Arbitrator.cpp
-  ${SRC_DIR}/arbitration/FiniteStateArbitration.cpp
-  ${SRC_DIR}/deliberation/Deliberator.cpp
-  ${SRC_DIR}/deliberation/FiniteStateMachine.cpp
-  ${SRC_DIR}/deliberation/FiniteStateDeliberation.cpp
-  ${SRC_DIR}/utils/Logger.cpp
-  ${SRC_DIR}/utils/YAMLReader.cpp
-  ${SRC_DIR}/fundamentals/ConfigNode.cpp
-  ${SRC_DIR}/fundamentals/ThreadUtils.cpp
-  ${SRC_DIR}/fundamentals/TimeUtils.cpp
-  ${SRC_DIR}/fundamentals/Utils.cpp
-)
-
-target_sources(${PROJECT_NAME} PRIVATE ${PSIACT_SRCS})
-target_compile_definitions(${PROJECT_NAME} PRIVATE VERSION="${CMAKE_PROJECT_VERSION}")
-
-# Inclusion of headers both for building the target and for linking against it. Use
-# INTERFACE instead of PUBLIC if the include dirs are required for dependent projects,
-# not for this project itself.
-target_include_directories(
-  ${PROJECT_NAME}
-  SYSTEM
-  PUBLIC
-  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>
-  $<INSTALL_INTERFACE:include>)
-
-find_package(Boost REQUIRED)
-message(STATUS "Boost include dirs: ${Boost_INCLUDE_DIRS}")
-message(STATUS "Boost libraries: ${Boost_LIBRARIES}")
-message(STATUS "Boost library dirs: ${Boost_LIBRARY_DIRS}")
-
-# disable flags on msvc
-if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang.*" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-  target_compile_options(psiact PRIVATE -Wno-error -Wno-error=old-style-cast)
+if(BUILD_BEHAVIORS)
+    set(BUILD_UTILS ON)
 endif()
 
+if(BUILD_UTILS)
+    add_library(psiact-utils)
+    target_sources(psiact-utils
+        PRIVATE
+        ${SRC_DIR}/utils/Logger.cpp
+        ${SRC_DIR}/utils/YAMLReader.cpp
+        ${SRC_DIR}/fundamentals/ConfigNode.cpp
+        ${SRC_DIR}/fundamentals/ThreadUtils.cpp
+        ${SRC_DIR}/fundamentals/TimeUtils.cpp
+        ${SRC_DIR}/fundamentals/Utils.cpp
+        ${SRC_DIR}/CycleManager.cpp
+        )
+    target_include_directories(
+        psiact-utils
+        SYSTEM
+        PUBLIC
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>
+        $<INSTALL_INTERFACE:include>)
+    find_package(yaml-cpp REQUIRED)
+    find_package(Boost REQUIRED)
+    target_link_libraries(psiact-utils PUBLIC yaml-cpp ${Boost_LIBRARIES})
+    target_include_directories(psiact-utils PUBLIC ${Boost_INCLUDE_DIRS})
+endif()
+
+if(BUILD_BEHAVIORS)
+    add_library(psiact-behavior)
+    target_sources(psiact-behavior
+        PRIVATE
+        ${SRC_DIR}/Command.cpp
+        ${SRC_DIR}/arbitration/Option.cpp
+        ${SRC_DIR}/arbitration/PriorityArbitration.cpp
+        ${SRC_DIR}/arbitration/SequentialPlan.cpp
+        ${SRC_DIR}/arbitration/Arbitrator.cpp
+        ${SRC_DIR}/arbitration/FiniteStateArbitration.cpp
+        ${SRC_DIR}/deliberation/Deliberator.cpp
+        ${SRC_DIR}/deliberation/FiniteStateMachine.cpp
+        ${SRC_DIR}/deliberation/FiniteStateDeliberation.cpp
+        )
+    find_package(Boost REQUIRED)
+    target_link_libraries(psiact-behavior PUBLIC ${Boost_LIBRARIES})
+    target_include_directories(psiact-behavior PUBLIC ${Boost_INCLUDE_DIRS})
+    target_link_libraries(psiact-behavior PUBLIC psiact-utils)
+
+    target_include_directories(
+        psiact-behavior
+        SYSTEM
+        PUBLIC
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>
+        $<INSTALL_INTERFACE:include>)
+endif()
+
+add_library(${PROJECT_NAME} INTERFACE)
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
+if(BUILD_BEHAVIORS)
+    target_link_libraries(${PROJECT_NAME} INTERFACE psiact-behavior)
+    install(TARGETS psiact-behavior
+        EXPORT ${PROJECT_NAME}_Targets
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        )
+endif()
+if(BUILD_UTILS)
+    target_link_libraries(${PROJECT_NAME} INTERFACE psiact-utils)
+    install(TARGETS psiact-utils
+        EXPORT ${PROJECT_NAME}_Targets
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        )
+endif()
+
+<<<<<<< Updated upstream
 message(STATUS "PSIACT BOOST: ${Boost_LIBRARIES} ${Boost_INCLUDE_DIRS}")
 
 find_package(yaml-cpp REQUIRED)
@@ -89,39 +127,41 @@ message(STATUS "Yaml-cpp libraries: ${YAML_CPP_LIBRARIES}")
 # Include PUBLICly so including projects get these as well
 target_include_directories(psiact SYSTEM PRIVATE ${Boost_INCLUDE_DIRS} ${YAML_CPP_INCLUDE_DIR})
 target_link_libraries(psiact PUBLIC ${Boost_LIBRARIES} ${YAML_CPP_LIBRARIES})
+=======
+>>>>>>> Stashed changes
 install(TARGETS ${PROJECT_NAME}
-  EXPORT ${PROJECT_NAME}_Targets
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-)
+    EXPORT ${PROJECT_NAME}_Targets
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    )
 
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
-  ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-  VERSION ${PROJECT_VERSION}
-  COMPATIBILITY AnyNewerVersion
-)
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY AnyNewerVersion
+    )
 
 configure_package_config_file(${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
-  ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-  INSTALL_DESTINATION ${INSTALL_CONFIGDIR}
-)
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    INSTALL_DESTINATION ${INSTALL_CONFIGDIR}
+    )
 
 install(EXPORT ${PROJECT_NAME}_Targets
-  FILE ${PROJECT_NAME}Targets.cmake
-  NAMESPACE ${PROJECT_NAME}::
-  DESTINATION ${INSTALL_CONFIGDIR})
+    FILE ${PROJECT_NAME}Targets.cmake
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION ${INSTALL_CONFIGDIR})
 
 install(FILES
-  ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-  ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-  DESTINATION ${INSTALL_CONFIGDIR}
-)
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    DESTINATION ${INSTALL_CONFIGDIR}
+    )
 
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/ DESTINATION
-  ${CMAKE_INSTALL_INCLUDEDIR} PATTERN ".gitkeep" EXCLUDE)
+    ${CMAKE_INSTALL_INCLUDEDIR} PATTERN ".gitkeep" EXCLUDE)
 
 # ############################################################################
 #
@@ -179,16 +219,16 @@ MESSAGE(STATUS)
 option(BUILD_DOC "Build the doxygen doc" ON)
 
 if(BUILD_DOC)
-  IF(DOXYGEN_FOUND)
-    IF(NOT TARGET doc)
-      ADD_CUSTOM_TARGET(doc COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-    ELSE()
-      ADD_CUSTOM_TARGET(doc-psiact COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-      ADD_DEPENDENCIES(doc doc-psiact)
+    IF(DOXYGEN_FOUND)
+        IF(NOT TARGET doc)
+            ADD_CUSTOM_TARGET(doc COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE}
+                WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+        ELSE()
+            ADD_CUSTOM_TARGET(doc-psiact COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE}
+                WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+            ADD_DEPENDENCIES(doc doc-psiact)
+        ENDIF()
     ENDIF()
-  ENDIF()
 ENDIF()
 
 # ############################################################################
@@ -197,61 +237,61 @@ ENDIF()
 #
 # ############################################################################
 if(TESTING)
-  IF(NOT TARGET gtest)
-    # We need thread support
-    find_package(Threads REQUIRED)
+    IF(NOT TARGET gtest)
+        # We need thread support
+        find_package(Threads REQUIRED)
 
-    # Enable ExternalProject CMake module
-    include(ExternalProject)
+        # Enable ExternalProject CMake module
+        include(ExternalProject)
 
-    # Download and install GoogleTest
-    ExternalProject_Add(
-      psi-act-gtest
-      URL https://github.com/google/googletest/archive/main.zip
-      PREFIX ${PROJECT_BINARY_DIR}/psi-act-gtest
+        # Download and install GoogleTest
+        ExternalProject_Add(
+            psi-act-gtest
+            URL https://github.com/google/googletest/archive/main.zip
+            PREFIX ${PROJECT_BINARY_DIR}/psi-act-gtest
 
-      # Disable install step
-      INSTALL_COMMAND ""
-    )
+            # Disable install step
+            INSTALL_COMMAND ""
+            )
 
-    # Get GTest source and binary directories from CMake project
-    ExternalProject_Get_Property(psi-act-gtest SOURCE_DIR BINARY_DIR)
+        # Get GTest source and binary directories from CMake project
+        ExternalProject_Get_Property(psi-act-gtest SOURCE_DIR BINARY_DIR)
 
-    # Create a libgtest target to be used as a dependency by test programs
-    add_library(gtest IMPORTED STATIC GLOBAL)
-    add_dependencies(gtest psi-act-gtest)
+        # Create a libgtest target to be used as a dependency by test programs
+        add_library(gtest IMPORTED STATIC GLOBAL)
+        add_dependencies(gtest psi-act-gtest)
 
-    # Set libgtest properties
-    set_target_properties(gtest PROPERTIES
-      "IMPORTED_LOCATION" "${BINARY_DIR}/lib/libgtest.a"
-      "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
-    )
+        # Set libgtest properties
+        set_target_properties(gtest PROPERTIES
+            "IMPORTED_LOCATION" "${BINARY_DIR}/lib/libgtest.a"
+            "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
+            )
 
-    # Create a libgmock target to be used as a dependency by test programs
-    add_library(gmock IMPORTED STATIC GLOBAL)
-    add_dependencies(gmock psi-act-gtest)
+        # Create a libgmock target to be used as a dependency by test programs
+        add_library(gmock IMPORTED STATIC GLOBAL)
+        add_dependencies(gmock psi-act-gtest)
 
-    # Set libgmock properties
-    set_target_properties(gmock PROPERTIES
-      "IMPORTED_LOCATION" "${BINARY_DIR}/lib/libgmock.a"
-      "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
-    )
+        # Set libgmock properties
+        set_target_properties(gmock PROPERTIES
+            "IMPORTED_LOCATION" "${BINARY_DIR}/lib/libgmock.a"
+            "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
+            )
 
-    set(_GTEST_INCLUDE_DIRS ${SOURCE_DIR}/googletest/include)
-    set(_GMOCK_INCLUDE_DIRS ${SOURCE_DIR}/googlemock/include)
-    set(GTEST_INCLUDE_DIRS ${_GTEST_INCLUDE_DIRS} ${_GMOCK_INCLUDE_DIRS})
+        set(_GTEST_INCLUDE_DIRS ${SOURCE_DIR}/googletest/include)
+        set(_GMOCK_INCLUDE_DIRS ${SOURCE_DIR}/googlemock/include)
+        set(GTEST_INCLUDE_DIRS ${_GTEST_INCLUDE_DIRS} ${_GMOCK_INCLUDE_DIRS})
 
-    # directories must exist to use INTERFACE inlcude dirs, but they are only created at
-    # build time. so we manually create at configure time to make cmake happy.
-    file(MAKE_DIRECTORY ${_GTEST_INCLUDE_DIRS})
-    file(MAKE_DIRECTORY ${_GMOCK_INCLUDE_DIRS})
+        # directories must exist to use INTERFACE inlcude dirs, but they are only created at
+        # build time. so we manually create at configure time to make cmake happy.
+        file(MAKE_DIRECTORY ${_GTEST_INCLUDE_DIRS})
+        file(MAKE_DIRECTORY ${_GMOCK_INCLUDE_DIRS})
 
-    # I couldn't make it work with INTERFACE_INCLUDE_DIRECTORIES
-    target_include_directories(gtest INTERFACE ${GTEST_INCLUDE_DIRS})
-  ENDIF()
+        # I couldn't make it work with INTERFACE_INCLUDE_DIRECTORIES
+        target_include_directories(gtest INTERFACE ${GTEST_INCLUDE_DIRS})
+    ENDIF()
 
-  enable_testing()
-  add_subdirectory(test)
+    enable_testing()
+    add_subdirectory(test)
 ENDIF() # testing
 
 # ############################################################################
@@ -262,9 +302,9 @@ ENDIF() # testing
 get_property(LINT_TARGETS GLOBAL PROPERTY LINT_TARGETS)
 
 IF(NOT TARGET psi-act-lint)
-  add_custom_target(psi-act-lint ALL
-    DEPENDS ${LINT_TARGETS}
-    VERBATIM)
+    add_custom_target(psi-act-lint ALL
+        DEPENDS ${LINT_TARGETS}
+        VERBATIM)
 ENDIF()
 
 message(STATUS "-- psiact ------------------------------------------------")
