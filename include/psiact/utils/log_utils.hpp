@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-#include "psiact/Logging/Logger.hpp"
+#include "psiact/utils/Logger.hpp"
 
 namespace psi_act {
 
