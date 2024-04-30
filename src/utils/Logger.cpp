@@ -325,7 +325,7 @@ std::array<const char *, Logger::Identifier::_LAST_IDENTIFIER>
         "WORLD_MODEL",    "CRANE",         "COMMAND",        "DECISION_MAKING",
         "WORLD_OBSERVER", "CONFIGURATION", "SAFETY",         "SETUP",
         "SHUTDOWN",       "LOGGING",       "POSTPROCESSING", "SENSOR_MANAGER",
-        "CL_CLIENT"};
+        "CL_CLIENT", "" /* NO_IDENTIFIER */};
 
 std::map<Logger::Level, boost::circular_buffer<Logger::PriorityLog>>
     Logger::recent_high_prio_logs = {

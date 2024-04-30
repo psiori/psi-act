@@ -83,7 +83,8 @@ public:
     LOGGING,         /* message for logging activities */
     POSTPROCESSING,  /* message for post-processing  */
     SENSOR_MANAGER,  /* message for sensor manager */
-    CLIENT,          /* message for client program in cranelink*/
+    CLIENT,          /* message for client program in cranelink */
+    NO_IDENTIFIER,   /* should lead to empty string */
     _LAST_IDENTIFIER
   };
 
