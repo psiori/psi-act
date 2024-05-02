@@ -44,9 +44,6 @@ private:
   /** Whether currently running as a sensornode. */
   bool sensornode = false;
 
-  /** Whether currently running as a mastercontrol. */
-  bool mastercontrol = false;
-
 public:
   /**
    * @brief Path to config file this YAMLReader was created from.
@@ -105,9 +102,6 @@ public:
 
   /** Update state whether currently running on a SensorNode. */
   void setSensorNode(bool sensornode);
-
-  /** Update state whether currently running on a SensorNode. */
-  void setMastercontrol(bool mastercontrol);
 };
 
 } // namespace psi_act

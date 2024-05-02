@@ -245,10 +245,6 @@ bool YAMLReader::isSensorNode() const { return this->sensornode; }
 
 void YAMLReader::setSensorNode(bool sensornode) { this->sensornode = true; }
 
-void YAMLReader::setMastercontrol(bool mastercontrol) {
-  this->mastercontrol = true;
-}
-
 void YAMLReader::initYAMLReader(const std::string &filepath,
                                 const bool reinitialize) {
   if (yaml_config != nullptr && !reinitialize) {

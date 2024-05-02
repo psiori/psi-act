@@ -52,7 +52,7 @@ static std::ofstream initLogFile(const sfs::path &filepath, bool overwrite,
   // Only allow overwriting logs when they are not shared with others (aka
   // destined to be uploaded to the cloud).
   const bool shared_log =
-      filepath.string().find("/home/psi_act/recordings") == 0;
+      filepath.string().find("/home/autocrane/recordings") == 0;
   if (shared_log && overwrite) {
     overwrite = false;
     // Still in setup, cannot log yet.
@@ -321,11 +321,12 @@ std::array<const char *, Logger::Level::_LAST_LEVEL> Logger::Level2String = {
 
 std::array<const char *, Logger::Identifier::_LAST_IDENTIFIER>
     Logger::Identifier2String = {
-        "SENSOR",         "PROCESSING",    "BEHAVIOUR",      "CONTROL_LOOP",
-        "WORLD_MODEL",    "CRANE",         "COMMAND",        "DECISION_MAKING",
-        "WORLD_OBSERVER", "CONFIGURATION", "SAFETY",         "SETUP",
-        "SHUTDOWN",       "LOGGING",       "POSTPROCESSING", "SENSOR_MANAGER",
-        "CL_CLIENT", "" /* NO_IDENTIFIER */};
+        "SENSOR",         "PROCESSING",      "BEHAVIOUR",
+        "CONTROL_LOOP",   "WORLD_MODEL",     "CRANE",
+        "COMMAND",        "DECISION_MAKING", "WORLD_OBSERVER",
+        "CONFIGURATION",  "SAFETY",          "SETUP",
+        "SHUTDOWN",       "LOGGING",         "POSTPROCESSING",
+        "SENSOR_MANAGER", "CL_CLIENT",       "" /* NO_IDENTIFIER */};
 
 std::map<Logger::Level, boost::circular_buffer<Logger::PriorityLog>>
     Logger::recent_high_prio_logs = {
