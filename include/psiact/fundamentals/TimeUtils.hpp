@@ -9,8 +9,9 @@
 #include <psiact/TimePoint.h>
 #include <string>
 
-#define TICK() utils::millis_since_epoch(psi_act::Clock::now())
-#define TOCK(tick) utils::millis_since_epoch(psi_act::Clock::now()) - (tick);
+#define TICK() psi_act::utils::millis_since_epoch(psi_act::Clock::now())
+#define TOCK(tick)                                                             \
+  psi_act::utils::millis_since_epoch(psi_act::Clock::now()) - (tick);
 
 namespace psi_act {
 
