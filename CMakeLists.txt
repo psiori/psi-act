@@ -46,6 +46,9 @@ if(BUILD_UTILS)
            BASE_DIRS
            ${INCLUDE_DIR}
            FILES
+           ${INCLUDE_DIR}/psiact/utils/Logger.hpp
+           ${INCLUDE_DIR}/psiact/utils/YAMLReader.hpp
+           ${INCLUDE_DIR}/psiact/utils/log_utils.hpp
            ${INCLUDE_DIR}/psiact/fundamentals/ConfigNode.hpp
            ${INCLUDE_DIR}/psiact/CycleManager.h
            ${INCLUDE_DIR}/psiact/TimePoint.h
