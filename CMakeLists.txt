@@ -2,14 +2,9 @@ cmake_minimum_required(VERSION 3.15.0)
 project(
   psiact
   VERSION 0.0.1
-  LANGUAGES CXX C)
+  LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-# if no option is given, standard is release
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release)
-endif()
 
 message(STATUS "-- psiact ------------------------------------------------")
 
@@ -59,7 +54,7 @@ if(BUILD_UTILS)
            ${INCLUDE_DIR}/psiact/fundamentals/Utils.hpp)
   target_include_directories(
     psiact-utils SYSTEM PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>
-                               $<INSTALL_INTERFACE:include>)
+                               $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
   find_package(yaml-cpp REQUIRED)
   find_package(Boost REQUIRED)
   target_link_libraries(psiact-utils PUBLIC yaml-cpp ${Boost_LIBRARIES})
@@ -107,7 +102,7 @@ if(BUILD_BEHAVIORS)
   target_include_directories(
     psiact-behavior SYSTEM
     PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>
-           $<INSTALL_INTERFACE:include>)
+           $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
   install(
     TARGETS psiact-behavior
     EXPORT ${PROJECT_NAME}_Targets

@@ -1,8 +1,11 @@
 @PACKAGE_INIT@
+if(POLICY CMP0012)
+    CMAKE_POLICY(SET CMP0012 NEW)
+endif()
 
 include(CMakeFindDependencyMacro)
 
-find_dependency(Boost REQUIRED)
+find_dependency(Boost REQUIRED COMPONENTS thread)
 if(@BUILD_UTILS@)
     find_dependency(yaml-cpp REQUIRED)
 endif()
