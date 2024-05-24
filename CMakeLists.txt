@@ -70,7 +70,15 @@ if(BUILD_UTILS)
           )
       set(YAML_CPP_LIBRARY_DIR ${YAML_LIB_DIR_PROP})
   endif ()
-  target_include_directories(psiact-utils SYSTEM PUBLIC $<BUILD_INTERFACE:${YAML_CPP_INCLUDE_DIR}>)
+  # only include yaml dir in build tree. I am not sure what should be included in
+  # install tree, since when package is relocated, the yaml headers might be
+  # anywhere. I think one would just juse CMAKE_INSTALL_INCLUDEDIR (which we already
+  # have), as that would be appended to every search prefix. To find yml, the prefix
+  # would have been set by the user and thus would be prepended to
+  # CMAKE_INSTALL_INCLUDEDIR (='include/' usually) and there yml headers will be found.
+  target_include_directories(psiact-utils SYSTEM PUBLIC
+      $<BUILD_INTERFACE:${YAML_CPP_INCLUDE_DIR}>
+      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
   message(STATUS "yaml-cpp headers at ${YAML_CPP_INCLUDE_DIR}")
   target_link_directories(psiact-utils PUBLIC ${YAML_CPP_LIBRARY_DIR})
   message(STATUS "yaml-cpp libs at ${YAML_CPP_LIBRARY_DIR}")
