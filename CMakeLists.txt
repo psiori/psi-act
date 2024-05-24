@@ -56,6 +56,17 @@ if(BUILD_UTILS)
     psiact-utils SYSTEM PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>
                                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
   find_package(yaml-cpp REQUIRED)
+  if (NOT YAML_CPP_INCLUDE_DIR)
+      get_property(
+          YAML_INCLUDE_PROP
+          TARGET yaml-cpp
+          PROPERTY INTERFACE_INCLUDE_DIRECTORIES
+          )
+      set(YAML_CPP_INCLUDE_DIR ${YAML_INCLUDE_PROP})
+  endif ()
+  target_include_directories(psiact-utils SYSTEM PUBLIC ${YAML_CPP_INCLUDE_DIR})
+  message(STATUS "yaml-cpp headers at ${YAML_CPP_INCLUDE_DIR}")
+
   find_package(Boost REQUIRED)
   target_link_libraries(psiact-utils PUBLIC yaml-cpp ${Boost_LIBRARIES})
   target_include_directories(psiact-utils PUBLIC ${Boost_INCLUDE_DIRS})
