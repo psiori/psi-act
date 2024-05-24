@@ -63,9 +63,18 @@ if(BUILD_UTILS)
           PROPERTY INTERFACE_INCLUDE_DIRECTORIES
           )
       set(YAML_CPP_INCLUDE_DIR ${YAML_INCLUDE_PROP})
+      get_property(
+          YAML_LIB_DIR_PROP
+          TARGET yaml-cpp
+          PROPERTY INTERFACE_LINK_DIRECTORIES
+          )
+      set(YAML_CPP_LIBRARY_DIR ${YAML_LIB_DIR_PROP})
   endif ()
   target_include_directories(psiact-utils SYSTEM PUBLIC ${YAML_CPP_INCLUDE_DIR})
   message(STATUS "yaml-cpp headers at ${YAML_CPP_INCLUDE_DIR}")
+  target_link_directories(psiact-utils PUBLIC ${YAML_CPP_LIBRARY_DIR})
+  message(STATUS "yaml-cpp libs at ${YAML_CPP_LIBRARY_DIR}")
+
 
   find_package(Boost REQUIRED)
   target_link_libraries(psiact-utils PUBLIC yaml-cpp ${Boost_LIBRARIES})
