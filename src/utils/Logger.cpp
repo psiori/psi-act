@@ -267,8 +267,11 @@ void Logger::rotateLogFile(bool create_new, std::tm &date,
     utils::file::remove(old_log_file_path);
   }
 
-  // save contents to other file
-  const int status = std::rename(file_path.c_str(), old_log_file_path.c_str());
+#ifdef _WIN32
+    const int status = _wrename(file_path.c_str(), old_log_file_path.c_str());
+#else
+    const int status = std::rename(file_path.c_str(), old_log_file_path.c_str());
+#endif
 
   if (status != 0) {
     throw std::runtime_error("Failed copying log file " + file_path.string() +
