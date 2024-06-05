@@ -65,12 +65,18 @@ public:
    * @param from name of the state to transition from
    * @param to name of the state to transition to
    * @param annotation (optional) description of the transition
-   * @param condition (optional) condition for the transition to happen
+   * @param condition (optional) condition for the transition to happen. Default
+   * commits if the active behavior does not want to commit anymore. Also, the
+   * new behaviour always needs to be able to invoke!
    */
-  FiniteStateArbitration* addTransition(const std::string& from,
-                                        const std::string& to,
-                                        const std::string& annotation,
-                                        const Condition condition);
+  FiniteStateArbitration* addTransition(
+      const std::string& from,
+      const std::string& to,
+      const std::string& annotation = "",
+      const Condition condition     = [](const psi_act::TimePoint& t,
+                                     const bool old_commitable) -> bool {
+        return !old_commitable;
+      });
 
   FiniteStateArbitration(const std::string& name = "FiniteStateArbitration");
   virtual ~FiniteStateArbitration() override;
