@@ -26,50 +26,54 @@ if(BUILD_UTILS)
   target_sources(
     psiact-utils
     PRIVATE ${SRC_DIR}/utils/Logger.cpp
-            ${SRC_DIR}/utils/YAMLReader.cpp
-            ${SRC_DIR}/fundamentals/ConfigNode.cpp
-            ${SRC_DIR}/fundamentals/ThreadUtils.cpp
-            ${SRC_DIR}/fundamentals/TimeUtils.cpp
-            ${SRC_DIR}/fundamentals/Utils.cpp
-            ${SRC_DIR}/CycleManager.cpp)
+    ${SRC_DIR}/utils/YAMLReader.cpp
+    ${SRC_DIR}/fundamentals/ConfigNode.cpp
+    ${SRC_DIR}/fundamentals/ThreadUtils.cpp
+    ${SRC_DIR}/fundamentals/TimeUtils.cpp
+    ${SRC_DIR}/fundamentals/Utils.cpp
+    ${SRC_DIR}/CycleManager.cpp)
   target_sources(
     psiact-utils
     PUBLIC FILE_SET
-           psiact_utils_headers
-           TYPE
-           HEADERS
-           BASE_DIRS
-           ${INCLUDE_DIR}
-           FILES
-           ${INCLUDE_DIR}/psiact/utils/Logger.hpp
-           ${INCLUDE_DIR}/psiact/utils/YAMLReader.hpp
-           ${INCLUDE_DIR}/psiact/utils/log_utils.hpp
-           ${INCLUDE_DIR}/psiact/fundamentals/ConfigNode.hpp
-           ${INCLUDE_DIR}/psiact/CycleManager.h
-           ${INCLUDE_DIR}/psiact/TimePoint.h
-           ${INCLUDE_DIR}/psiact/fundamentals/Exceptions.hpp
-           ${INCLUDE_DIR}/psiact/fundamentals/StreamUtils.hpp
-           ${INCLUDE_DIR}/psiact/fundamentals/ThreadUtils.hpp
-           ${INCLUDE_DIR}/psiact/fundamentals/TimeUtils.hpp
-           ${INCLUDE_DIR}/psiact/fundamentals/Utils.hpp)
+    psiact_utils_headers
+    TYPE
+    HEADERS
+    BASE_DIRS
+    ${INCLUDE_DIR}
+    FILES
+    ${INCLUDE_DIR}/psiact/utils/Logger.hpp
+    ${INCLUDE_DIR}/psiact/utils/YAMLReader.hpp
+    ${INCLUDE_DIR}/psiact/utils/log_utils.hpp
+    ${INCLUDE_DIR}/psiact/fundamentals/ConfigNode.hpp
+    ${INCLUDE_DIR}/psiact/CycleManager.h
+    ${INCLUDE_DIR}/psiact/TimePoint.h
+    ${INCLUDE_DIR}/psiact/fundamentals/Exceptions.hpp
+    ${INCLUDE_DIR}/psiact/fundamentals/StreamUtils.hpp
+    ${INCLUDE_DIR}/psiact/fundamentals/ThreadUtils.hpp
+    ${INCLUDE_DIR}/psiact/fundamentals/TimeUtils.hpp
+    ${INCLUDE_DIR}/psiact/fundamentals/Utils.hpp)
   target_include_directories(
     psiact-utils SYSTEM PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>
-                               $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+  set(CMAKE_FIND_DEBUG_MODE TRUE)
   find_package(yaml-cpp REQUIRED)
-  if (NOT YAML_CPP_INCLUDE_DIR)
-      get_property(
-          YAML_INCLUDE_PROP
-          TARGET yaml-cpp
-          PROPERTY INTERFACE_INCLUDE_DIRECTORIES
-          )
-      set(YAML_CPP_INCLUDE_DIR ${YAML_INCLUDE_PROP})
-      get_property(
-          YAML_LIB_DIR_PROP
-          TARGET yaml-cpp
-          PROPERTY INTERFACE_LINK_DIRECTORIES
-          )
-      set(YAML_CPP_LIBRARY_DIR ${YAML_LIB_DIR_PROP})
-  endif ()
+  set(CMAKE_FIND_DEBUG_MODE OFF)
+
+  if(NOT YAML_CPP_INCLUDE_DIR)
+    get_property(
+      YAML_INCLUDE_PROP
+      TARGET yaml-cpp
+      PROPERTY INTERFACE_INCLUDE_DIRECTORIES
+    )
+    set(YAML_CPP_INCLUDE_DIR ${YAML_INCLUDE_PROP})
+    get_property(
+      YAML_LIB_DIR_PROP
+      TARGET yaml-cpp
+      PROPERTY INTERFACE_LINK_DIRECTORIES
+    )
+    set(YAML_CPP_LIBRARY_DIR ${YAML_LIB_DIR_PROP})
+  endif()
+
   # only include yaml dir in build tree. I am not sure what should be included in
   # install tree, since when package is relocated, the yaml headers might be
   # anywhere. I think one would just juse CMAKE_INSTALL_INCLUDEDIR (which we already
@@ -77,12 +81,11 @@ if(BUILD_UTILS)
   # would have been set by the user and thus would be prepended to
   # CMAKE_INSTALL_INCLUDEDIR (='include/' usually) and there yml headers will be found.
   target_include_directories(psiact-utils SYSTEM PUBLIC
-      $<BUILD_INTERFACE:${YAML_CPP_INCLUDE_DIR}>
-      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+    $<BUILD_INTERFACE:${YAML_CPP_INCLUDE_DIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
   message(STATUS "yaml-cpp headers at ${YAML_CPP_INCLUDE_DIR}")
   target_link_directories(psiact-utils PUBLIC ${YAML_CPP_LIBRARY_DIR})
   message(STATUS "yaml-cpp libs at ${YAML_CPP_LIBRARY_DIR}")
-
 
   find_package(Boost REQUIRED)
   target_link_libraries(psiact-utils PUBLIC yaml-cpp ${Boost_LIBRARIES})
@@ -102,26 +105,26 @@ if(BUILD_BEHAVIORS)
   target_sources(
     psiact-behavior
     PRIVATE ${SRC_DIR}/Command.cpp
-            ${SRC_DIR}/arbitration/Option.cpp
-            ${SRC_DIR}/arbitration/PriorityArbitration.cpp
-            ${SRC_DIR}/arbitration/SequentialPlan.cpp
-            ${SRC_DIR}/arbitration/Arbitrator.cpp
-            ${SRC_DIR}/arbitration/FiniteStateArbitration.cpp
-            ${SRC_DIR}/deliberation/Deliberator.cpp
-            ${SRC_DIR}/deliberation/FiniteStateMachine.cpp
-            ${SRC_DIR}/deliberation/FiniteStateDeliberation.cpp)
+    ${SRC_DIR}/arbitration/Option.cpp
+    ${SRC_DIR}/arbitration/PriorityArbitration.cpp
+    ${SRC_DIR}/arbitration/SequentialPlan.cpp
+    ${SRC_DIR}/arbitration/Arbitrator.cpp
+    ${SRC_DIR}/arbitration/FiniteStateArbitration.cpp
+    ${SRC_DIR}/deliberation/Deliberator.cpp
+    ${SRC_DIR}/deliberation/FiniteStateMachine.cpp
+    ${SRC_DIR}/deliberation/FiniteStateDeliberation.cpp)
   target_sources(
     psiact-behavior
     PUBLIC FILE_SET
-           psiact_behavior_headers
-           TYPE
-           HEADERS
-           BASE_DIRS
-           ${INCLUDE_DIR}
-           FILES
-           ${INCLUDE_DIR}/psiact/Command.h
-           ${INCLUDE_DIR}/psiact/deliberation
-           ${INCLUDE_DIR}/psiact/arbitration)
+    psiact_behavior_headers
+    TYPE
+    HEADERS
+    BASE_DIRS
+    ${INCLUDE_DIR}
+    FILES
+    ${INCLUDE_DIR}/psiact/Command.h
+    ${INCLUDE_DIR}/psiact/deliberation
+    ${INCLUDE_DIR}/psiact/arbitration)
   find_package(Boost REQUIRED)
   target_link_libraries(psiact-behavior PUBLIC ${Boost_LIBRARIES})
   target_include_directories(psiact-behavior PUBLIC ${Boost_INCLUDE_DIRS})
@@ -130,7 +133,7 @@ if(BUILD_BEHAVIORS)
   target_include_directories(
     psiact-behavior SYSTEM
     PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>
-           $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
   install(
     TARGETS psiact-behavior
     EXPORT ${PROJECT_NAME}_Targets
@@ -147,6 +150,7 @@ add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 if(BUILD_BEHAVIORS)
   target_link_libraries(${PROJECT_NAME} INTERFACE psiact-behavior)
 endif()
+
 if(BUILD_UTILS)
   target_link_libraries(${PROJECT_NAME} INTERFACE psiact-utils)
 endif()
@@ -177,8 +181,8 @@ install(
   DESTINATION ${INSTALL_CONFIGDIR})
 
 install(FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-              ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-        DESTINATION ${INSTALL_CONFIGDIR})
+  ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+  DESTINATION ${INSTALL_CONFIGDIR})
 
 # ##############################################################################
 #
@@ -231,6 +235,7 @@ if(TESTING)
       psi-act-gtest
       URL https://github.com/google/googletest/archive/main.zip
       PREFIX ${PROJECT_BINARY_DIR}/psi-act-gtest
+
       # Disable install step
       INSTALL_COMMAND "")
 
@@ -245,8 +250,8 @@ if(TESTING)
     set_target_properties(
       gtest
       PROPERTIES "IMPORTED_LOCATION" "${BINARY_DIR}/lib/libgtest.a"
-                 "IMPORTED_LINK_INTERFACE_LIBRARIES"
-                 "${CMAKE_THREAD_LIBS_INIT}")
+      "IMPORTED_LINK_INTERFACE_LIBRARIES"
+      "${CMAKE_THREAD_LIBS_INIT}")
 
     # Create a libgmock target to be used as a dependency by test programs
     add_library(gmock IMPORTED STATIC GLOBAL)
@@ -256,8 +261,8 @@ if(TESTING)
     set_target_properties(
       gmock
       PROPERTIES "IMPORTED_LOCATION" "${BINARY_DIR}/lib/libgmock.a"
-                 "IMPORTED_LINK_INTERFACE_LIBRARIES"
-                 "${CMAKE_THREAD_LIBS_INIT}")
+      "IMPORTED_LINK_INTERFACE_LIBRARIES"
+      "${CMAKE_THREAD_LIBS_INIT}")
 
     set(_GTEST_INCLUDE_DIRS ${SOURCE_DIR}/googletest/include)
     set(_GMOCK_INCLUDE_DIRS ${SOURCE_DIR}/googlemock/include)
