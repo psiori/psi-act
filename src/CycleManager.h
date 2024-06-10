@@ -120,7 +120,7 @@ namespace psi_act {
     std::chrono::microseconds duration_us;
     std::chrono::microseconds delay_us;
 
-    /** Used to decide whether or not the new cycle will enough time to be completed. */
+    /** Used to decide whether the new cycle will have enough time to be completed. */
     std::chrono::microseconds min_expected_cycle_duration_us;
 
     boost::circular_buffer<Cycle> cycles;
