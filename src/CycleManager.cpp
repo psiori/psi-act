@@ -14,8 +14,9 @@ psi_act::CycleManager& psi_act::CycleManager::getTheCycleManager() {
 }
 
 psi_act::CycleManager::CycleManager(long cycle_time_us,
-                                    long execution_delay_us)
-  : duration_us(cycle_time_us), delay_us(execution_delay_us), cycles(30) {
+                                    long execution_delay_us,
+                                    long min_expected_cycle_duration_us)
+  : duration_us(cycle_time_us), delay_us(execution_delay_us), min_expected_cycle_duration_us(min_expected_cycle_duration_us), cycles(30) {
 }
 
 void psi_act::CycleManager::registerNotifiable(CycleNotifiable* notifiable)
@@ -43,6 +44,12 @@ void psi_act::CycleManager::resetWithFrequency(double frequency)
   }
   duration_us = static_cast<std::chrono::microseconds>(
     (long long)(1000/frequency*1000.0));
+
+  if (min_expected_cycle_duration_us <= duration_us) {
+    throw std::invalid_argument("CycleManger::reset called with invalid "
+                                "frequency. Must be larger than zero.");
+    min_expected_cycle_duration_us = std::chrono::microseconds(0);
+  }
 }
 
 
@@ -86,7 +93,7 @@ void psi_act::CycleManager::startCycle(const psi_act::TimePoint& time)
     cycle.desiredEndAt = cycle.startedAt + duration_us;
   }
 
-  while (cycle.desiredEndAt <= cycle.startedAt) {
+  while (cycle.desiredEndAt <= cycle.startedAt + min_expected_cycle_duration_us) {
     cycle.desiredEndAt = cycle.desiredEndAt + duration_us;
     ++missed_cycles;
   }

@@ -111,13 +111,17 @@ namespace psi_act {
 
   protected:
     CycleManager(long cycle_time_us=33333,
-                 long execution_delay_us=50000);
+                 long execution_delay_us=50000,
+                 long min_expected_cycle_duration_us=3000);
     CycleManager(const CycleManager&) {
       // probably should even throw exception
     }
 
     std::chrono::microseconds duration_us;
     std::chrono::microseconds delay_us;
+
+    /** Used to decide whether or not the new cycle will enough time to be completed. */
+    std::chrono::microseconds min_expected_cycle_duration_us;
 
     boost::circular_buffer<Cycle> cycles;
 
