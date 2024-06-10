@@ -44,12 +44,6 @@ void psi_act::CycleManager::resetWithFrequency(double frequency)
   }
   duration_us = static_cast<std::chrono::microseconds>(
     (long long)(1000/frequency*1000.0));
-
-  if (min_expected_cycle_duration_us <= duration_us) {
-    throw std::invalid_argument("CycleManger::reset called with invalid "
-                                "frequency. Must be larger than zero.");
-    min_expected_cycle_duration_us = std::chrono::microseconds(0);
-  }
 }
 
 
