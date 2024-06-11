@@ -101,6 +101,11 @@ protected:
   /** Mapping from state names to Options */
   std::map<std::string, Option*> state_option_map;
 
+  /** Starting state of the arbitrator. This state this will be reset to on
+  loseControl. If not actively set somewhere this will default to the very first
+  state created with createState() */
+  std::string initial_state = "";
+
   /**
    * @brief Returns the current option
    * @return pointer to the current option or nullptr
