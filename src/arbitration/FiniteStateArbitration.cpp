@@ -30,6 +30,9 @@ FiniteStateArbitration::createState(const std::string& name,
   // Create the state and link the option in the state option map
   this->state_machine.createState(name, onEnter, onLeave);
   this->state_option_map[name] = option;
+  if (initial_state == "") {
+    initial_state = name;
+  }
   return this;
 }
 
@@ -83,8 +86,7 @@ void FiniteStateArbitration::loseControl(const TimePoint& time) noexcept {
     return;
   }
 
-  std::string initial_state_name = this->state_machine.getStates()[0];
-  this->state_machine.setActiveState(initial_state_name);
+  this->state_machine.setActiveState(initial_state);
 }
 
 Command* FiniteStateArbitration::calculateCommand(
