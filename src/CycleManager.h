@@ -109,6 +109,10 @@ namespace psi_act {
 
     std::chrono::milliseconds remainingInCycle();
 
+    /** Return next cycle based on current time and latest cycle information.
+     * This does not yet make this the actual new cycle. */
+    Cycle getNextCycle(const psi_act::TimePoint& time) const;
+
   protected:
     CycleManager(long cycle_time_us=33333,
                  long execution_delay_us=50000);

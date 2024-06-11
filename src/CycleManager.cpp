@@ -73,6 +73,15 @@ void psi_act::CycleManager::endCycle()
 
 void psi_act::CycleManager::startCycle(const psi_act::TimePoint& time)
 {
+  Cycle cycle = getNextCycle(time);
+  cycles.push_back(cycle);
+  for (auto it = this->notifiables.begin(); it != this->notifiables.end(); it++) {
+    (*it)->cycleStarted(cycle, cycle.executionExpectedAt);
+  }
+}
+
+psi_act::Cycle psi_act::CycleManager::getNextCycle(const psi_act::TimePoint& time) const
+{
   Cycle cycle;
   int missed_cycles = 0;
 
@@ -96,12 +105,7 @@ void psi_act::CycleManager::startCycle(const psi_act::TimePoint& time)
   }
 
   cycle.executionExpectedAt = cycle.desiredEndAt + delay_us;
-  cycles.push_back(cycle);
-
-  for (auto it = this->notifiables.begin(); it != this->notifiables.end(); it++) {
-    (*it)->cycleStarted(cycle, cycle.executionExpectedAt);
-  }
-
+  return cycle;
 }
 
 void psi_act::CycleManager::advance()
