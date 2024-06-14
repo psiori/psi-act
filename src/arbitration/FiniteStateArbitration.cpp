@@ -28,9 +28,10 @@ FiniteStateArbitration*
 FiniteStateArbitration::createState(const std::string& name,
                                     Option* option,
                                     std::function<void(void)> onEnter,
-                                    std::function<void(void)> onLeave) {
+                                    std::function<void(void)> onLeave,
+                                    const bool is_terminal_state) {
   // Create the state and link the option in the state option map
-  this->state_machine.createState(name, onEnter, onLeave);
+  this->state_machine.createState(name, onEnter, onLeave, is_terminal_state);
   this->state_option_map[name] = option;
   return this;
 }

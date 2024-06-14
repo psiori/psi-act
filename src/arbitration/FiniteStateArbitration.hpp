@@ -52,12 +52,15 @@ public:
    * @param option Option to choose when state is active
    * @param onEnter Callback when entering the state
    * @param onLeave Callback when leaving the state
+   * @param is_terminal_state Whether the state is terminal and should decommit
+   * the arbitrator after being done.
    */
   FiniteStateArbitration* createState(
       const std::string& name,
       Option* option,
       std::function<void(void)> onEnter = []() {},
-      std::function<void(void)> onLeave = []() {});
+      std::function<void(void)> onLeave = []() {},
+      const bool is_terminal_state      = false);
 
   /**
    * @brief Add a transition between the Option's states
