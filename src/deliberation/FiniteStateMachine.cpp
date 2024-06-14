@@ -15,9 +15,12 @@
 //
 // ////////////////////////////////////////////////////////////////////////////
 
-psi_act::FiniteStateMachine::FiniteStateMachine()
-  : states(), presentState(nullptr)
-{}
+psi_act::FiniteStateMachine::FiniteStateMachine() :
+    states(),
+    presentState(nullptr),
+    initialStateName{""},
+    terminalStateNames{{}} {
+}
 
 
 psi_act::FiniteStateMachine::~FiniteStateMachine()
@@ -41,18 +44,23 @@ psi_act::FiniteStateMachine* psi_act::FiniteStateMachine::setTransitionFunction(
 
 
 psi_act::FiniteStateMachine*
-psi_act::FiniteStateMachine::createState(
-    const std::string& name,
-    std::function<void(void)> onEnter,
-    std::function<void(void)> onLeave)
-{
+psi_act::FiniteStateMachine::createState(const std::string& name,
+                                         std::function<void(void)> onEnter,
+                                         std::function<void(void)> onLeave,
+                                         const bool is_terminal_state) {
   auto it = states.find(name);
   if (it != states.end()) {
     throw std::invalid_argument("state already exists: " + name);
   }
   State* state = states[name] = new State(name, onEnter, onLeave);
   if (!presentState) {
-    presentState = state;  // this seems to be the very first state.
+    initialStateName = name;   // This seems to be the very first state.
+    presentState     = state;  // Set it as the initially active state.
+  }
+
+  // Add the name to terminal states if the flag is set.
+  if (is_terminal_state) {
+    terminalStateNames.push_back(name);
   }
 
   return this;
@@ -88,6 +96,18 @@ psi_act::FiniteStateMachine* psi_act::FiniteStateMachine::addTransition(
 psi_act::FiniteStateMachine::State* 
 psi_act::FiniteStateMachine::getPresentState() const {
   return this->presentState;
+}
+
+std::string psi_act::FiniteStateMachine::getInitialStateName() const {
+  return initialStateName;
+}
+
+bool psi_act::FiniteStateMachine::isInTerminalState() const {
+  State* present_state = getPresentState();
+  return present_state != nullptr &&
+         std::find(terminalStateNames.begin(),
+                   terminalStateNames.end(),
+                   present_state->name) != terminalStateNames.end();
 }
 
 
