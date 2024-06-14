@@ -84,7 +84,7 @@ if(BUILD_UTILS)
   message(STATUS "yaml-cpp libs at ${YAML_CPP_LIBRARY_DIR}")
 
 
-  find_package(Boost REQUIRED)
+  find_package(Boost COMPONENTS thread REQUIRED)
   target_link_libraries(psiact-utils PUBLIC yaml-cpp ${Boost_LIBRARIES})
   target_include_directories(psiact-utils PUBLIC ${Boost_INCLUDE_DIRS})
   install(
