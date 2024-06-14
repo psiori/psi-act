@@ -74,6 +74,8 @@ public:
   FiniteStateMachine* registerState(State* state);
 
   State* getPresentState() const;
+  std::string getInitialStateName() const;
+  bool isInTerminalState() const;
   State* execute(const TimePoint& time = CYCLE.startedAt);
 
   /** Get names of all registered states. */

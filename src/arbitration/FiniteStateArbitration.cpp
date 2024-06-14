@@ -13,9 +13,7 @@
 using namespace psi_act;
 
 FiniteStateArbitration::FiniteStateArbitration(const std::string& name) :
-    Arbitrator(name),
-    state_machine{},
-    state_option_map{} {
+    Arbitrator(name), state_machine{}, state_option_map{} {
 }
 
 FiniteStateArbitration::~FiniteStateArbitration() {
