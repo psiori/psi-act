@@ -52,9 +52,11 @@ public:
       std::function<void(const State& previousState, const State& nextState)>
           onTransition);
 
-  FiniteStateMachine* createState(const std::string& name,
-                                  std::function<void(void)> onEnter = []() {},
-                                  std::function<void(void)> onLeave = []() {});
+  FiniteStateMachine* createState(
+      const std::string& name,
+      std::function<void(void)> onEnter = []() {},
+      std::function<void(void)> onLeave = []() {},
+      const bool is_terminal_state      = false);
 
   FiniteStateMachine* addTransition(
       const std::string& from,
@@ -72,6 +74,8 @@ public:
   FiniteStateMachine* registerState(State* state);
 
   State* getPresentState() const;
+  std::string getInitialStateName() const;
+  bool isInTerminalState() const;
   State* execute(const TimePoint& time = CYCLE.startedAt);
 
   /** Get names of all registered states. */
@@ -107,6 +111,8 @@ protected:
 
   std::map<std::string, State*> states;
   State* presentState;
+  std::string initialStateName;
+  std::vector<std::string> terminalStateNames;
   std::function<void(const State& previousState, const State& nextState)>
       onTransition = [](const State& previousState, const State& nextState) {
       };

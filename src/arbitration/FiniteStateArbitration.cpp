@@ -26,13 +26,11 @@ FiniteStateArbitration*
 FiniteStateArbitration::createState(const std::string& name,
                                     Option* option,
                                     std::function<void(void)> onEnter,
-                                    std::function<void(void)> onLeave) {
+                                    std::function<void(void)> onLeave,
+                                    const bool is_terminal_state) {
   // Create the state and link the option in the state option map
-  this->state_machine.createState(name, onEnter, onLeave);
+  this->state_machine.createState(name, onEnter, onLeave, is_terminal_state);
   this->state_option_map[name] = option;
-  if (initial_state == "") {
-    initial_state = name;
-  }
   return this;
 }
 
@@ -69,24 +67,40 @@ bool FiniteStateArbitration::checkInvocationCondition(
 
 bool FiniteStateArbitration::checkCommitmentCondition(
     const TimePoint& time) noexcept {
-  // If no current option active
-  if (this->currentOption() == nullptr) {
-    return false;
+  // Transitions happens here
+  Option* old_option = this->currentOption();
+  this->state_machine.execute(time);
+  Option* new_option = this->currentOption();
+
+  // Call lose/gainControl on change
+  if (old_option != new_option && old_option != nullptr) {
+    old_option->loseControl(time);
+  }
+  if (old_option != new_option && new_option != nullptr) {
+    new_option->gainControl(time);
   }
 
-  this->state_machine.execute(time);
-  return this->currentOption()->checkCommitmentCondition(time);
+  // Stop when in terminal state
+  return !this->state_machine.isInTerminalState();
 }
 
 void FiniteStateArbitration::gainControl(const TimePoint& time) noexcept {
+  // Set initial state.
+  const std::string initial_state_name =
+      this->state_machine.getInitialStateName();
+  this->state_machine.setActiveState(initial_state_name);
+
+  // Call gain control on initial state on success.
+  if (currentOption() != nullptr) {
+    currentOption()->gainControl(time);
+  }
 }
 
 void FiniteStateArbitration::loseControl(const TimePoint& time) noexcept {
-  if (this->state_machine.getStates().size() == 0) {
-    return;
+  // Notify active behavior about losing control
+  if (this->currentOption() != nullptr) {
+    this->currentOption()->loseControl(time);
   }
-
-  this->state_machine.setActiveState(initial_state);
 }
 
 Command* FiniteStateArbitration::calculateCommand(
