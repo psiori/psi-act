@@ -133,7 +133,7 @@ Option* FiniteStateArbitration::currentOption() const {
 
 std::string FiniteStateArbitration::currentOptionName() const {
   Option* cur_option = this->currentOption();
-  return (cur_option == nullptr) ? "NONE" : cur_option->toString();
+  return (cur_option == nullptr) ? "NONE" : cur_option->currentOptionName();
 }
 
 std::string FiniteStateArbitration::currentStateName() const {
