@@ -55,9 +55,7 @@ if(BUILD_UTILS)
   target_include_directories(
     psiact-utils SYSTEM PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-  set(CMAKE_FIND_DEBUG_MODE TRUE)
   find_package(yaml-cpp REQUIRED)
-  set(CMAKE_FIND_DEBUG_MODE OFF)
 
   if(NOT YAML_CPP_INCLUDE_DIR)
     get_property(
