@@ -85,7 +85,7 @@ if(BUILD_UTILS)
   target_link_directories(psiact-utils PUBLIC ${YAML_CPP_LIBRARY_DIR})
   message(STATUS "yaml-cpp libs at ${YAML_CPP_LIBRARY_DIR}")
 
-  find_package(Boost COMPONENTS thread REQUIRED)
+  find_package(Boost COMPONENTS thread CONFIG REQUIRED)
   target_link_libraries(psiact-utils PUBLIC yaml-cpp ${Boost_LIBRARIES})
   target_include_directories(psiact-utils PUBLIC ${Boost_INCLUDE_DIRS})
   install(
@@ -123,7 +123,7 @@ if(BUILD_BEHAVIORS)
     ${INCLUDE_DIR}/psiact/Command.h
     ${INCLUDE_DIR}/psiact/deliberation
     ${INCLUDE_DIR}/psiact/arbitration)
-  find_package(Boost REQUIRED)
+  find_package(Boost CONFIG REQUIRED)
   target_link_libraries(psiact-behavior PUBLIC ${Boost_LIBRARIES})
   target_include_directories(psiact-behavior PUBLIC ${Boost_INCLUDE_DIRS})
   target_link_libraries(psiact-behavior PUBLIC psiact-utils)
