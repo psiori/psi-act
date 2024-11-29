@@ -225,8 +225,9 @@ static YAMLReader *yaml_config = nullptr;
 
 YAMLReader::YAMLReader(const YAML::Node &config, const std::string &filepath)
     : ConfigNode(config, "root"),
-      main_section(
-          ConfigNode(YAML::Clone(this->get("main").getNode()), "root.main")),
+      main_section(ConfigNode(
+          YAML::Clone(this->get<ConfigNode>("main", {}, false).getNode()),
+          "root.main")),
       filepath{filepath} {}
 
 YAMLReader::YAMLReader(const std::string &filepath)
