@@ -69,7 +69,9 @@ bool FiniteStateArbitration::checkCommitmentCondition(
     const TimePoint& time) noexcept {
   // Transitions happens here
   Option* old_option = this->currentOption();
-  this->state_machine.execute(time);
+  if (should_execute) {
+    this->state_machine.execute(time);
+  }
   Option* new_option = this->currentOption();
 
   // Call lose/gainControl on change
@@ -85,6 +87,7 @@ bool FiniteStateArbitration::checkCommitmentCondition(
 }
 
 void FiniteStateArbitration::gainControl(const TimePoint& time) noexcept {
+  should_execute = true;
   // Set initial state.
   const std::string initial_state_name =
       this->state_machine.getInitialStateName();
@@ -97,6 +100,7 @@ void FiniteStateArbitration::gainControl(const TimePoint& time) noexcept {
 }
 
 void FiniteStateArbitration::loseControl(const TimePoint& time) noexcept {
+  should_execute = false;
   // Notify active behavior about losing control
   if (this->currentOption() != nullptr) {
     this->currentOption()->loseControl(time);

@@ -104,6 +104,10 @@ protected:
   /** Mapping from state names to Options */
   std::map<std::string, Option*> state_option_map;
 
+  /** Whether or not to execute the FSM. This should be true only when the
+   * arbitrator gets control. */
+  bool should_execute = false;
+
   /**
    * @brief Returns the current option
    * @return pointer to the current option or nullptr
