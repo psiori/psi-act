@@ -56,17 +56,20 @@ if(BUILD_UTILS)
     psiact-utils SYSTEM PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
   find_package(yaml-cpp REQUIRED)
+  if(NOT TARGET yaml-cpp::yaml-cpp)
+    add_library(yaml-cpp::yaml-cpp ALIAS yaml-cpp)
+  endif()
 
   if(NOT YAML_CPP_INCLUDE_DIR)
     get_property(
       YAML_INCLUDE_PROP
-      TARGET yaml-cpp
+      TARGET yaml-cpp::yaml-cpp
       PROPERTY INTERFACE_INCLUDE_DIRECTORIES
     )
     set(YAML_CPP_INCLUDE_DIR ${YAML_INCLUDE_PROP})
     get_property(
       YAML_LIB_DIR_PROP
-      TARGET yaml-cpp
+      TARGET yaml-cpp::yaml-cpp
       PROPERTY INTERFACE_LINK_DIRECTORIES
     )
     set(YAML_CPP_LIBRARY_DIR ${YAML_LIB_DIR_PROP})
@@ -86,7 +89,7 @@ if(BUILD_UTILS)
   message(STATUS "yaml-cpp libs at ${YAML_CPP_LIBRARY_DIR}")
 
   find_package(Boost COMPONENTS thread CONFIG REQUIRED)
-  target_link_libraries(psiact-utils PUBLIC yaml-cpp ${Boost_LIBRARIES})
+  target_link_libraries(psiact-utils PUBLIC yaml-cpp::yaml-cpp ${Boost_LIBRARIES})
   target_include_directories(psiact-utils PUBLIC ${Boost_INCLUDE_DIRS})
   install(
     TARGETS psiact-utils
