@@ -62,7 +62,14 @@ bool FiniteStateArbitration::checkInvocationCondition(
     return false;
   }
 
-  return this->currentOption()->checkInvocationCondition(time);
+  // Allow to invoke if either the present state is able to operate or it can
+  // execute a transition into the next state.
+  const auto* state     = this->state_machine.getPresentState();
+  const bool can_invoke = this->currentOption()->checkInvocationCondition(time);
+  const bool can_transition =
+      state->getFirstPossibleTransition(time) != nullptr;
+  return this->currentOption()->checkInvocationCondition(time) ||
+         can_transition;
 }
 
 bool FiniteStateArbitration::checkCommitmentCondition(
@@ -138,8 +145,7 @@ Option* FiniteStateArbitration::currentOption() const {
 std::string FiniteStateArbitration::currentOptionName() const {
   Option* cur_option = this->currentOption();
   const std::string cur_option_str =
-      (cur_option == nullptr) ? "NONE"
-                              : cur_option->currentOptionName();
+      (cur_option == nullptr) ? "NONE" : cur_option->currentOptionName();
   return toString() + "/" + cur_option_str;
 }
 
