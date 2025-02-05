@@ -33,6 +33,7 @@ public:
           std::function<void(void)> onLeave);
     virtual ~State();
 
+    const Transition* getFirstPossibleTransition(const TimePoint& time) const;
     State* execute(const TimePoint& time);
 
     void addTransition(const Transition* transition) {
@@ -81,7 +82,7 @@ public:
   /** Get names of all registered states. */
   std::vector<std::string> getStates() const;
 
-   /**
+  /**
    * Sets the active state of the state machine
    * @param name the name of the state
    */
@@ -121,5 +122,3 @@ protected:
 }  // namespace psi_act
 
 #endif /* __PSI_ACT__FINITE_STATE_MACHINE_H__ */
-
-

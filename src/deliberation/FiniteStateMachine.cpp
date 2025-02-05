@@ -8,6 +8,7 @@
 
 #include <functional>
 #include <iostream>
+#include <psiact/TimePoint.h>
 
 // ////////////////////////////////////////////////////////////////////////////
 //
@@ -23,8 +24,7 @@ psi_act::FiniteStateMachine::FiniteStateMachine() :
 }
 
 
-psi_act::FiniteStateMachine::~FiniteStateMachine()
-{
+psi_act::FiniteStateMachine::~FiniteStateMachine() {
 #ifdef PSIACT_DEBUG
   std::cerr << "DEBUG: destructor of state machine called." << std::endl;
 #endif
@@ -93,7 +93,7 @@ psi_act::FiniteStateMachine* psi_act::FiniteStateMachine::addTransition(
   return this;
 }
 
-psi_act::FiniteStateMachine::State* 
+psi_act::FiniteStateMachine::State*
 psi_act::FiniteStateMachine::getPresentState() const {
   return this->presentState;
 }
@@ -112,8 +112,7 @@ bool psi_act::FiniteStateMachine::isInTerminalState() const {
 
 
 psi_act::FiniteStateMachine::State*
-psi_act::FiniteStateMachine::execute(const TimePoint& time)
-{
+psi_act::FiniteStateMachine::execute(const TimePoint& time) {
   State* targetState = presentState->execute(time);
   if (targetState != presentState) {
     presentState->onLeave();
@@ -182,15 +181,13 @@ std::string psi_act::FiniteStateMachine::toGraphviz(void) const {
 // ////////////////////////////////////////////////////////////////////////////
 
 
-psi_act::FiniteStateMachine::State::State(
-    const std::string& name,
-    std::function<void(void)> onEnter,
-    std::function<void(void)> onLeave)
-  : name(name), onEnter(onEnter), onLeave(onLeave)
-{}
+psi_act::FiniteStateMachine::State::State(const std::string& name,
+                                          std::function<void(void)> onEnter,
+                                          std::function<void(void)> onLeave) :
+    name(name), onEnter(onEnter), onLeave(onLeave) {
+}
 
-psi_act::FiniteStateMachine::State::~State()
-{
+psi_act::FiniteStateMachine::State::~State() {
 #ifdef PSIACT_DEBUG
   std::cerr << "DEBUG: destructor of state called: " << name << std::endl;
 #endif
@@ -199,22 +196,22 @@ psi_act::FiniteStateMachine::State::~State()
   }
 }
 
-
-psi_act::FiniteStateMachine::State*
-psi_act::FiniteStateMachine::State::execute(const TimePoint& time)
-{
-  for (auto transition : transitions) {
+const psi_act::FiniteStateMachine::Transition*
+psi_act::FiniteStateMachine::State::getFirstPossibleTransition(
+    const TimePoint& time) const {
+  for (const Transition* transition : transitions) {
     if (transition->condition(time)) {
-      return transition->to;
+      return transition;
     }
   }
-#ifdef PSIACT_DEBUG
-  std::cerr << "ERROR: no transition condition was met. Stay in present state."
-            << std::endl;  // \todo : should we throw an exception?
-#endif
-  return this;
+  return nullptr;
 }
 
+psi_act::FiniteStateMachine::State*
+psi_act::FiniteStateMachine::State::execute(const TimePoint& time) {
+  const Transition* transition = getFirstPossibleTransition(time);
+  return (transition == nullptr) ? this : transition->to;
+}
 
 
 // ////////////////////////////////////////////////////////////////////////////
@@ -232,8 +229,7 @@ psi_act::FiniteStateMachine::Transition::Transition(
 }
 
 
-psi_act::FiniteStateMachine::Transition::~Transition()
-{
+psi_act::FiniteStateMachine::Transition::~Transition() {
 #ifdef PSIACT_DEBUG
   std::cerr << "DEBUG: destructor of unnamed transition called." << std::endl;
 #endif
