@@ -112,6 +112,11 @@ void FiniteStateArbitration::loseControl(const TimePoint& time) noexcept {
   if (this->currentOption() != nullptr) {
     this->currentOption()->loseControl(time);
   }
+
+  // Set initial state.
+  const std::string initial_state_name =
+      this->state_machine.getInitialStateName();
+  this->state_machine.setActiveState(initial_state_name);
 }
 
 Command* FiniteStateArbitration::calculateCommand(
