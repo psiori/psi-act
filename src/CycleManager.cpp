@@ -53,9 +53,10 @@ double psi_act::CycleManager::getFrequency() const
 
 
 
-void psi_act::CycleManager::start(const psi_act::TimePoint& time)
+void psi_act::CycleManager::start(unsigned long start_cycle, const psi_act::TimePoint& time)
 {
   cycles.clear();
+  this->start_cycle = start_cycle;
   startCycle(time);
 }
 
@@ -92,6 +93,7 @@ psi_act::Cycle psi_act::CycleManager::getNextCycle(const psi_act::TimePoint& tim
     cycle.desiredEndAt = cycles.back().desiredEndAt + duration_us;
   }
   else {
+    cycle.counter = this->start_cycle;
     cycle.desiredEndAt = cycle.startedAt + duration_us;
   }
 
@@ -157,7 +159,7 @@ double psi_act::CycleManager::medianDuration(unsigned long history) const {
   {
       history = cycles.size();
   }
-  // or: cycles.end() - 1 - std::min<long>(history, cycles.size() ? 
+  // or: cycles.end() - 1 - std::min<long>(history, cycles.size() ?
   for (auto it = cycles.begin() + cycles.size() - std::min<long>(history, cycles.size());
        it != cycles.end(); it++) {
     if (it->ended) {
