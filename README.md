@@ -1,4 +1,4 @@
-# PSIORI ACT (P-ACT)
+# PSIORI ACT (PSI-ACT)
 
 A framework for pragmatic decision making in cognitive architectures.
 
@@ -22,7 +22,7 @@ Configure cmake and create make files (also builds the tools):
 
     > cmake -DCMAKE_BUILD_TYPE=Release ..
 
-Build and install Psi-Act:
+Build and install psi-act:
 
     > make
     > make install
@@ -66,7 +66,7 @@ It mixes ideas from
 - together with the idea of reasoning on "predicted beliefs" which was inspired by a paper
   of Roul Rojas group, Predicting away Robot Control Latency.
 
-The architecture's basis was designed by SL in 2003 / 2004, for the first time presented
+The architecture's basis was designed by Sascha Lange in 2003 / 2004, for the first time presented
 during his first working week in spring 2004 and subsequently implemented inside the
 robot control software of the Brainstormers Tribots afterwards.
 
