@@ -8,6 +8,7 @@
 
 #include "psiact/utils/Logger.hpp"
 
+#include <cctype>
 #include <iomanip>
 #include <psiact/CycleManager.h>
 #include <string>
@@ -142,6 +143,8 @@ Logger::Logger(Level level, bool use_thread_guard, bool flush_always,
     log_date_ = psi_act::Logger::getLogDate(rotation_timeout_);
     file_path_ =
         sfs::path(conf.get<std::string>("log_file_name", "psi_act.txt", false));
+    max_file_size_ = parseByteSize(conf.get<std::string>("max_size", "0", false));
+    max_files_ = conf.get<size_t>("num_keep", 5, false);
     if (conf.contains("backup")) {
       const auto &backup_conf = conf.get("backup");
       backup_rotation_timeout_ = psi_act::Logger::parseRotationTimeout(
@@ -427,6 +430,46 @@ std::tm Logger::getLogDate(const RotationTimeout &rotation_timeout) {
   /* return ss.str(); */
 }
 
+size_t Logger::parseByteSize(const std::string &raw) {
+  size_t i = 0;
+  while (i < raw.size() && std::isspace(static_cast<unsigned char>(raw[i]))) {
+    ++i;
+  }
+  size_t num_end = i;
+  while (num_end < raw.size() &&
+         std::isdigit(static_cast<unsigned char>(raw[num_end]))) {
+    ++num_end;
+  }
+  if (num_end == i) {
+    return 0; // no leading number
+  }
+  size_t value = 0;
+  try {
+    value = std::stoull(raw.substr(i, num_end - i));
+  } catch (const std::exception &) {
+    return 0;
+  }
+  std::string unit;
+  for (size_t j = num_end; j < raw.size(); ++j) {
+    if (!std::isspace(static_cast<unsigned char>(raw[j]))) {
+      unit += static_cast<char>(std::toupper(static_cast<unsigned char>(raw[j])));
+    }
+  }
+  if (unit.empty() || unit == "B") {
+    return value;
+  }
+  if (unit == "KB" || unit == "K" || unit == "KIB") {
+    return value * 1024ULL;
+  }
+  if (unit == "MB" || unit == "M" || unit == "MIB") {
+    return value * 1024ULL * 1024ULL;
+  }
+  if (unit == "GB" || unit == "G" || unit == "GIB") {
+    return value * 1024ULL * 1024ULL * 1024ULL;
+  }
+  return value; // unknown unit: treat the number as bytes
+}
+
 static void clearRolledLogfiles(const sfs::path &file_path,
                                 size_t max_to_keep) {
   // 1. Collect rolled-away log files with a matching stem and an all-digit
@@ -559,6 +602,23 @@ void Logger::work_on_queue() {
     }
     // Actually write the log line
     psi_act::log(file_stream_, backup_file_stream_, flush_always_, log_item);
+
+    // Maybe rotate the primary log file based on its size. This is the hard
+    // guard against a runaway logger filling the disk: independent of the
+    // time-based rotation above, and it prunes old files so the total footprint
+    // stays bounded at roughly max_file_size_ * (max_files_ + 1).
+    if (max_file_size_ > 0) {
+      const auto pos = file_stream_.tellp();
+      if (pos >= 0 && static_cast<size_t>(pos) >= max_file_size_) {
+        psi_act::log(file_stream_, backup_file_stream_, false, Logger::INFO,
+                     Logger::LOGGING,
+                     std::string("Rotating log file, reached max_size: ") +
+                         file_path_.string());
+        this->rotateLogFile(true, log_date_, rotation_timeout_, file_stream_,
+                            file_path_);
+        clearRolledLogfiles(file_path_, max_files_);
+      }
+    }
   }
 }
 

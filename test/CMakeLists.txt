@@ -6,7 +6,7 @@ add_executable(test_psiact ${SRCS})
 add_dependencies(test_psiact psiact)
 
 target_link_libraries(test_psiact
-  gtest gmock
+  psiact gtest gmock
 )
 
 set_target_properties(test_psiact PROPERTIES COMPILE_FLAGS -std=c++20)

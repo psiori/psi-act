@@ -95,6 +95,15 @@ public:
 
   static RotationTimeout parseRotationTimeout(const std::string &rotation);
 
+  /**
+   * @brief Parse a human-friendly byte size ("500MB", "2GB", "1048576", "0")
+   * into a byte count. Units are binary (KB = 1024, MB = 1024^2,
+   * GB = 1024^3), case-insensitive, with optional surrounding whitespace.
+   * @return the size in bytes; 0 (unbounded) for "0", empty, or unparseable
+   * input.
+   */
+  static size_t parseByteSize(const std::string &size);
+
   struct PriorityLog {
     psi_act::TimePoint timestamp;
     long cycle;
@@ -226,6 +235,17 @@ protected:
   size_t backup_file_count_; ///< Number of backup files to keep
 
   sfs::path backup_file_path_; ///< Name of the backup output file.
+
+  /**
+   * Rotate the primary log once it reaches this many bytes (0 = unbounded,
+   * the historical behaviour). A size-based rotation reuses the same
+   * timestamp naming scheme as time-based rotation and prunes old files down
+   * to `max_files_`, so a runaway logger can never fill the disk.
+   */
+  size_t max_file_size_ = 0;
+
+  /** Number of size-rotated primary log files to keep (0 keeps none). */
+  size_t max_files_ = 5;
 
   std::mutex log_mutex_; ///< Mutual exclusive access to log streams.
 
