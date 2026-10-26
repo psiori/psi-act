@@ -1,4 +1,6 @@
 LIST(APPEND PSIACT_SRCS
+  ${CMAKE_CURRENT_LIST_DIR}/ClockProvider.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/SystemClock.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Command.cpp
   ${CMAKE_CURRENT_LIST_DIR}/CycleManager.cpp
   ${CMAKE_CURRENT_LIST_DIR}/arbitration/Option.cpp
@@ -12,6 +14,9 @@ LIST(APPEND PSIACT_SRCS
 )
 
 LIST(APPEND PSIACT_HEADERS
+  ${CMAKE_CURRENT_LIST_DIR}/ClockProvider.hpp
+  ${CMAKE_CURRENT_LIST_DIR}/SystemClock.hpp
+  ${CMAKE_CURRENT_LIST_DIR}/ClockProviderRegistry.hpp
   ${CMAKE_CURRENT_LIST_DIR}/Command.h
   ${CMAKE_CURRENT_LIST_DIR}/CycleManager.h
   ${CMAKE_CURRENT_LIST_DIR}/TimePoint.h
@@ -38,6 +43,9 @@ message(STATUS "Boost include dirs: ${Boost_INCLUDE_DIRS}")
 message(STATUS "Boost libraries: ${Boost_LIBRARIES}")
 message(STATUS "Boost library dirs: ${Boost_LIBRARY_DIRS}")
 ADD_LIBRARY(psiact STATIC ${PSIACT_SRCS})
+target_compile_features(psiact PUBLIC cxx_std_17)
+find_package(Threads REQUIRED)
+target_link_libraries(psiact PUBLIC Threads::Threads)
 
 # disable flags on msvc
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang.*" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
